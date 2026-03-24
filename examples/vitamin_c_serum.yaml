@@ -1,0 +1,47 @@
+# Example: Vitamin C Brightening Serum
+# Run: openmix validate examples/vitamin_c_serum.yaml
+
+name: Vitamin C Brightening Serum
+category: skincare
+product_type: serum
+target_ph: 3.2
+
+ingredients:
+  - inci_name: Water
+    percentage: 62.0
+    phase: A
+
+  - inci_name: Ascorbic Acid
+    percentage: 15.0
+    phase: A
+    function: active
+
+  - inci_name: Niacinamide
+    percentage: 5.0
+    phase: A
+    function: active
+
+  - inci_name: Propanediol
+    percentage: 8.0
+    phase: A
+    function: humectant
+
+  - inci_name: Ferulic Acid
+    percentage: 0.5
+    phase: A
+    function: antioxidant
+
+  - inci_name: Tocopherol
+    percentage: 1.0
+    phase: B
+    function: antioxidant
+
+  - inci_name: Hydroxyethylcellulose
+    percentage: 0.5
+    phase: A
+    function: thickener
+
+  - inci_name: Phenoxyethanol
+    percentage: 1.0
+    phase: C
+    function: preservative

@@ -1,0 +1,995 @@
+# Ingredient Interaction Rules
+#
+# type: hard (unconditional, dangerous) or soft (conditional, context-dependent)
+# confidence: 0.0-1.0 (1.0 = textbook, 0.5 = debated)
+# See CONTRIBUTING.md for the full schema.
+
+# =============================================================================
+# HARD RULES — Unconditional, dangerous. Always fire.
+# =============================================================================
+
+# --- Toxic Gas Generation ---
+
+- a: SODIUM HYPOCHLORITE
+  b: HYDROCHLORIC ACID
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: "CDC NIOSH Pocket Guide; NaOCl + HCl -> Cl2 reaction"
+  category: all
+  message: >
+    Produces toxic Chlorine gas (Cl2). Lethal at low concentrations.
+    Never combine in any product or cleaning context.
+
+- a: SODIUM HYPOCHLORITE
+  b: AMMONIA
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: "CDC NIOSH documentation; common household poisoning pathway"
+  category: all
+  message: >
+    Produces toxic Chloramine gas (NH2Cl). Leading cause of household
+    chemical poisoning. Never combine.
+
+- a: SODIUM HYPOCHLORITE
+  b: ACETIC ACID
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: "CDC NIOSH Pocket Guide; standard oxidizer incompatibility"
+  category: all
+  message: >
+    Bleach + vinegar produces toxic Chlorine gas. Never combine.
+
+- a: SODIUM HYPOCHLORITE
+  b: HYDROGEN PEROXIDE
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: "Oxidizer incompatibility tables; OSHA guidelines"
+  category: all
+  message: >
+    Produces Oxygen gas violently. Can cause container rupture or
+    explosion. Never combine.
+
+- a: HYDROGEN PEROXIDE
+  b: ACETIC ACID
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: "Peracetic acid formation; industrial safety literature"
+  category: all
+  message: >
+    Forms Peracetic Acid, a corrosive and potentially explosive
+    compound at concentration. Never combine.
+
+# --- Carcinogen Formation ---
+
+- a: ASCORBIC ACID
+  b: SODIUM BENZOATE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: "FDA beverage benzene survey 2006; Gardner & Lawrence, J Agric Food Chem 1993"
+  category: all
+  message: >
+    Can form benzene (a Group 1 carcinogen) in acidic conditions with
+    heat or UV exposure. Well-documented FDA concern that triggered
+    beverage recalls. Use alternative preservatives or ensure pH > 4
+    and exclude transition metal catalysts.
+
+# --- Banned Combinations ---
+
+- a: CAFFEINE
+  b: EPHEDRINE
+  type: hard
+  severity: error
+  mechanism: safety
+  confidence: 1.0
+  source: "FDA final rule 2004; banned combination due to cardiovascular events"
+  category: all
+  message: >
+    Banned by FDA due to cardiovascular risk (hypertension, tachycardia,
+    stroke, death). Never combine in any consumer product.
+
+# --- Complete Mutual Deactivation ---
+
+- a: BENZOYL PEROXIDE
+  b: RETINOL
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 1.0
+  source: "Bershad 2001, J Am Acad Dermatol; Thiboutot et al. 2006"
+  category: all
+  message: >
+    Benzoyl Peroxide oxidizes and deactivates Retinol on contact.
+    Both ingredients become inactive. Use at different times of day.
+
+- a: BENZOYL PEROXIDE
+  b: ASCORBIC ACID
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 1.0
+  source: "Redox chemistry; BPO E0 vs ascorbate E0 incompatibility"
+  category: all
+  message: >
+    Benzoyl Peroxide oxidizes L-Ascorbic Acid, rendering both inactive.
+    Fundamental redox incompatibility.
+
+- a: BENZOYL PEROXIDE
+  b: RETINYL PALMITATE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 1.0
+  source: "Same mechanism as BPO + retinol; all retinoid esters affected"
+  category: all
+  message: >
+    Benzoyl Peroxide oxidizes Retinyl Palmitate. All retinoid forms
+    are incompatible with BPO.
+
+- a: BENZOYL PEROXIDE
+  b: HYDROQUINONE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 0.95
+  source: "Dermatology practice guidelines; visible staining reaction"
+  category: all
+  message: >
+    Benzoyl Peroxide oxidizes Hydroquinone on contact, forming a
+    dark brown/orange stain on skin. Irreversible discoloration.
+
+- a: HYDROGEN PEROXIDE
+  b: ASCORBIC ACID
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 1.0
+  source: "Standard reduction potentials; H2O2 + ascorbate"
+  category: all
+  message: >
+    Strong oxidizer rapidly deactivates antioxidant. Both are lost.
+
+- a: TRETINOIN
+  b: BENZOYL PEROXIDE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 1.0
+  source: "Bershad 2001; Thiboutot et al. 2006; standard dermatological guidance"
+  category: all
+  message: >
+    Benzoyl Peroxide oxidizes and deactivates Tretinoin on contact.
+    Use BPO in the morning and Tretinoin at night.
+
+# --- Fenton Reaction (Free Radical Generation) ---
+
+- a: COPPER PEPTIDE
+  b: ASCORBIC ACID
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: "Fenton chemistry; Cu2+ reduction by ascorbate generates hydroxyl radicals"
+  category: all
+  message: >
+    Ascorbic Acid reduces Cu2+ to Cu1+, deactivating copper peptides
+    and generating free radicals via Fenton-like reactions. Net effect
+    is pro-oxidant, opposite of intended benefit.
+
+- a: COPPER TRIPEPTIDE-1
+  b: ASCORBIC ACID
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: "Fenton chemistry; GHK-Cu complex disruption"
+  category: all
+  message: >
+    Ascorbic Acid reduces Cu2+ in GHK-Cu to Cu1+, deactivating the
+    peptide complex and generating reactive oxygen species.
+
+# --- Antimicrobials Kill Probiotics ---
+
+- a: PROBIOTICS
+  b: POTASSIUM SORBATE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: "Antimicrobial mechanism of action; FDA guidance on probiotic products"
+  category: all
+  message: >
+    Potassium Sorbate is an antimicrobial that kills probiotic organisms.
+    Never use antimicrobial preservatives in probiotic formulations.
+    Use physical preservation (low water activity, refrigeration).
+
+- a: PROBIOTICS
+  b: SODIUM BENZOATE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: "Antimicrobial mechanism of action"
+  category: all
+  message: >
+    Sodium Benzoate is an antimicrobial that kills probiotic organisms.
+    Never use in probiotic formulations.
+
+# --- Irreversible Precipitation ---
+
+- a: CASEIN
+  b: CITRIC ACID
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: "Protein chemistry; casein isoelectric precipitation at pH 4.6"
+  category: beverage
+  message: >
+    Casein precipitates irreversibly below pH 4.6. Citric acid beverages
+    cause immediate curdling. Use plant protein or hydrolyzed whey
+    for acidic drinks.
+
+- a: QUATERNARY AMMONIUM
+  b: SODIUM LAURYL SULFATE
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: "Cationic-anionic surfactant incompatibility; Rosen, Surfactants and Interfacial Phenomena"
+  category: all
+  message: >
+    Cationic + anionic surfactants form insoluble precipitate,
+    neutralizing both. Use nonionic surfactants with quat disinfectants.
+
+- a: BENZALKONIUM CHLORIDE
+  b: SODIUM LAURYL SULFATE
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: "Rosen, Surfactants and Interfacial Phenomena, 4th ed."
+  category: all
+  message: >
+    Benzalkonium Chloride (cationic) + SLS (anionic) form insoluble
+    salt. Never combine cationic disinfectants with anionic surfactants.
+
+- a: BENZALKONIUM CHLORIDE
+  b: SODIUM LAURETH SULFATE
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: "Rosen, Surfactants and Interfacial Phenomena, 4th ed."
+  category: all
+  message: >
+    Same cationic-anionic precipitation. Use nonionic or amphoteric
+    surfactants with quat disinfectants.
+
+
+# =============================================================================
+# SOFT RULES — Conditional, context-dependent. Behavior varies by mode.
+# =============================================================================
+
+# --- Skincare: pH-Dependent Interactions ---
+
+- a: NIACINAMIDE
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: "Cosmetics & Toiletries 2005 (original concern); challenged by Fu et al. 2010, Darden 2020. Conversion to nicotinic acid requires extreme heat (100C+), not typical use conditions."
+  conditions:
+    ph_below: 3.5
+    min_concentration_either: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Buffer pH above 5.0, or use Sodium Ascorbyl Phosphate (SAP) which is stable at higher pH. Many commercial products combine these successfully at moderate concentrations."
+  category: skincare
+  message: >
+    At low pH and high concentrations, niacinamide may convert to
+    nicotinic acid (causes flushing). However, this interaction is
+    widely debated — the original study used extreme temperatures
+    not relevant to normal use. Many commercial products combine
+    these successfully.
+
+- a: RETINOL
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.7
+  source: "Retinol stability studies; Akhavan & Bershad, Am J Clin Dermatol 2003"
+  conditions:
+    ph_below: 4.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use retinol derivatives (retinyl palmitate, retinal) which are more pH-stable. Or separate into AM (Vitamin C) and PM (Retinol) products."
+  category: skincare
+  message: >
+    Retinol is unstable in the acidic conditions required for
+    L-Ascorbic Acid (pH 2.5-3.5). Both lose efficacy. Separation
+    into different products is the standard approach.
+
+- a: RETINOL
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.8
+  source: "Draelos 2005, Cutis; dermatological consensus on retinoid + AHA irritation"
+  conditions:
+    min_concentration_b: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Reduce concentrations of both (<0.5% retinol, <5% glycolic). Or use retinal/retinyl palmitate which are less irritating. Many professional formulations combine these at low concentrations."
+  category: skincare
+  message: >
+    Combined use significantly increases irritation potential. The
+    low pH required for Glycolic Acid (3.0-4.0) also destabilizes
+    Retinol. Can be combined at low concentrations with caution.
+
+- a: RETINOL
+  b: LACTIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.7
+  source: "Same mechanism as retinol + glycolic; lactic is milder AHA"
+  conditions:
+    min_concentration_b: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Lactic acid is gentler than glycolic. At low concentrations (<5% lactic, <0.3% retinol) this combination may be tolerable. Buffer pH if possible."
+  category: skincare
+  message: >
+    Retinol is destabilized by the low pH required for Lactic Acid
+    efficacy. Less problematic than glycolic acid but same mechanism.
+
+- a: RETINOL
+  b: MANDELIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.7
+  source: "AHA-retinoid interaction class; mandelic is the gentlest AHA"
+  conditions:
+    min_concentration_b: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Mandelic acid is the gentlest AHA and is sometimes successfully combined with retinol at moderate concentrations."
+  category: skincare
+  message: >
+    Same AHA-retinoid pH conflict as glycolic, but mandelic is
+    gentler and larger molecule (less penetration, less irritation).
+
+- a: RETINOL
+  b: SALICYLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.75
+  source: "Dermatological guidance; BHA + retinoid irritation synergy"
+  conditions:
+    min_concentration_b: 1.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "At low concentrations (0.5% salicylic, 0.25% retinol) this combination can work. Some commercial acne products combine them intentionally."
+  category: skincare
+  message: >
+    Combined use increases irritation risk. Salicylic acid's optimal
+    pH (2.5-4) destabilizes retinol. However, both target acne and
+    are sometimes combined at reduced concentrations.
+
+- a: NIACINAMIDE
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.6
+  source: "Same nicotinic acid conversion concern as niacinamide + ascorbic acid"
+  conditions:
+    ph_below: 3.5
+    min_concentration_a: 3.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Buffer pH above 4.5 to prevent conversion. At moderate pH, this combination is common in commercial products."
+  category: skincare
+  message: >
+    Glycolic Acid's low pH can convert Niacinamide to nicotinic acid.
+    However, at pH > 4.0 and moderate concentrations, the interaction
+    is minimal. Many products combine these.
+
+- a: SODIUM HYALURONATE
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: "HA viscosity-pH relationship; not a safety concern"
+  conditions:
+    ph_below: 3.5
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Use low molecular weight HA which is less affected, or use a Vitamin C derivative stable at higher pH."
+  category: skincare
+  message: >
+    Sodium Hyaluronate may thin in viscosity at pH < 3.5. This is
+    a texture/aesthetics concern, not a safety issue. Low MW HA
+    is less affected.
+
+# --- Skincare: Chelation ---
+
+- a: COPPER TRIPEPTIDE-1
+  b: RETINOL
+  type: soft
+  mechanism: chelation
+  confidence: 0.6
+  source: "Theoretical competing pathways; limited clinical evidence"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Some formulations combine these. Evidence for incompatibility is theoretical rather than strongly demonstrated."
+  category: skincare
+  message: >
+    Copper peptides and Retinol may operate through competing
+    pathways. Evidence for incompatibility is moderate — some
+    brands combine these.
+
+- a: COPPER TRIPEPTIDE-1
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: chelation
+  confidence: 0.7
+  source: "pH-dependent copper-peptide bond stability"
+  conditions:
+    ph_below: 4.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Keep pH above 4.5 when using copper peptides."
+  category: skincare
+  message: >
+    Low pH from Glycolic Acid can destabilize the copper-peptide
+    bond, releasing free copper ions.
+
+- a: EDTA
+  b: COPPER TRIPEPTIDE-1
+  type: soft
+  mechanism: chelation
+  confidence: 0.8
+  source: "EDTA chelation constants; strong copper affinity"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use a non-competing chelator (phytic acid, sodium phytate) in copper peptide formulations."
+  category: skincare
+  message: >
+    EDTA is a strong chelator that can strip copper from peptide
+    complexes. Use an alternative chelating agent.
+
+# --- Skincare: Irritation ---
+
+- a: GLYCOLIC ACID
+  b: SALICYLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.75
+  source: "Dermatological consensus; AHA + BHA combined exfoliation"
+  conditions:
+    min_concentration_a: 5.0
+    min_concentration_b: 1.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Reduce concentrations of both. At low levels (2% glycolic + 0.5% salicylic) this combination is common in commercial products."
+  category: skincare
+  message: >
+    Combining AHA + BHA at full concentrations increases irritation.
+    However, many commercial products combine them at reduced
+    concentrations.
+
+- a: LACTIC ACID
+  b: SALICYLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.7
+  source: "Same AHA+BHA mechanism; lactic is gentler"
+  conditions:
+    min_concentration_a: 5.0
+    min_concentration_b: 1.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Lactic acid is gentler than glycolic. Low-concentration combination is common."
+  category: skincare
+  message: >
+    AHA + BHA combined exfoliation. Less problematic than glycolic
+    + salicylic due to lactic acid's larger molecule and humectant
+    properties.
+
+- a: TRETINOIN
+  b: SALICYLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.8
+  source: "Dermatological guidance; prescription retinoid + exfoliant"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Some dermatologists prescribe this combination under supervision. Not for OTC consumer products."
+  category: skincare
+  message: >
+    Tretinoin + Salicylic Acid causes excessive exfoliation. May
+    be used under dermatological supervision but not in OTC products.
+
+- a: TRETINOIN
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.85
+  source: "Dermatological consensus"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Professional supervision only. Not appropriate for consumer products."
+  category: skincare
+  message: >
+    Tretinoin and Glycolic Acid together cause severe irritation
+    and barrier damage. Sometimes used in professional peels under
+    supervision.
+
+- a: ADAPALENE
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.7
+  source: "Retinoid + AHA class interaction; adapalene is most stable retinoid"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Adapalene is more stable than other retinoids. Low-concentration glycolic may be tolerable."
+  category: skincare
+  message: >
+    Adapalene + Glycolic increases irritation risk. Adapalene is
+    the most stable retinoid but the exfoliation synergy can
+    compromise the skin barrier.
+
+# --- Skincare: Stability ---
+
+- a: BENZOYL PEROXIDE
+  b: TOCOPHEROL
+  type: soft
+  mechanism: oxidation
+  confidence: 0.7
+  source: "BPO oxidation of antioxidants; partial effect"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Use tocopheryl acetate (more oxidation-resistant ester form) instead of free tocopherol."
+  category: skincare
+  message: >
+    BPO can partially oxidize Vitamin E, reducing antioxidant
+    efficacy. Not as severe as BPO + retinol — partial effect.
+
+- a: RETINOL
+  b: AVOBENZONE
+  type: soft
+  mechanism: degradation
+  confidence: 0.6
+  source: "Photostability studies; avobenzone is notoriously unstable"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: ignore
+  mitigation: "Use encapsulated retinol or photostabilized avobenzone (with octocrylene)."
+  category: skincare
+  message: >
+    Avobenzone can accelerate Retinol photodegradation. Relevant
+    only in day products. Encapsulation or photostabilizers mitigate.
+
+- a: ASCORBIC ACID
+  b: IRON OXIDES
+  type: soft
+  mechanism: degradation
+  confidence: 0.5
+  source: "Fenton chemistry; iron-catalyzed oxidation of ascorbate"
+  conditions:
+    min_concentration_a: 10.0
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Not a concern at typical pigment levels in tinted products."
+  category: skincare
+  message: >
+    Iron from pigments can catalyze Ascorbic Acid oxidation via
+    Fenton reaction. Minimal concern at normal tinted product levels.
+
+- a: ARBUTIN
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.6
+  source: "Different optimal pH ranges"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Use Sodium Ascorbyl Phosphate (stable at pH 5-7) instead of L-Ascorbic Acid."
+  category: skincare
+  message: >
+    Arbutin works at pH 5-7; L-Ascorbic Acid at pH 2.5-3.5.
+    pH compromise reduces one active. Use a Vitamin C derivative
+    for compatibility.
+
+- a: FERULIC ACID
+  b: NIACINAMIDE
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: "Different optimal pH ranges; common formulation challenge"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Ferulic acid is typically used with Vitamin C at low pH. Adding niacinamide creates a pH compromise."
+  category: skincare
+  message: >
+    Ferulic Acid is formulated at pH 2.5-3.5 with Vitamin C;
+    Niacinamide works at pH 5-7. Not dangerous, but pH compromise
+    reduces benefit of one active.
+
+# --- Supplements: Absorption Competition ---
+
+- a: CALCIUM
+  b: IRON
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.9
+  source: "Hallberg et al. 1991, Am J Clin Nutr; Cook et al. 1991"
+  conditions:
+    min_concentration_a: 20.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Separate by 2+ hours, use iron bisglycinate (chelated, less affected by calcium), or formulate as time-release with staggered release."
+  category: supplement
+  message: >
+    Calcium inhibits iron absorption by 50-60% when co-administered
+    at supplemental doses. Well-established. Separation or chelated
+    forms are standard solutions.
+
+- a: CALCIUM CARBONATE
+  b: FERROUS SULFATE
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.9
+  source: "Hallberg et al. 1991; specific salt forms studied"
+  conditions:
+    min_concentration_a: 20.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use iron bisglycinate instead of ferrous sulfate. Chelated iron is less affected by calcium."
+  category: supplement
+  message: >
+    Calcium Carbonate inhibits Ferrous Sulfate absorption by up
+    to 60%. Use chelated iron or separate doses.
+
+- a: CALCIUM CARBONATE
+  b: FERROUS FUMARATE
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: "Same mechanism as calcium + ferrous sulfate"
+  conditions:
+    min_concentration_a: 20.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Separate doses or use chelated iron forms."
+  category: supplement
+  message: >
+    Calcium inhibits iron absorption regardless of iron salt form.
+
+- a: ZINC
+  b: COPPER
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: "Fischer et al. 1984; zinc-induced copper deficiency via metallothionein"
+  conditions:
+    min_concentration_a: 15.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Maintain Zn:Cu ratio of 8-15:1. At standard supplemental doses (<25mg zinc) with copper included, this is manageable."
+  category: supplement
+  message: >
+    Zinc competes with Copper via metallothionein. High zinc (>40mg)
+    without copper can induce deficiency. Include copper at 8-15:1
+    ratio in any zinc supplement.
+
+- a: ZINC OXIDE
+  b: COPPER GLUCONATE
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: "Same zinc-copper competition mechanism"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Maintain Zn:Cu ratio of 8-15:1."
+  category: supplement
+  message: >
+    Zinc and Copper compete for absorption. Maintain proper ratio.
+
+- a: CALCIUM
+  b: ZINC
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.7
+  source: "Wood & Zheng 1997; effect at high calcium doses"
+  conditions:
+    min_concentration_a: 30.0
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Use chelated zinc (bisglycinate). Effect is modest at normal supplemental doses."
+  category: supplement
+  message: >
+    High-dose Calcium (>600mg) can reduce Zinc absorption by
+    30-50%. Chelated zinc is less affected.
+
+- a: CALCIUM
+  b: MAGNESIUM
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.6
+  source: "Shared absorption pathways; clinical significance debated"
+  conditions:
+    min_concentration_a: 30.0
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Use chelated forms. At moderate doses, co-administration is standard practice in multivitamins."
+  category: supplement
+  message: >
+    Calcium and Magnesium share absorption pathways. Effect is
+    modest at typical supplement doses. Co-administration is
+    standard in multivitamins.
+
+- a: IRON
+  b: ZINC
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.8
+  source: "Solomons 1986; DMT1 transporter competition"
+  conditions:
+    min_concentration_a: 10.0
+    min_concentration_b: 10.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use chelated forms (bisglycinate) which use different absorption pathways. At moderate doses (<15mg each) effect is reduced."
+  category: supplement
+  message: >
+    Iron and Zinc compete for the DMT1 transporter at high doses.
+    Chelated forms use different absorption pathways and are less
+    affected.
+
+# --- Supplements: Degradation ---
+
+- a: ASCORBIC ACID
+  b: CYANOCOBALAMIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: "Herbert & Jacob 1974; primarily in liquid formulations"
+  conditions: {}
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use Methylcobalamin instead (more stable). Tablet/capsule forms are less affected than liquids."
+  category: supplement
+  message: >
+    Ascorbic Acid can degrade Cyanocobalamin in solution. Effect
+    is primarily in liquid supplements; dry forms are less affected.
+    Use Methylcobalamin for better stability.
+
+- a: ASCORBIC ACID
+  b: THIAMINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.5
+  source: "Stability studies in liquid supplements; minimal in dry forms"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Only relevant in liquid formulations. Dry forms are unaffected."
+  category: supplement
+  message: >
+    Ascorbic Acid can accelerate Thiamine degradation in solution
+    at acidic pH. Dry supplement forms are unaffected.
+
+- a: FOLIC ACID
+  b: ZINC
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.5
+  source: "Simmer et al. 1987; effect at high folate doses, debated"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "At standard supplemental doses, this effect is minimal."
+  category: supplement
+  message: >
+    High-dose Folic Acid may reduce Zinc absorption. Minimal at
+    standard doses. Consider in prenatal formulations with high
+    folate.
+
+- a: VITAMIN D3
+  b: VITAMIN K2
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.9
+  source: "Masterjohn 2007; synergistic, NOT incompatible"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "These are synergistic. Ensure K2 is included when using high-dose D3."
+  category: supplement
+  message: >
+    Synergistic, NOT incompatible. D3 increases calcium absorption;
+    K2 directs it to bones. Always include K2 with high-dose D3 to
+    prevent soft tissue calcification.
+
+# --- Supplements: Stability ---
+
+- a: PROBIOTICS
+  b: CITRIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: "Probiotic viability studies at low pH; strain-dependent"
+  conditions:
+    ph_below: 3.5
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use acid-resistant strains (B. coagulans, S. boulardii) or enteric coating."
+  category: supplement
+  message: >
+    Low pH can kill acid-sensitive probiotic strains during shelf
+    life. Effect is strain-dependent — acid-resistant strains and
+    enteric coating solve this.
+
+# --- Beverages ---
+
+- a: CALCIUM
+  b: CITRIC ACID
+  type: soft
+  mechanism: precipitation
+  confidence: 0.6
+  source: "Calcium citrate solubility limits; beverage formulation practice"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Manageable with sequestrants and pH control. Test stability."
+  category: beverage
+  message: >
+    Calcium + Citric Acid can form calcium citrate precipitate.
+    Manageable with proper formulation.
+
+- a: WHEY PROTEIN
+  b: CITRIC ACID
+  type: soft
+  mechanism: precipitation
+  confidence: 0.9
+  source: "Protein isoelectric precipitation; pH 4.6 for whey proteins"
+  conditions:
+    ph_below: 4.6
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use hydrolyzed whey (smaller peptides, less aggregation) or plant protein for acidic beverages."
+  category: beverage
+  message: >
+    Whey protein denatures and precipitates below pH 4.6. Use
+    hydrolyzed whey or plant protein for acidic beverages.
+
+- a: IRON
+  b: TANNINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: "Iron-tannin complex formation; tea fortification literature"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use iron bisglycinate or EDTA-chelated iron. These forms resist tannin binding."
+  category: beverage
+  message: >
+    Iron + Tannins form dark insoluble complexes. Use chelated
+    iron forms that resist tannin binding.
+
+- a: FERROUS SULFATE
+  b: GREEN TEA EXTRACT
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: "Polyphenol-iron complex formation"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use chelated iron forms."
+  category: beverage
+  message: >
+    Ferrous iron reacts with tea polyphenols to form dark complexes.
+    Reduces bioavailability and causes off-color.
+
+# --- Cross-Category ---
+
+- a: EDTA
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.8
+  source: "EDTA chelation constants; intentional in some applications"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "EDTA-iron chelation is sometimes intentional (prevents oxidation catalysis). Verify intent."
+  category: all
+  message: >
+    EDTA chelates free iron strongly. This may be intentional
+    (prevents oxidation catalysis) or harmful (reduces iron
+    bioavailability). Verify this is the intended behavior.

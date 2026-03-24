@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openmix"
+version = "0.1.0"
+description = "Open-source framework for computational mixture and formulation science"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [
+    { name = "Vijay Krishnan", email = "vijayven.krishnan@gmail.com" },
+]
+keywords = [
+    "chemistry",
+    "formulation",
+    "mixture",
+    "cosmetics",
+    "pharmaceutics",
+    "cheminformatics",
+    "validation",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "pydantic>=2.5.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+rdkit = ["rdkit>=2024.3.1"]
+agent = ["anthropic>=0.40.0"]
+all = ["rdkit>=2024.3.1", "anthropic>=0.40.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.4.0",
+]
+
+[project.scripts]
+openmix = "openmix.cli.main:main"
+
+[project.urls]
+Homepage = "https://github.com/vijayvkrishnan/openmix"
+Documentation = "https://github.com/vijayvkrishnan/openmix#readme"
+Repository = "https://github.com/vijayvkrishnan/openmix"
+Issues = "https://github.com/vijayvkrishnan/openmix/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/openmix"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
