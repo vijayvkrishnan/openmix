@@ -993,3 +993,422 @@
     EDTA chelates free iron strongly. This may be intentional
     (prevents oxidation catalysis) or harmful (reduces iron
     bioavailability). Verify this is the intended behavior.
+
+
+# =============================================================================
+# PHARMACEUTICAL — Drug-Excipient Incompatibilities
+# =============================================================================
+
+# --- Maillard Reaction: Reducing Sugars + Amine Drugs ---
+
+- a: LACTOSE
+  b: AMINOPHYLLINE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: "Wirth et al. 1998, Pharm Dev Technol; brown discoloration in 1:5 mixtures at 60C after 3 weeks"
+  category: pharma
+  message: >
+    Lactose (reducing sugar) undergoes Maillard reaction with
+    aminophylline's ethylenediamine moiety. Forms brown degradation
+    products. Use non-reducing excipients (mannitol, MCC) instead.
+
+- a: LACTOSE
+  b: AMLODIPINE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: "Narang et al. 2012, J Pharm Biomed Anal; primary amine + reducing sugar Maillard pathway"
+  category: pharma
+  message: >
+    Amlodipine's primary amine undergoes Maillard reaction with
+    lactose. Accelerated by magnesium stearate and moisture.
+    Use mannitol or microcrystalline cellulose instead.
+
+- a: LACTOSE
+  b: BACLOFEN
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: "Abdoh et al. 2004, AAPS PharmSciTech; LC-MS confirmation of Maillard adducts"
+  category: pharma
+  message: >
+    Baclofen (gamma-aminobutyric acid derivative) undergoes
+    Maillard reaction with lactose. Confirmed by LC-MS/MS.
+    Avoid reducing sugar excipients.
+
+- a: LACTOSE
+  b: FLUOXETINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: "Harmon et al. 2000, Pharm Res; secondary amine Maillard reaction confirmed"
+  conditions:
+    min_concentration_b: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use spray-dried lactose (lower free reducing sugar) or substitute with mannitol/MCC."
+  category: pharma
+  message: >
+    Fluoxetine (secondary amine) undergoes Maillard reaction with
+    lactose, though slower than primary amines. Risk increases
+    with moisture and temperature.
+
+- a: LACTOSE
+  b: SERTRALINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: "Secondary amine drug class effect; same mechanism as fluoxetine-lactose"
+  conditions:
+    min_concentration_b: 5.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use non-reducing filler (mannitol, dibasic calcium phosphate, MCC)."
+  category: pharma
+  message: >
+    Sertraline (secondary amine) can undergo Maillard reaction
+    with lactose. Class effect for secondary amine drugs with
+    reducing sugar excipients.
+
+- a: LACTOSE
+  b: PREGABALIN
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: "Hotha et al. 2013, J Pharm Biomed Anal; primary amine-lactose Schiff base confirmed"
+  category: pharma
+  message: >
+    Pregabalin's primary amine forms Schiff base adducts with
+    lactose via Maillard reaction. Well-documented in stability
+    studies. Use non-reducing excipients.
+
+# --- Magnesium Stearate Incompatibilities ---
+
+- a: MAGNESIUM STEARATE
+  b: ASPIRIN
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: "Gordon et al. 1984, J Pharm Sci; ester hydrolysis catalyzed by MgSt alkaline microenvironment"
+  category: pharma
+  message: >
+    Magnesium stearate catalyzes hydrolysis of aspirin's ester
+    bond. The alkaline microenvironment from MgSt hydrolysis
+    accelerates degradation to salicylic acid + acetic acid.
+
+- a: MAGNESIUM STEARATE
+  b: ENALAPRIL
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: "Stanisz 2005, Acta Pol Pharm; ester hydrolysis of ACE inhibitor"
+  category: pharma
+  message: >
+    Magnesium stearate catalyzes hydrolysis of enalapril's ester
+    group (diketopiperazine formation). Use sodium stearyl
+    fumarate or stearic acid as lubricant alternatives.
+
+- a: MAGNESIUM STEARATE
+  b: IBUPROFEN
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: "Kornblum & Stoopak 1973, J Pharm Sci; dissolution rate reduction at high MgSt levels"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Limit MgSt to <1% w/w and minimize blending time."
+  category: pharma
+  message: >
+    High levels of magnesium stearate (>1%) form a hydrophobic
+    film on ibuprofen particles, significantly reducing dissolution
+    rate and bioavailability. Not a chemical reaction but a
+    physical incompatibility.
+
+- a: MAGNESIUM STEARATE
+  b: LACTOSE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: "Narang et al. 2012; Mg2+ catalyzes Maillard via five-membered ring intermediate"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Minimize MgSt concentration and blending time when lactose is present with amine drugs."
+  category: pharma
+  message: >
+    Magnesium stearate catalyzes the Maillard reaction between
+    lactose and amine drugs. Mg2+ forms five-membered ring
+    structures with reaction intermediates, accelerating the
+    Amadori rearrangement.
+
+# --- Povidone/PVP Peroxide Impurities ---
+
+- a: POVIDONE
+  b: RALOXIFENE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 0.9
+  source: "Hartauer et al. 2000, Pharm Dev Technol; peroxide impurities in PVP oxidize drug"
+  category: pharma
+  message: >
+    Residual peroxide impurities in povidone (PVP) oxidize
+    raloxifene. PVP and crospovidone contain peroxide impurities
+    from manufacturing (typically 400-3000 ppm). Use low-peroxide
+    grades or alternative binders.
+
+- a: CROSPOVIDONE
+  b: RALOXIFENE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 0.9
+  source: "Hartauer et al. 2000; same peroxide mechanism as PVP"
+  category: pharma
+  message: >
+    Crospovidone contains peroxide impurities that oxidize
+    raloxifene. Same mechanism as PVP. Use alternative
+    disintegrants (croscarmellose sodium, sodium starch glycolate).
+
+- a: POVIDONE
+  b: AMLODIPINE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.75
+  source: "PVP peroxide class effect on oxidation-sensitive drugs"
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: "Use low-peroxide PVP grades (e.g., Kollidon grades with <100 ppm peroxide) or add antioxidant."
+  category: pharma
+  message: >
+    Peroxide impurities in PVP can oxidize amlodipine. Risk
+    depends on PVP grade and storage conditions. Low-peroxide
+    grades are available.
+
+# --- pH-Sensitive Drug-Excipient Interactions ---
+
+- a: ENTERIC COATING
+  b: ALKALINE EXCIPIENT
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: "Pharmaceutical coating technology; pH-dependent dissolution principle"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Separate enteric-coated core from alkaline excipients with a seal coat."
+  category: pharma
+  message: >
+    Alkaline excipients (magnesium oxide, calcium carbonate,
+    sodium bicarbonate) can prematurely dissolve enteric
+    coatings (HPMCP, Eudragit L/S) by raising local pH.
+    Drug may release in the stomach instead of intestine.
+
+# --- Moisture-Sensitive Interactions ---
+
+- a: GELATIN
+  b: FORMALDEHYDE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: "Digenis et al. 1994, J Pharm Sci; cross-linking reduces dissolution"
+  category: pharma
+  message: >
+    Formaldehyde (from excipient degradation, e.g., PEG,
+    polysorbate, or rayon packaging) cross-links gelatin capsule
+    shells, forming a pellicle that dramatically reduces drug
+    dissolution. Use HPMC capsules for sensitive formulations.
+
+
+# =============================================================================
+# FOOD SCIENCE — Ingredient Interactions
+# =============================================================================
+
+- a: POLYPHENOLS
+  b: PROTEIN
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: "Ozdal et al. 2013, Food Res Int; polyphenol-protein binding and precipitation"
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: "Use hydrolyzed protein (smaller peptides bind less). Cyclodextrins can encapsulate polyphenols."
+  category: food
+  message: >
+    Polyphenols (from tea, coffee, berries, chocolate) bind to
+    proteins via hydrogen bonding and hydrophobic interactions,
+    causing haze, precipitation, and reduced bioavailability
+    of both components.
+
+- a: ANTHOCYANINS
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: "Poei-Langston & Wrolstad 1981, J Food Sci; mutual degradation in juice"
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: "Minimize exposure to heat and light. Microencapsulate anthocyanins."
+  category: food
+  message: >
+    Ascorbic acid accelerates anthocyanin degradation via
+    condensation reactions, while anthocyanins promote ascorbic
+    acid oxidation. Mutual degradation in fortified juices
+    and beverages.
+
+- a: SULFITES
+  b: THIAMINE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: "Dwivedi & Arnold 1973, J Food Sci; sulfite cleaves thiamine at methylene bridge"
+  category: food
+  message: >
+    Sulfites (SO2, sodium bisulfite, sodium metabisulfite)
+    cleave thiamine (vitamin B1) at the methylene bridge,
+    completely destroying the vitamin. Irreversible. Do not
+    use sulfite preservatives in B1-fortified products.
+
+- a: SORBIC ACID
+  b: SODIUM NITRITE
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 0.9
+  source: "Sofos 1989, Boca Raton: CRC Press; mutagenic product formation"
+  category: food
+  message: >
+    Sorbic acid reacts with sodium nitrite to form
+    ethylnitrolic acid and other mutagenic C-nitroso compounds.
+    Do not combine these preservatives in the same product.
+
+- a: CALCIUM CHLORIDE
+  b: SODIUM ALGINATE
+  type: soft
+  mechanism: precipitation
+  confidence: 0.95
+  source: "Standard food hydrocolloid chemistry; ionotropic gelation"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "This reaction is often intentional (spherification, encapsulation). Verify intent."
+  category: food
+  message: >
+    Calcium ions cross-link alginate chains, forming an
+    insoluble gel instantly. This is intentional in molecular
+    gastronomy (spherification) but unwanted if calcium
+    contamination causes premature gelling.
+
+- a: POLYSORBATE 80
+  b: PHENOLIC COMPOUNDS
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.7
+  source: "Weiss et al. 2013, J Agric Food Chem; surfactant-phenolic micellar sequestration"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Use non-ionic surfactants at lower concentrations, or add phenolics after emulsification."
+  category: food
+  message: >
+    Polysorbate 80 can sequester phenolic antioxidants into
+    micelles, reducing their antioxidant activity and
+    bioavailability. Effect depends on concentration and
+    phenolic structure.
+
+- a: IRON
+  b: PHYTIC ACID
+  type: soft
+  mechanism: chelation
+  confidence: 0.9
+  source: "Hallberg et al. 1989, Am J Clin Nutr; phytate-iron complex formation"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use NaFeEDTA or ferrous bisglycinate (chelated, resistant to phytate). Or add ascorbic acid as promoter."
+  category: food
+  message: >
+    Phytic acid (from grains, legumes, nuts) chelates iron
+    strongly, reducing bioavailability by 50-80%. Major concern
+    in iron-fortified cereal products. Chelated iron forms
+    resist phytate binding.
+
+- a: CALCIUM
+  b: OXALIC ACID
+  type: soft
+  mechanism: precipitation
+  confidence: 0.95
+  source: "Weaver et al. 1999, J Food Sci; calcium oxalate insolubility"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Avoid high-oxalate ingredients (spinach, rhubarb) in calcium-fortified products."
+  category: food
+  message: >
+    Oxalic acid (from spinach, rhubarb, beet greens) forms
+    insoluble calcium oxalate, reducing calcium bioavailability
+    to near zero. Do not pair high-oxalate ingredients with
+    calcium fortification.
+
+- a: COPPER
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: oxidation
+  confidence: 0.9
+  source: "Aust et al. 1985, J Biol Chem; Cu-catalyzed ascorbate autoxidation"
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: "Use EDTA or citric acid to chelate copper. Avoid copper vessels/equipment."
+  category: food
+  message: >
+    Copper ions catalyze rapid oxidation of ascorbic acid
+    via Fenton-like mechanism. Even trace copper (0.1 ppm)
+    significantly accelerates vitamin C loss in beverages.
+    EDTA chelation prevents this.
+
+- a: PECTIN
+  b: CALCIUM
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: "Braccini & Perez 2001, Biomacromolecules; calcium-pectin egg-box gelation"
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: "Intentional in jams/preserves. Control calcium concentration to avoid over-gelling."
+  category: food
+  message: >
+    Low-methoxyl pectin forms gels with calcium ions via
+    egg-box model cross-linking. Intentional in preserves,
+    but unwanted calcium can cause premature gelling or
+    texture defects in beverages.

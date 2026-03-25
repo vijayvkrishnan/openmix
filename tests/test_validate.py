@@ -330,6 +330,95 @@ def test_beverage_casein_acid():
     assert report.errors > 0
 
 
+# ---------------------------------------------------------------------------
+# Pharma Rules
+# ---------------------------------------------------------------------------
+
+def test_lactose_amine_drug_maillard():
+    """Lactose + amine-containing drug should flag Maillard reaction."""
+    formula = Formula(
+        ingredients=[
+            ("Lactose Monohydrate", 60.0),
+            ("Amlodipine", 5.0),
+            ("Microcrystalline Cellulose", 30.0),
+            ("Magnesium Stearate", 1.0),
+            ("Croscarmellose Sodium", 4.0),
+        ],
+        category="pharma",
+    )
+    report = validate(formula)
+    assert report.errors > 0
+    assert any("maillard" in i.message.lower() or "lactose" in i.message.lower()
+               for i in report.issues if i.check == "compatibility")
+
+
+def test_magnesium_stearate_aspirin():
+    """MgSt + Aspirin ester hydrolysis should be caught."""
+    formula = Formula(
+        ingredients=[
+            ("Aspirin", 40.0),
+            ("Magnesium Stearate", 2.0),
+            ("Starch", 58.0),
+        ],
+        category="pharma",
+    )
+    report = validate(formula)
+    assert report.errors > 0
+
+
+def test_pharma_has_dedicated_rules():
+    """Pharma should now have dedicated rules (no longer zero)."""
+    kb = load_knowledge()
+    pharma_rules = [r for r in kb.interaction_rules if r.category == "pharma"]
+    assert len(pharma_rules) >= 10
+
+
+# ---------------------------------------------------------------------------
+# Food Science Rules
+# ---------------------------------------------------------------------------
+
+def test_sulfites_destroy_thiamine():
+    """Sulfites + Thiamine is a hard rule — irreversible destruction."""
+    formula = Formula(
+        ingredients=[
+            ("Sodium Metabisulfite", 0.1),
+            ("Thiamine Hydrochloride", 0.5),
+            ("Maltodextrin", 99.4),
+        ],
+        category="food",
+    )
+    report = validate(formula)
+    assert report.errors > 0
+    assert any("thiamine" in i.message.lower() or "sulfite" in i.message.lower()
+               for i in report.issues)
+
+
+def test_sorbic_acid_nitrite_mutagenic():
+    """Sorbic acid + sodium nitrite forms mutagenic compounds."""
+    formula = Formula(
+        ingredients=[
+            ("Sorbic Acid", 0.2),
+            ("Sodium Nitrite", 0.02),
+            ("Sodium Chloride", 2.0),
+            ("Water", 97.78),
+        ],
+        category="food",
+    )
+    report = validate(formula)
+    assert report.errors > 0
+
+
+def test_food_has_dedicated_rules():
+    """Food should now have dedicated rules."""
+    kb = load_knowledge()
+    food_rules = [r for r in kb.interaction_rules if r.category == "food"]
+    assert len(food_rules) >= 8
+
+
+# ---------------------------------------------------------------------------
+# Existing tests
+# ---------------------------------------------------------------------------
+
 def test_clean_formula_passes():
     """A simple, well-formulated moisturizer should pass."""
     formula = Formula(
