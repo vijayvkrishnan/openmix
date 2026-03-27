@@ -9,10 +9,9 @@ and system completeness. Same formula always produces the same score.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
-from openmix.schema import Formula, Issue
-from openmix.knowledge.loader import Knowledge, InteractionRule, load_knowledge
+from openmix.schema import Formula
+from openmix.knowledge.loader import Knowledge, load_knowledge
 from openmix.matching import match_ingredient
 
 

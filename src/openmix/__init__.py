@@ -18,6 +18,7 @@ from openmix.schema import Formula, Ingredient, ValidationReport, Issue
 from openmix.validate import validate
 from openmix.score import score, StabilityScore
 from openmix.knowledge.loader import load_knowledge
+from openmix.experiment import Experiment, ExperimentLog
 
 __all__ = [
     "Formula",
@@ -27,6 +28,8 @@ __all__ = [
     "validate",
     "score",
     "StabilityScore",
+    "Experiment",
+    "ExperimentLog",
     "load_knowledge",
     "__version__",
 ]

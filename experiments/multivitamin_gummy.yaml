@@ -1,0 +1,87 @@
+# Experiment: Stable Multivitamin Gummy
+#
+# One of the hardest formulation challenges in supplements: combining
+# vitamins and minerals that actively degrade each other into a single
+# shelf-stable dosage form. Iron destroys Vitamin C. Calcium blocks iron
+# absorption. B12 degrades with ascorbic acid. Folic acid reduces zinc.
+# Probiotics die from preservatives.
+#
+# The agent has to navigate a minefield of interactions to find
+# combinations that actually work together.
+
+name: multivitamin-gummy
+version: 1
+
+brief: |
+  Design a comprehensive multivitamin gummy formulation containing
+  as many of the following nutrients as possible while maintaining
+  stability and bioavailability. The challenge: many of these
+  ingredients actively degrade or inhibit each other.
+
+  Include at minimum: a Vitamin C source, a B-vitamin complex,
+  iron, calcium, and zinc. Find the combination that scores highest
+  despite the known interactions between these nutrients.
+
+  The agent must discover which forms of each nutrient are most
+  compatible (e.g., chelated iron vs ferrous sulfate, methylcobalamin
+  vs cyanocobalamin) and which ingredients simply cannot coexist.
+
+ingredient_pool:
+  required:
+    - name: Ascorbic Acid
+      min_pct: 5.0
+      max_pct: 20.0
+      function: vitamin C
+    - name: Calcium Carbonate
+      min_pct: 10.0
+      max_pct: 30.0
+      function: mineral
+
+  available:
+    # Iron forms (compete with calcium)
+    - Ferrous Sulfate
+    - Ferrous Fumarate
+    - Iron Bisglycinate
+    # Zinc forms (compete with iron and calcium)
+    - Zinc Oxide
+    - Zinc Bisglycinate
+    - Zinc Gluconate
+    # B-vitamins (B12 degrades with Vitamin C)
+    - Cyanocobalamin
+    - Methylcobalamin
+    - Thiamine Hydrochloride
+    - Riboflavin
+    - Pyridoxine Hydrochloride
+    - Folic Acid
+    - Biotin
+    - Pantothenic Acid
+    # Other vitamins
+    - Vitamin D3
+    - Vitamin K2
+    - Tocopherol
+    # Gummy base
+    - Gelatin
+    - Pectin
+    - Sucrose
+    - Glucose Syrup
+    - Citric Acid
+    - Sodium Citrate
+    - Maltodextrin
+    # Preservatives (conflict with probiotics if added)
+    - Potassium Sorbate
+    - Sodium Benzoate
+
+constraints:
+  max_ingredients: 18
+  total_percentage: 100
+  category: supplement
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+settings:
+  max_iterations: 15
+  target_score: 85
+  mode: formulation

@@ -7,7 +7,6 @@ is not installed — the rest of OpenMix works without it.
 
 from __future__ import annotations
 
-from typing import Optional
 
 try:
     from rdkit import Chem

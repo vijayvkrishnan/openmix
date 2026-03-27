@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from openmix.schema import Formula, Ingredient, Issue, ValidationReport
+from openmix.schema import Formula, Issue, ValidationReport
 from openmix.knowledge.loader import Knowledge, InteractionRule, load_knowledge
 from openmix.matching import match_ingredient
 

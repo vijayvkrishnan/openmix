@@ -1,0 +1,64 @@
+# Experiment: mRNA Lipid Nanoparticle Stabilization
+#
+# The challenge that defined the COVID vaccine era: mRNA degrades rapidly
+# without the right lipid nanoparticle (LNP) formulation. Moderna and
+# BioNTech solved this with proprietary formulations. Can an autonomous
+# agent rediscover viable LNP compositions from first principles?
+
+name: mrna-lnp-stability
+version: 1
+
+brief: |
+  Design a lipid nanoparticle (LNP) formulation for mRNA delivery that
+  maximizes encapsulation efficiency and storage stability.
+
+  The formulation must balance four lipid components:
+  - An ionizable lipid (the key innovation — binds mRNA at low pH, releases at endosomal pH)
+  - A helper phospholipid (structural integrity)
+  - Cholesterol (membrane rigidity and stability)
+  - A PEG-lipid (prevents aggregation, controls particle size)
+
+  Target: particle size 80-100nm, PDI < 0.2, encapsulation > 90%.
+  Storage stability at 2-8C for at least 6 months.
+
+  This is one of the most important formulation challenges in modern medicine.
+
+ingredient_pool:
+  required:
+    - name: Ionizable Lipid
+      min_pct: 30.0
+      max_pct: 55.0
+      function: mRNA complexation
+
+  available:
+    - Cholesterol
+    - DSPC
+    - DPPC
+    - DOPE
+    - DMG-PEG 2000
+    - DSPE-PEG 2000
+    - SM-102
+    - ALC-0315
+    - DLin-MC3-DMA
+    - Ethanol
+    - Citrate Buffer pH 4.0
+    - Sucrose
+    - Tris Buffer pH 7.4
+    - Sodium Chloride
+    - Trehalose
+    - Poloxamer 188
+
+constraints:
+  max_ingredients: 10
+  total_percentage: 100
+  category: pharma
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+settings:
+  max_iterations: 15
+  target_score: 92
+  mode: discovery

@@ -67,6 +67,107 @@ def cmd_score(args):
     sys.exit(0)
 
 
+def cmd_experiment(args):
+    """Run an autonomous formulation experiment."""
+    from openmix.experiment import Experiment
+
+    filepath = Path(args.file)
+    if not filepath.exists():
+        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        sys.exit(1)
+
+    exp = Experiment.from_file(filepath, verbose=True)
+    log = exp.run()
+
+    if args.save:
+        log.save(args.save)
+        print(f"\nExperiment log saved to {args.save}")
+
+    sys.exit(0 if log.converged else 1)
+
+
+def cmd_run(args):
+    """Run an experiment from a natural language brief."""
+    from openmix.experiment import Experiment
+
+    brief = " ".join(args.brief)
+    save_plan = args.save_plan
+
+    exp = Experiment.from_brief(brief, verbose=True, save_plan=save_plan)
+    log = exp.run()
+
+    if args.save:
+        log.save(args.save)
+        print(f"\nExperiment log saved to {args.save}")
+
+    sys.exit(0 if log.converged else 1)
+
+
+def cmd_demo(args):
+    """Run a built-in demo — no files or API keys needed."""
+    from openmix import Formula, validate, score as compute_score
+
+    print(f"OpenMix v{__version__} -- Demo\n")
+
+    # Demo 1: Validate a problematic formula
+    print("=" * 60)
+    print("  1. Validate: Catches ingredient interactions")
+    print("=" * 60)
+
+    formula = Formula(
+        name="Anti-Aging Serum",
+        ingredients=[
+            ("Retinol", 1.0),
+            ("Glycolic Acid", 8.0),
+            ("Benzoyl Peroxide", 2.5),
+            ("Copper Tripeptide-1", 1.0),
+            ("Ascorbic Acid", 15.0),
+            ("Niacinamide", 5.0),
+            ("Water", 60.5),
+            ("Phenoxyethanol", 1.0),
+            ("Glycerin", 6.0),
+        ],
+        target_ph=3.5,
+        category="skincare",
+    )
+
+    report = validate(formula, mode="safety")
+    print(report)
+
+    # Demo 2: Score a clean formula
+    print("=" * 60)
+    print("  2. Score: Quantitative stability prediction")
+    print("=" * 60)
+
+    clean = Formula(
+        name="Simple Moisturizer",
+        ingredients=[
+            ("Water", 72.0),
+            ("Glycerin", 8.0),
+            ("Caprylic/Capric Triglyceride", 10.0),
+            ("Cetearyl Alcohol", 4.0),
+            ("Polysorbate 60", 3.0),
+            ("Phenoxyethanol", 1.0),
+            ("Tocopherol", 0.5),
+            ("Xanthan Gum", 0.5),
+            ("Citric Acid", 0.5),
+            ("Disodium EDTA", 0.1),
+        ],
+        target_ph=5.5,
+        category="skincare",
+    )
+    print(f"\n  {clean.name}")
+    result = compute_score(clean)
+    print(result)
+
+    print("\n" + "=" * 60)
+    print("  Next steps:")
+    print("  - openmix validate your_formula.yaml")
+    print("  - openmix score your_formula.yaml")
+    print("  - openmix run \"Design a stable vitamin C serum\"  (needs API key)")
+    print("=" * 60)
+
+
 def cmd_info(args):
     """Show OpenMix info and knowledge stats."""
     kb = load_knowledge()
@@ -95,6 +196,49 @@ def cmd_info(args):
         print(f"    {mech}: {count}")
 
 
+def _welcome():
+    """Welcome screen — first thing a new user sees."""
+    kb = load_knowledge()
+    hard = len(kb.hard_rules)
+    soft = len(kb.soft_rules)
+    total = len(kb.interaction_rules)
+    domains = len(set(r.category for r in kb.interaction_rules))
+
+    print(f"""
+  OpenMix v{__version__}
+  Autonomous Formulation Science
+
+  The autoresearch framework for chemistry.
+  {total} interaction rules ({hard} hard + {soft} soft) | {domains} domains
+
+  Get started:
+
+    openmix demo
+      Try it now. Validates a formula, shows stability scoring.
+      No API key needed.
+
+    openmix run "Design a stable vitamin C serum under $30/kg"
+      Run an autonomous formulation experiment from natural language.
+      Requires ANTHROPIC_API_KEY or OPENAI_API_KEY.
+
+    openmix validate formula.yaml
+      Validate a formulation file against the knowledge base.
+
+    openmix score formula.yaml
+      Score a formulation (0-100 with decomposed sub-scores).
+
+    openmix info
+      Show knowledge base statistics.
+
+  Python:
+
+    from openmix import Formula, validate, score, Experiment
+    result = Experiment.from_brief("your research question").run()
+
+  Docs: https://github.com/vijayvkrishnan/openmix
+""")
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="openmix",
@@ -117,13 +261,30 @@ def main():
     sp.add_argument("file", help="Path to formula YAML or JSON")
     sp.set_defaults(func=cmd_score)
 
+    # run (natural language)
+    rp = subparsers.add_parser("run", help="Run an experiment from natural language")
+    rp.add_argument("brief", nargs="+", help="Research brief in natural language")
+    rp.add_argument("--save", help="Save experiment log to file")
+    rp.add_argument("--save-plan", help="Save generated experiment plan as YAML")
+    rp.set_defaults(func=cmd_run)
+
+    # experiment (from YAML)
+    ep = subparsers.add_parser("experiment", help="Run from an experiment YAML file")
+    ep.add_argument("file", help="Path to experiment YAML")
+    ep.add_argument("--save", help="Save experiment log to file")
+    ep.set_defaults(func=cmd_experiment)
+
+    # demo
+    dp = subparsers.add_parser("demo", help="Run a built-in demo (no API key needed)")
+    dp.set_defaults(func=cmd_demo)
+
     # info
     ip = subparsers.add_parser("info", help="Show knowledge base stats")
     ip.set_defaults(func=cmd_info)
 
     args = parser.parse_args()
     if not args.command:
-        parser.print_help()
+        _welcome()
         sys.exit(0)
 
     args.func(args)

@@ -1,0 +1,62 @@
+# Experiment: Shampoo Stability with Trained Model Scorer
+#
+# Uses a trained ML model (from FormulaBench shampoo dataset) as the
+# evaluation function instead of the heuristic. The model learned from
+# 812 real formulations — its scores reflect actual stability patterns.
+
+name: shampoo-model-optimized
+version: 1
+
+brief: |
+  Design a stable sulfate-free shampoo formulation using the trained
+  stability model as the evaluation function. The model was trained on
+  812 real shampoo formulations with experimentally measured stability.
+
+  Explore combinations of mild surfactants (glucosides, amphoterics,
+  amino acid-based) with conditioning polymers and thickeners.
+
+ingredient_pool:
+  required:
+    - name: Coco-Glucoside
+      min_pct: 5.0
+      max_pct: 15.0
+      function: primary surfactant
+
+  available:
+    - Water
+    - Decyl Glucoside
+    - Cocamidopropyl Betaine
+    - Sodium Cocoyl Glutamate
+    - Disodium Cocoyl Glutamate
+    - Sodium Lauroamphoacetate
+    - Coco-Betaine
+    - Polyquaternium-7
+    - Polyquaternium-68
+    - PEG-40 Hydrogenated Castor Oil
+    - PEG-200 Hydrogenated Glyceryl Palmate
+    - Sodium Chloride
+    - Citric Acid
+    - Glycerin
+    - Phenoxyethanol
+
+constraints:
+  max_ingredients: 8
+  total_percentage: 100
+  category: skincare
+  product_type: shampoo
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+# Scorer configuration
+scorer:
+  type: model
+  path: models/shampoo_xgb.pkl
+  domain: shampoo
+
+settings:
+  max_iterations: 20
+  target_score: 80
+  mode: formulation

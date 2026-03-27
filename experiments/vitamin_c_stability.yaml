@@ -1,0 +1,82 @@
+# OpenMix Experiment Definition
+#
+# The scientist writes this. The agent executes it.
+# Run: openmix experiment run experiments/vitamin_c_stability.yaml
+
+name: vitamin-c-stability
+version: 1
+
+brief: |
+  Find the most stable vitamin C serum formulation. Maximize ascorbic acid
+  concentration while maintaining pH 2.5-3.5 and total COGS under $30/kg.
+
+  Explore: preservative system compatibility at low pH, antioxidant
+  synergies, humectant selection for texture, emulsifier choice if
+  oil phase is included.
+
+ingredient_pool:
+  required:
+    - name: Ascorbic Acid
+      min_pct: 10.0
+      max_pct: 20.0
+      function: active
+
+  available:
+    - Water
+    - Glycerin
+    - Propanediol
+    - Butylene Glycol
+    - Niacinamide
+    - Ferulic Acid
+    - Tocopherol
+    - Sodium Ascorbyl Phosphate
+    - Panthenol
+    - Allantoin
+    - Sodium Hyaluronate
+    - Hydroxyethylcellulose
+    - Xanthan Gum
+    - Carbomer
+    - Phenoxyethanol
+    - Ethylhexylglycerin
+    - Caprylyl Glycol
+    - Benzyl Alcohol
+    - Potassium Sorbate
+    - Sodium Benzoate
+    - Citric Acid
+    - Sodium Hydroxide
+    - Disodium EDTA
+    - Sodium Phytate
+    - Caprylic/Capric Triglyceride
+    - Squalane
+    - Dimethicone
+    - Polysorbate 80
+    - Cetearyl Alcohol
+
+constraints:
+  target_ph: [2.5, 3.5]
+  max_ingredients: 12
+  total_percentage: 100
+  category: skincare
+  product_type: serum
+
+# LLM configuration — bring your own model
+# Supported providers: anthropic, openai, ollama, together, groq, custom
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+# To use OpenAI:
+#   provider: openai
+#   model: gpt-4o
+#   api_key_env: OPENAI_API_KEY
+
+# To use a local model via Ollama:
+#   provider: ollama
+#   model: llama3.1
+#   base_url: http://localhost:11434/v1
+
+settings:
+  max_iterations: 30
+  target_score: 95
+  mode: formulation
