@@ -20,6 +20,7 @@ from openmix import __version__
 from openmix.schema import Formula
 from openmix.validate import validate
 from openmix.score import score
+from openmix.observe import observe
 from openmix.knowledge.loader import load_knowledge
 
 
@@ -67,6 +68,37 @@ def cmd_score(args):
     sys.exit(0)
 
 
+def cmd_observe(args):
+    """Observe a formulation through physics."""
+    formula = _load_formula(Path(args.file))
+    mode = args.mode or "engineering"
+    result = observe(formula, mode=mode)
+    print(result)
+
+    if args.json:
+        import json as _json
+        data = {
+            "mode": result.mode,
+            "resolution_rate": result.resolution_rate,
+            "hard_violations": result.hard_violations,
+            "soft_violations": result.soft_violations,
+            "concern_count": result.concern_count,
+            "concerns": len(result.concerns),
+            "signals": len(result.signals),
+            "discoveries": len(result.discoveries),
+            "observations": [
+                {"category": o.category, "subject": o.subject,
+                 "observed": o.observed, "agreement": o.agreement,
+                 "confidence": o.confidence}
+                for o in result.observations
+            ],
+        }
+        print("\n--- JSON ---")
+        print(_json.dumps(data, indent=2))
+
+    sys.exit(0)
+
+
 def cmd_experiment(args):
     """Run an autonomous formulation experiment."""
     from openmix.experiment import Experiment
@@ -105,7 +137,7 @@ def cmd_run(args):
 
 def cmd_demo(args):
     """Run a built-in demo — no files or API keys needed."""
-    from openmix import Formula, validate, score as compute_score
+    from openmix import Formula, validate, score as compute_score, observe as observe_fn
 
     print(f"OpenMix v{__version__} -- Demo\n")
 
@@ -134,9 +166,9 @@ def cmd_demo(args):
     report = validate(formula, mode="safety")
     print(report)
 
-    # Demo 2: Score a clean formula
+    # Demo 2: Observe a clean formula through physics
     print("=" * 60)
-    print("  2. Score: Quantitative stability prediction")
+    print("  2. Observe: Physics observation engine")
     print("=" * 60)
 
     clean = Formula(
@@ -157,13 +189,22 @@ def cmd_demo(args):
         category="skincare",
     )
     print(f"\n  {clean.name}")
-    result = compute_score(clean)
-    print(result)
+    obs = observe_fn(clean)
+    print(obs)
+
+    # Demo 3: Discovery mode
+    print("\n" + "=" * 60)
+    print("  3. Discovery mode: Investigate discrepancies")
+    print("=" * 60)
+
+    obs_disc = observe_fn(formula, mode="discovery")
+    print(obs_disc)
 
     print("\n" + "=" * 60)
     print("  Next steps:")
+    print("  - openmix observe your_formula.yaml")
+    print("  - openmix observe your_formula.yaml --mode discovery")
     print("  - openmix validate your_formula.yaml")
-    print("  - openmix score your_formula.yaml")
     print("  - openmix run \"Design a stable vitamin C serum\"  (needs API key)")
     print("=" * 60)
 
@@ -208,31 +249,33 @@ def _welcome():
   OpenMix v{__version__}
   Autonomous Formulation Science
 
-  The autoresearch framework for chemistry.
+  The lab does the testing. OpenMix does the noticing.
   {total} interaction rules ({hard} hard + {soft} soft) | {domains} domains
 
   Get started:
 
     openmix demo
-      Try it now. Validates a formula, shows stability scoring.
+      Try it now. Physics observations, validation, two modes.
       No API key needed.
+
+    openmix observe formula.yaml
+      Physics observation engine. Reports what it sees, what it expected,
+      and where they disagree. Two modes: engineering / discovery.
 
     openmix run "Design a stable vitamin C serum under $30/kg"
       Run an autonomous formulation experiment from natural language.
       Requires ANTHROPIC_API_KEY or OPENAI_API_KEY.
 
     openmix validate formula.yaml
-      Validate a formulation file against the knowledge base.
-
-    openmix score formula.yaml
-      Score a formulation (0-100 with decomposed sub-scores).
+      Rule-based validation (3 modes: safety / formulation / discovery).
 
     openmix info
       Show knowledge base statistics.
 
   Python:
 
-    from openmix import Formula, validate, score, Experiment
+    from openmix import Formula, observe, validate, Experiment
+    obs = observe(formula, mode="discovery")
     result = Experiment.from_brief("your research question").run()
 
   Docs: https://github.com/vijayvkrishnan/openmix
@@ -260,6 +303,15 @@ def main():
     sp = subparsers.add_parser("score", help="Score a formulation")
     sp.add_argument("file", help="Path to formula YAML or JSON")
     sp.set_defaults(func=cmd_score)
+
+    # observe
+    op = subparsers.add_parser("observe", help="Observe a formulation through physics")
+    op.add_argument("file", help="Path to formula YAML or JSON")
+    op.add_argument("--mode", choices=["engineering", "discovery"],
+                    default="engineering",
+                    help="Observation mode (default: engineering)")
+    op.add_argument("--json", action="store_true", help="Also output JSON")
+    op.set_defaults(func=cmd_observe)
 
     # run (natural language)
     rp = subparsers.add_parser("run", help="Run an experiment from natural language")

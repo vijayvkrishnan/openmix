@@ -1,14 +1,8 @@
 """
 Autonomous formulation experiment runner.
 
-The scientist writes a YAML experiment definition.
-The agent explores the formulation space, guided by a scoring function.
-Every iteration is logged. Patterns are extracted. Rules are discovered.
-
-    exp = Experiment.from_file("experiments/vitamin_c_stability.yaml")
-    results = exp.run()
-
-This is the autoresearch pattern applied to formulation science.
+    exp = Experiment.from_brief("Design a stable vitamin C serum").run()
+    exp = Experiment.from_file("experiments/vitamin_c_stability.yaml").run()
 """
 
 from __future__ import annotations
@@ -26,6 +20,7 @@ import yaml
 
 from openmix.schema import Formula
 from openmix.score import score as heuristic_score, StabilityScore
+from openmix.observe import observe, FormulationObservation
 from openmix.constraints import check_constraints
 from openmix.llm import LLMProvider, AnthropicProvider, create_provider
 
@@ -77,32 +72,44 @@ def _save_plan_yaml(plan: dict, brief: str, path: Path):
 
 @dataclass
 class Trial:
-    """One formulation attempt in an experiment."""
+    """One formulation attempt in an experiment — an artifact with lineage."""
     iteration: int
     formula: Formula
-    stability: StabilityScore
+    observation: Optional[FormulationObservation] = None
+    stability: Optional[StabilityScore] = None  # backward compat
     reasoning: Optional[str] = None
+    parent_hash: Optional[str] = None  # what formula this was derived from
     duration_ms: int = 0
     formula_hash: str = ""
 
+    @property
+    def concern_count(self) -> float:
+        if self.observation:
+            return self.observation.concern_count
+        if self.stability:
+            return 100 - self.stability.total
+        return 0
+
     def to_dict(self) -> dict:
-        return {
+        d = {
             "iteration": self.iteration,
-            "score": self.stability.total,
-            "subscores": {
-                "compatibility": self.stability.compatibility,
-                "ph": self.stability.ph_suitability,
-                "hlb": self.stability.emulsion_balance,
-                "integrity": self.stability.formula_integrity,
-                "completeness": self.stability.system_completeness,
-            },
+            "concern_count": self.concern_count,
             "ingredients": [
                 {"name": i.inci_name, "pct": i.percentage, "function": i.function}
                 for i in self.formula.ingredients
             ],
             "reasoning": self.reasoning,
             "formula_hash": self.formula_hash,
+            "parent_hash": self.parent_hash,
         }
+        if self.observation:
+            d["hard_violations"] = self.observation.hard_violations
+            d["soft_violations"] = self.observation.soft_violations
+            d["concerns"] = len(self.observation.concerns)
+            d["resolution_rate"] = self.observation.resolution_rate
+        if self.stability:
+            d["score"] = self.stability.total
+        return d
 
 
 @dataclass
@@ -113,6 +120,7 @@ class ExperimentLog:
     trials: list[Trial] = field(default_factory=list)
     best_trial: Optional[Trial] = None
     best_score: float = 0.0
+    best_concerns: float = float("inf")
     converged: bool = False
     started_at: str = ""
     finished_at: str = ""
@@ -121,15 +129,19 @@ class ExperimentLog:
 
     @property
     def scores(self) -> list[float]:
-        return [t.stability.total for t in self.trials]
+        return [t.stability.total if t.stability else (100 - t.concern_count) for t in self.trials]
+
+    @property
+    def concern_trajectory(self) -> list[float]:
+        return [t.concern_count for t in self.trials]
 
     @property
     def best_scores_over_time(self) -> list[float]:
-        """Running maximum score across iterations."""
+        """Running best concern count across iterations (lower = better)."""
         best = []
-        current_best = 0.0
+        current_best = float("inf")
         for t in self.trials:
-            current_best = max(current_best, t.stability.total)
+            current_best = min(current_best, t.concern_count)
             best.append(current_best)
         return best
 
@@ -169,19 +181,21 @@ class ExperimentLog:
         lines.append("")
         lines.append(f"  Trials: {len(self.trials)} "
                      f"({self.unique_formulations} unique)")
-        lines.append(f"  Best: {self.best_score:.1f}/100")
+        lines.append(f"  Best concerns: {self.best_concerns:.1f} (lower = better, 0 = clean)")
         lines.append(f"  Status: {'CONVERGED' if self.converged else 'MAX ITERATIONS'}")
         lines.append(f"  Duration: {self.total_duration_ms / 1000:.1f}s")
 
-        # Score trajectory
+        # Concern trajectory
         if self.trials:
             lines.append("")
-            lines.append("  Score Trajectory:")
-            bests = self.best_scores_over_time
-            for i, (score, best) in enumerate(zip(self.scores, bests)):
-                bar = "#" * int(best / 2)
-                marker = " *" if score == self.best_score else ""
-                lines.append(f"    {i+1:>3}: {score:5.1f} (best: {best:5.1f}) |{bar}{marker}")
+            lines.append("  Concern Trajectory (lower = better):")
+            best_so_far = float("inf")
+            for i, c in enumerate(self.concern_trajectory):
+                best_so_far = min(best_so_far, c)
+                bar_len = min(50, int(c))
+                bar = "!" * bar_len if c > 0 else "-"
+                marker = " *" if c == self.best_concerns else ""
+                lines.append(f"    {i+1:>3}: {c:5.1f} (best: {best_so_far:5.1f}) |{bar}{marker}")
 
         # Best formula
         if self.best_trial:
@@ -190,9 +204,14 @@ class ExperimentLog:
             lines.append("  BEST FORMULATION")
             lines.append("-" * 70)
             f = self.best_trial.formula
-            lines.append(f"  Score: {self.best_score:.1f}/100  |  "
+            obs = self.best_trial.observation
+            lines.append(f"  Concerns: {self.best_concerns:.1f}  |  "
                         f"pH: {f.target_ph}  |  "
                         f"{len(f.ingredients)} ingredients")
+            if obs:
+                lines.append(f"  Violations: {obs.hard_violations} hard, "
+                            f"{obs.soft_violations} soft  |  "
+                            f"Resolved: {obs.resolution_rate:.0%}")
             if self.best_trial.reasoning:
                 r = self.best_trial.reasoning[:200]
                 lines.append(f"  Strategy: {r}")
@@ -251,7 +270,7 @@ class ExperimentConfig:
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = """You are an expert formulation scientist running an autonomous experiment.
-You iteratively design formulations to maximize a stability score.
+You iteratively design formulations guided by physics observations.
 
 EXPERIMENT BRIEF:
 {brief}
@@ -278,23 +297,28 @@ Rules:
 - Percentages MUST sum to exactly 100%
 - Include ALL required ingredients within their specified ranges
 - Include phase (A=water, B=oil, C=cool-down) and function for each
-- Your goal: MAXIMIZE the stability score
-- Analyze sub-scores to identify which dimension to improve
+- Your goal: resolve ALL violations and physics concerns
+- Read the observations carefully — they report what the physics shows
+- Hard violations MUST be resolved (dangerous combinations)
+- Soft violations should be addressed based on confidence level
+- Molecular observations are informational — use your judgment
 - Be creative — explore different ingredient combinations and strategies"""
 
 
 FEEDBACK_PROMPT = """Iteration {iteration} results:
 
-SCORE: {score}/100 (best so far: {best_score}/100)
-{score_breakdown}
+CONCERN COUNT: {concerns} (best so far: {best_concerns})
+
+PHYSICS OBSERVATIONS:
+{observations}
 
 EXPERIMENT HISTORY (last 5):
 {history}
 
 {analysis}
 
-Design the next formulation. Focus on improving the weakest sub-score.
-Try something DIFFERENT from previous attempts — explore the space.
+Read the observations. Resolve violations first (hard, then soft by confidence).
+Address molecular and structural concerns. Then explore for better formulations.
 Respond with ONLY the JSON object."""
 
 
@@ -373,6 +397,9 @@ class Experiment:
         self.target_score = target_score
         self.mode = mode
         self.verbose = verbose
+
+        # Map experiment mode to observation mode
+        self._observe_mode = "discovery" if mode == "discovery" else "engineering"
 
         # LLM: use provided, or create default Anthropic
         if llm:
@@ -552,14 +579,15 @@ class Experiment:
         recent = trials[-n:]
         lines = []
         for t in recent:
-            lines.append(
-                f"  Iter {t.iteration}: {t.stability.total:.1f}/100 "
-                f"(compat:{t.stability.compatibility:.0f} "
-                f"pH:{t.stability.ph_suitability:.0f} "
-                f"HLB:{t.stability.emulsion_balance:.0f} "
-                f"integ:{t.stability.formula_integrity:.0f} "
-                f"complete:{t.stability.system_completeness:.0f})"
-            )
+            if t.observation:
+                v = t.observation
+                lines.append(
+                    f"  Iter {t.iteration}: concerns={t.concern_count:.1f} "
+                    f"({v.hard_violations}H/{v.soft_violations}S violations, "
+                    f"{len(v.concerns)} physics concerns)"
+                )
+            elif t.stability:
+                lines.append(f"  Iter {t.iteration}: score={t.stability.total:.1f}/100")
             if t.reasoning:
                 lines.append(f"    Strategy: {t.reasoning[:100]}")
         return "\n".join(lines) or "(first attempt)"
@@ -585,7 +613,7 @@ class Experiment:
         messages = [{"role": "user", "content":
             "Design the first formulation. Start with a solid baseline approach."}]
 
-        best_score = 0.0
+        best_concerns = float("inf")
         seen_hashes = set()
 
         self._log("")
@@ -594,7 +622,7 @@ class Experiment:
         self._log("=" * 70)
         self._log(f"  {self.brief[:100]}")
         self._log(f"  Pool: {len(self.ingredient_pool)} ingredients  |  "
-                  f"Target: {self.target_score}/100  |  "
+                  f"Target: zero concerns  |  "
                   f"Max: {self.max_iterations} iterations")
         self._log("")
 
@@ -631,44 +659,50 @@ class Experiment:
                     f"Fix these and respond with ONLY the corrected JSON."})
                 continue
 
-            # --- Evaluate ---
-            stability = self.evaluate(formula)
+            # --- Observe (physics) ---
+            obs = observe(formula, mode=self._observe_mode)
+
+            # Also run legacy scorer if a custom evaluate function is provided
+            stability = self.evaluate(formula) if self.evaluate != heuristic_score else None
+
             fhash = _hash_formula(formula)
+            prev_hash = log.trials[-1].formula_hash if log.trials else None
             is_dupe = fhash in seen_hashes
             seen_hashes.add(fhash)
 
             trial = Trial(
                 iteration=iter_num,
                 formula=formula,
+                observation=obs,
                 stability=stability,
                 reasoning=reasoning,
+                parent_hash=prev_hash,
                 duration_ms=gen_ms,
                 formula_hash=fhash,
             )
             log.trials.append(trial)
 
-            if stability.total > best_score:
-                best_score = stability.total
+            concerns = obs.concern_count
+            if concerns < best_concerns:
+                best_concerns = concerns
                 log.best_trial = trial
-                log.best_score = best_score
+                log.best_concerns = best_concerns
+                log.best_score = obs.concern_score
                 marker = " *NEW BEST*"
             else:
                 marker = ""
 
             dupe_tag = " (DUPE)" if is_dupe else ""
+            v_str = f"{obs.hard_violations}H/{obs.soft_violations}S"
             self._log(
-                f"{stability.total:5.1f}/100  "
-                f"(c:{stability.compatibility:4.1f} "
-                f"pH:{stability.ph_suitability:4.1f} "
-                f"H:{stability.emulsion_balance:4.1f} "
-                f"i:{stability.formula_integrity:4.1f} "
-                f"s:{stability.system_completeness:4.1f}) "
+                f"concerns:{concerns:5.1f}  "
+                f"violations:{v_str}  "
                 f"({gen_ms/1000:.1f}s){marker}{dupe_tag}"
             )
 
             # --- Converged? ---
-            if stability.total >= self.target_score:
-                self._log(f"\n  Converged at iteration {iter_num}.")
+            if concerns == 0:
+                self._log(f"\n  Converged at iteration {iter_num} — zero concerns.")
                 log.converged = True
                 break
 
@@ -677,17 +711,17 @@ class Experiment:
             if is_dupe:
                 analysis = "WARNING: This is a duplicate formulation. Try something DIFFERENT."
             if len(log.trials) >= 3:
-                recent_scores = [t.stability.total for t in log.trials[-3:]]
-                if max(recent_scores) - min(recent_scores) < 1.0:
-                    analysis += ("\nScores are plateauing. Make a BIGGER change: "
+                recent = [t.concern_count for t in log.trials[-3:]]
+                if max(recent) - min(recent) < 0.5:
+                    analysis += ("\nConcerns are stagnant. Make a BIGGER change: "
                                 "try different ingredients, different ratios, "
                                 "or a fundamentally different approach.")
 
             feedback = FEEDBACK_PROMPT.format(
                 iteration=iter_num,
-                score=f"{stability.total:.1f}",
-                best_score=f"{best_score:.1f}",
-                score_breakdown=str(stability),
+                concerns=f"{concerns:.1f}",
+                best_concerns=f"{best_concerns:.1f}",
+                observations=str(obs),
                 history=self._format_history(log.trials),
                 analysis=analysis,
             )

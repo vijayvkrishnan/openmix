@@ -1,0 +1,1118 @@
+{
+  "Water": {
+    "smiles": null,
+    "mw": "18.015",
+    "log_p": -0.5,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 1,
+    "pubchem_cid": 962
+  },
+  "Ethanol": {
+    "smiles": null,
+    "mw": "46.07",
+    "log_p": -0.1,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 702
+  },
+  "Isopropyl Alcohol": {
+    "smiles": null,
+    "mw": "60.10",
+    "log_p": 0.3,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 3776
+  },
+  "Propylene Glycol": {
+    "smiles": null,
+    "mw": "76.09",
+    "log_p": -0.9,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 1030
+  },
+  "Butylene Glycol": {
+    "smiles": null,
+    "mw": "90.12",
+    "log_p": -0.4,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 7896
+  },
+  "Propanediol": {
+    "smiles": null,
+    "mw": "76.09",
+    "log_p": -0.3,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 134919
+  },
+  "Glycerin": {
+    "smiles": null,
+    "mw": "92.09",
+    "log_p": -1.8,
+    "hbd": 3,
+    "hba": 3,
+    "tpsa": 60.7,
+    "pubchem_cid": 753
+  },
+  "Pentylene Glycol": {
+    "smiles": null,
+    "mw": "104.15",
+    "log_p": 0.2,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 93000
+  },
+  "Ethoxydiglycol": {
+    "smiles": null,
+    "mw": "134.17",
+    "log_p": -0.5,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 38.7,
+    "pubchem_cid": 8146
+  },
+  "Dimethyl Sulfoxide": {
+    "smiles": null,
+    "mw": "78.14",
+    "log_p": -0.6,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 36.3,
+    "pubchem_cid": 679
+  },
+  "Betaine": {
+    "smiles": null,
+    "mw": "117.15",
+    "log_p": 0.5,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 40.1,
+    "pubchem_cid": 247
+  },
+  "Sorbitol": {
+    "smiles": null,
+    "mw": "182.17",
+    "log_p": -3.1,
+    "hbd": 6,
+    "hba": 6,
+    "tpsa": 121,
+    "pubchem_cid": 5780
+  },
+  "Panthenol": {
+    "smiles": null,
+    "mw": "205.25",
+    "log_p": -0.9,
+    "hbd": 4,
+    "hba": 4,
+    "tpsa": 89.8,
+    "pubchem_cid": 4678
+  },
+  "Allantoin": {
+    "smiles": null,
+    "mw": "158.12",
+    "log_p": -2.2,
+    "hbd": 4,
+    "hba": 3,
+    "tpsa": 113,
+    "pubchem_cid": 204
+  },
+  "Urea": {
+    "smiles": null,
+    "mw": "60.056",
+    "log_p": -1.4,
+    "hbd": 2,
+    "hba": 1,
+    "tpsa": 69.1,
+    "pubchem_cid": 1176
+  },
+  "Trehalose": {
+    "smiles": null,
+    "mw": "342.30",
+    "log_p": -4.2,
+    "hbd": 8,
+    "hba": 11,
+    "tpsa": 190,
+    "pubchem_cid": 7427
+  },
+  "Sodium PCA": {
+    "smiles": null,
+    "mw": "151.10",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 69.2,
+    "pubchem_cid": 23666346
+  },
+  "Lactic Acid": {
+    "smiles": null,
+    "mw": "90.08",
+    "log_p": -0.7,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 57.5,
+    "pubchem_cid": 612
+  },
+  "Squalane": {
+    "smiles": null,
+    "mw": "422.8",
+    "log_p": 14.7,
+    "hbd": 0,
+    "hba": 0,
+    "tpsa": 0,
+    "pubchem_cid": 8089
+  },
+  "Isopropyl Myristate": {
+    "smiles": null,
+    "mw": "270.5",
+    "log_p": 7.2,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 26.3,
+    "pubchem_cid": 8042
+  },
+  "Isopropyl Palmitate": {
+    "smiles": null,
+    "mw": "298.5",
+    "log_p": 8.2,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 26.3,
+    "pubchem_cid": 8907
+  },
+  "Cetyl Alcohol": {
+    "smiles": null,
+    "mw": "242.44",
+    "log_p": 7.3,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 2682
+  },
+  "Cetearyl Alcohol": {
+    "smiles": null,
+    "mw": "512.9",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 62238
+  },
+  "Stearyl Alcohol": {
+    "smiles": null,
+    "mw": "270.5",
+    "log_p": 8.4,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 8221
+  },
+  "Stearic Acid": {
+    "smiles": null,
+    "mw": "284.5",
+    "log_p": 7.4,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 37.3,
+    "pubchem_cid": 5281
+  },
+  "Oleic Acid": {
+    "smiles": null,
+    "mw": "282.5",
+    "log_p": 6.5,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 37.3,
+    "pubchem_cid": 445639
+  },
+  "Linoleic Acid": {
+    "smiles": null,
+    "mw": "280.4",
+    "log_p": 6.8,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 37.3,
+    "pubchem_cid": 5280450
+  },
+  "Sorbitan Oleate": {
+    "smiles": null,
+    "mw": "428.6",
+    "log_p": 6,
+    "hbd": 3,
+    "hba": 6,
+    "tpsa": 96.2,
+    "pubchem_cid": 9920342
+  },
+  "Sorbitan Stearate": {
+    "smiles": null,
+    "mw": "430.6",
+    "log_p": 6.9,
+    "hbd": 3,
+    "hba": 6,
+    "tpsa": 96.2,
+    "pubchem_cid": 16218600
+  },
+  "Glyceryl Stearate": {
+    "smiles": null,
+    "mw": "376.6",
+    "log_p": null,
+    "hbd": 4,
+    "hba": 5,
+    "tpsa": 98,
+    "pubchem_cid": 93066
+  },
+  "Steareth-2": {
+    "smiles": null,
+    "mw": "358.6",
+    "log_p": 8.2,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 38.7,
+    "pubchem_cid": 4165923
+  },
+  "Lecithin": {
+    "smiles": null,
+    "mw": "758.1",
+    "log_p": 12.9,
+    "hbd": 0,
+    "hba": 8,
+    "tpsa": 111,
+    "pubchem_cid": 16213884
+  },
+  "Sodium Lauryl Sulfate": {
+    "smiles": null,
+    "mw": "288.38",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 74.8,
+    "pubchem_cid": 3423265
+  },
+  "Sodium Laureth Sulfate": {
+    "smiles": null,
+    "mw": "332.43",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 5,
+    "tpsa": 84,
+    "pubchem_cid": 23665884
+  },
+  "Coco-Glucoside": {
+    "smiles": null,
+    "mw": "348.5",
+    "log_p": 3.5,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 99.4,
+    "pubchem_cid": 369373
+  },
+  "Decyl Glucoside": {
+    "smiles": null,
+    "mw": "320.42",
+    "log_p": 2.4,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 99.4,
+    "pubchem_cid": 62142
+  },
+  "Ascorbic Acid": {
+    "smiles": null,
+    "mw": "176.12",
+    "log_p": -1.6,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 107,
+    "pubchem_cid": 54670067
+  },
+  "Sodium Ascorbyl Phosphate": {
+    "smiles": null,
+    "mw": "322.05",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 9,
+    "tpsa": 162,
+    "pubchem_cid": 10990876
+  },
+  "Ascorbyl Glucoside": {
+    "smiles": null,
+    "mw": "338.26",
+    "log_p": -3.1,
+    "hbd": 7,
+    "hba": 11,
+    "tpsa": 186,
+    "pubchem_cid": 54693473
+  },
+  "Niacinamide": {
+    "smiles": null,
+    "mw": "122.12",
+    "log_p": -0.4,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 56,
+    "pubchem_cid": 936
+  },
+  "Retinol": {
+    "smiles": null,
+    "mw": "286.5",
+    "log_p": 5.7,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 445354
+  },
+  "Retinal": {
+    "smiles": null,
+    "mw": "284.4",
+    "log_p": 6.2,
+    "hbd": 0,
+    "hba": 1,
+    "tpsa": 17.1,
+    "pubchem_cid": 638015
+  },
+  "Retinyl Palmitate": {
+    "smiles": null,
+    "mw": "524.9",
+    "log_p": 13.6,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 26.3,
+    "pubchem_cid": 5280531
+  },
+  "Bakuchiol": {
+    "smiles": null,
+    "mw": "256.4",
+    "log_p": 6.1,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 5468522
+  },
+  "Arbutin": {
+    "smiles": null,
+    "mw": "272.25",
+    "log_p": -0.7,
+    "hbd": 5,
+    "hba": 7,
+    "tpsa": 120,
+    "pubchem_cid": 440936
+  },
+  "Tranexamic Acid": {
+    "smiles": null,
+    "mw": "157.21",
+    "log_p": -2,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 63.3,
+    "pubchem_cid": 5526
+  },
+  "Kojic Acid": {
+    "smiles": null,
+    "mw": "142.11",
+    "log_p": -0.9,
+    "hbd": 2,
+    "hba": 4,
+    "tpsa": 66.8,
+    "pubchem_cid": 3840
+  },
+  "Glycolic Acid": {
+    "smiles": null,
+    "mw": "76.05",
+    "log_p": -1.1,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 57.5,
+    "pubchem_cid": 757
+  },
+  "Salicylic Acid": {
+    "smiles": null,
+    "mw": "138.12",
+    "log_p": 2.3,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 57.5,
+    "pubchem_cid": 338
+  },
+  "Mandelic Acid": {
+    "smiles": null,
+    "mw": "152.15",
+    "log_p": 0.6,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 57.5,
+    "pubchem_cid": 1292
+  },
+  "Azelaic Acid": {
+    "smiles": null,
+    "mw": "188.22",
+    "log_p": 1.6,
+    "hbd": 2,
+    "hba": 4,
+    "tpsa": 74.6,
+    "pubchem_cid": 2266
+  },
+  "Ferulic Acid": {
+    "smiles": null,
+    "mw": "194.18",
+    "log_p": 1.5,
+    "hbd": 2,
+    "hba": 4,
+    "tpsa": 66.8,
+    "pubchem_cid": 445858
+  },
+  "Resveratrol": {
+    "smiles": null,
+    "mw": "228.24",
+    "log_p": 3.1,
+    "hbd": 3,
+    "hba": 3,
+    "tpsa": 60.7,
+    "pubchem_cid": 445154
+  },
+  "Adenosine": {
+    "smiles": null,
+    "mw": "267.24",
+    "log_p": -1.1,
+    "hbd": 4,
+    "hba": 8,
+    "tpsa": 140,
+    "pubchem_cid": 60961
+  },
+  "Copper Tripeptide-1": {
+    "smiles": null,
+    "mw": "402.92",
+    "log_p": null,
+    "hbd": 5,
+    "hba": 7,
+    "tpsa": 179,
+    "pubchem_cid": 71587328
+  },
+  "Palmitoyl Tripeptide-1": {
+    "smiles": null,
+    "mw": "578.8",
+    "log_p": 3.2,
+    "hbd": 6,
+    "hba": 7,
+    "tpsa": 179,
+    "pubchem_cid": 10231864
+  },
+  "Tocopherol": {
+    "smiles": null,
+    "mw": "416.7",
+    "log_p": 10.3,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 29.5,
+    "pubchem_cid": 14986
+  },
+  "Tocopheryl Acetate": {
+    "smiles": null,
+    "mw": "472.7",
+    "log_p": 10.8,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 35.5,
+    "pubchem_cid": 2117
+  },
+  "Phenoxyethanol": {
+    "smiles": null,
+    "mw": "138.16",
+    "log_p": 1.2,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 29.5,
+    "pubchem_cid": 31236
+  },
+  "Ethylhexylglycerin": {
+    "smiles": null,
+    "mw": "204.31",
+    "log_p": 1.9,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 49.7,
+    "pubchem_cid": 9859093
+  },
+  "Caprylyl Glycol": {
+    "smiles": null,
+    "mw": "146.23",
+    "log_p": 1.8,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 40.5,
+    "pubchem_cid": 14231
+  },
+  "Sodium Benzoate": {
+    "smiles": null,
+    "mw": "144.10",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 40.1,
+    "pubchem_cid": 517055
+  },
+  "Potassium Sorbate": {
+    "smiles": null,
+    "mw": "150.22",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 40.1,
+    "pubchem_cid": 23676745
+  },
+  "Benzyl Alcohol": {
+    "smiles": null,
+    "mw": "108.14",
+    "log_p": 1.1,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 244
+  },
+  "Sorbic Acid": {
+    "smiles": null,
+    "mw": "112.13",
+    "log_p": 1.3,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 37.3,
+    "pubchem_cid": 643460
+  },
+  "Dehydroacetic Acid": {
+    "smiles": null,
+    "mw": "168.15",
+    "log_p": 0.3,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 60.4,
+    "pubchem_cid": 122903
+  },
+  "Chlorphenesin": {
+    "smiles": null,
+    "mw": "202.63",
+    "log_p": 1.2,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 49.7,
+    "pubchem_cid": 7697
+  },
+  "Methylparaben": {
+    "smiles": null,
+    "mw": "152.15",
+    "log_p": 2,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 46.5,
+    "pubchem_cid": 7456
+  },
+  "Propylparaben": {
+    "smiles": null,
+    "mw": "180.20",
+    "log_p": 3,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 46.5,
+    "pubchem_cid": 7175
+  },
+  "Hydroxyethylcellulose": {
+    "smiles": null,
+    "mw": "806.9",
+    "log_p": -3,
+    "hbd": 8,
+    "hba": 19,
+    "tpsa": 263,
+    "pubchem_cid": 4327536
+  },
+  "Sodium Carboxymethyl Cellulose": {
+    "smiles": null,
+    "mw": "263.20",
+    "log_p": null,
+    "hbd": 6,
+    "hba": 8,
+    "tpsa": 156,
+    "pubchem_cid": 6328154
+  },
+  "Pectin": {
+    "smiles": null,
+    "mw": "194.14",
+    "log_p": -2.3,
+    "hbd": 5,
+    "hba": 7,
+    "tpsa": 127,
+    "pubchem_cid": 441476
+  },
+  "Agar": {
+    "smiles": null,
+    "mw": "336.33",
+    "log_p": -2.2,
+    "hbd": 4,
+    "hba": 9,
+    "tpsa": 127,
+    "pubchem_cid": 71571511
+  },
+  "Citric Acid": {
+    "smiles": null,
+    "mw": "192.12",
+    "log_p": -1.7,
+    "hbd": 4,
+    "hba": 7,
+    "tpsa": 132,
+    "pubchem_cid": 311
+  },
+  "Sodium Hydroxide": {
+    "smiles": null,
+    "mw": "39.997",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 1,
+    "pubchem_cid": 14798
+  },
+  "Triethanolamine": {
+    "smiles": null,
+    "mw": "149.19",
+    "log_p": -1,
+    "hbd": 3,
+    "hba": 4,
+    "tpsa": 63.9,
+    "pubchem_cid": 7618
+  },
+  "Sodium Citrate": {
+    "smiles": null,
+    "mw": "258.07",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 7,
+    "tpsa": 141,
+    "pubchem_cid": 6224
+  },
+  "Disodium EDTA": {
+    "smiles": null,
+    "mw": "336.21",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 10,
+    "tpsa": 161,
+    "pubchem_cid": 13020083
+  },
+  "Phytic Acid": {
+    "smiles": null,
+    "mw": "660.04",
+    "log_p": -10.3,
+    "hbd": 12,
+    "hba": 24,
+    "tpsa": 401,
+    "pubchem_cid": 890
+  },
+  "Sodium Phosphate": {
+    "smiles": null,
+    "mw": "117.961",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 86.3,
+    "pubchem_cid": 21225609
+  },
+  "Potassium Hydroxide": {
+    "smiles": null,
+    "mw": "56.106",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 1,
+    "pubchem_cid": 14797
+  },
+  "BHT": {
+    "smiles": null,
+    "mw": "220.35",
+    "log_p": 5.3,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 31404
+  },
+  "BHA": {
+    "smiles": null,
+    "mw": "180.24",
+    "log_p": 3.2,
+    "hbd": 1,
+    "hba": 2,
+    "tpsa": 29.5,
+    "pubchem_cid": 8456
+  },
+  "Ascorbyl Palmitate": {
+    "smiles": null,
+    "mw": "414.5",
+    "log_p": 6.3,
+    "hbd": 3,
+    "hba": 7,
+    "tpsa": 113,
+    "pubchem_cid": 54680660
+  },
+  "Avobenzone": {
+    "smiles": null,
+    "mw": "310.4",
+    "log_p": 4.8,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 43.4,
+    "pubchem_cid": 51040
+  },
+  "Octinoxate": {
+    "smiles": null,
+    "mw": "290.4",
+    "log_p": 5.3,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 35.5,
+    "pubchem_cid": 5355130
+  },
+  "Titanium Dioxide": {
+    "smiles": null,
+    "mw": "79.866",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 34.1,
+    "pubchem_cid": 26042
+  },
+  "Zinc Oxide": {
+    "smiles": null,
+    "mw": "81.4",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 1,
+    "tpsa": 1,
+    "pubchem_cid": 3007857
+  },
+  "Octocrylene": {
+    "smiles": null,
+    "mw": "361.5",
+    "log_p": 7.1,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 50.1,
+    "pubchem_cid": 22571
+  },
+  "Cholecalciferol": {
+    "smiles": null,
+    "mw": "384.6",
+    "log_p": 7.9,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 5280795
+  },
+  "Ergocalciferol": {
+    "smiles": null,
+    "mw": "396.6",
+    "log_p": 7.4,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 5280793
+  },
+  "Menaquinone": {
+    "smiles": null,
+    "mw": "512.8",
+    "log_p": 10.8,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 34.1,
+    "pubchem_cid": 14009404
+  },
+  "Pyridoxine Hydrochloride": {
+    "smiles": null,
+    "mw": "205.64",
+    "log_p": null,
+    "hbd": 4,
+    "hba": 4,
+    "tpsa": 73.6,
+    "pubchem_cid": 6019
+  },
+  "Thiamine Hydrochloride": {
+    "smiles": null,
+    "mw": "337.3",
+    "log_p": null,
+    "hbd": 3,
+    "hba": 6,
+    "tpsa": 104,
+    "pubchem_cid": 6202
+  },
+  "Riboflavin": {
+    "smiles": null,
+    "mw": "376.4",
+    "log_p": -1.5,
+    "hbd": 5,
+    "hba": 7,
+    "tpsa": 155,
+    "pubchem_cid": 493570
+  },
+  "Cyanocobalamin": {
+    "smiles": null,
+    "mw": "1355.4",
+    "log_p": null,
+    "hbd": 12,
+    "hba": 22,
+    "tpsa": 497,
+    "pubchem_cid": 166596686
+  },
+  "Methylcobalamin": {
+    "smiles": null,
+    "mw": "1344.4",
+    "log_p": null,
+    "hbd": 9,
+    "hba": 20,
+    "tpsa": 452,
+    "pubchem_cid": 10898559
+  },
+  "Folic Acid": {
+    "smiles": null,
+    "mw": "441.4",
+    "log_p": -1.1,
+    "hbd": 6,
+    "hba": 10,
+    "tpsa": 209,
+    "pubchem_cid": 135398658
+  },
+  "Biotin": {
+    "smiles": null,
+    "mw": "244.31",
+    "log_p": 0.3,
+    "hbd": 3,
+    "hba": 4,
+    "tpsa": 104,
+    "pubchem_cid": 171548
+  },
+  "Pantothenic Acid": {
+    "smiles": null,
+    "mw": "219.23",
+    "log_p": -1.1,
+    "hbd": 4,
+    "hba": 5,
+    "tpsa": 107,
+    "pubchem_cid": 6613
+  },
+  "Calcium Carbonate": {
+    "smiles": null,
+    "mw": "100.09",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 63.2,
+    "pubchem_cid": 10112
+  },
+  "Calcium Citrate": {
+    "smiles": null,
+    "mw": "498.4",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 14,
+    "tpsa": 281,
+    "pubchem_cid": 13136
+  },
+  "Ferrous Sulfate": {
+    "smiles": null,
+    "mw": "151.91",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 88.6,
+    "pubchem_cid": 24393
+  },
+  "Ferrous Fumarate": {
+    "smiles": null,
+    "mw": "169.90",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 80.3,
+    "pubchem_cid": 6433164
+  },
+  "Iron Bisglycinate": {
+    "smiles": null,
+    "mw": "205.98",
+    "log_p": null,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 127,
+    "pubchem_cid": 129722163
+  },
+  "Zinc Gluconate": {
+    "smiles": null,
+    "mw": "455.7",
+    "log_p": null,
+    "hbd": 10,
+    "hba": 14,
+    "tpsa": 283,
+    "pubchem_cid": 443445
+  },
+  "Zinc Bisglycinate": {
+    "smiles": null,
+    "mw": "213.5",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 6,
+    "tpsa": 132,
+    "pubchem_cid": 151910
+  },
+  "Magnesium Citrate": {
+    "smiles": null,
+    "mw": "451.12",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 14,
+    "tpsa": 281,
+    "pubchem_cid": 6099959
+  },
+  "Magnesium Oxide": {
+    "smiles": null,
+    "mw": "40.305",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 1,
+    "tpsa": 17.1,
+    "pubchem_cid": 14792
+  },
+  "Magnesium Glycinate": {
+    "smiles": null,
+    "mw": "172.42",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 6,
+    "tpsa": 132,
+    "pubchem_cid": 84645
+  },
+  "Lactose": {
+    "smiles": null,
+    "mw": "342.30",
+    "log_p": -4.7,
+    "hbd": 8,
+    "hba": 11,
+    "tpsa": 190,
+    "pubchem_cid": 440995
+  },
+  "Mannitol": {
+    "smiles": null,
+    "mw": "182.17",
+    "log_p": -3.1,
+    "hbd": 6,
+    "hba": 6,
+    "tpsa": 121,
+    "pubchem_cid": 6251
+  },
+  "Magnesium Stearate": {
+    "smiles": null,
+    "mw": "591.2",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 80.3,
+    "pubchem_cid": 11177
+  },
+  "Sodium Stearyl Fumarate": {
+    "smiles": null,
+    "mw": "390.5",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 66.4,
+    "pubchem_cid": 23665634
+  },
+  "Calcium Chloride": {
+    "smiles": null,
+    "mw": "110.98",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 0,
+    "pubchem_cid": 5284359
+  },
+  "Sodium Metabisulfite": {
+    "smiles": null,
+    "mw": "190.11",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 6,
+    "tpsa": 125,
+    "pubchem_cid": 656671
+  },
+  "Sodium Nitrite": {
+    "smiles": null,
+    "mw": "68.995",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 52.5,
+    "pubchem_cid": 23668193
+  },
+  "Sucrose": {
+    "smiles": null,
+    "mw": "342.30",
+    "log_p": -3.7,
+    "hbd": 8,
+    "hba": 11,
+    "tpsa": 190,
+    "pubchem_cid": 5988
+  },
+  "Glucose": {
+    "smiles": null,
+    "mw": "180.16",
+    "log_p": -2.6,
+    "hbd": 5,
+    "hba": 6,
+    "tpsa": 110,
+    "pubchem_cid": 5793
+  },
+  "Sodium Cocoyl Glutamate": {
+    "smiles": null,
+    "mw": "169.11",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 5,
+    "tpsa": 103,
+    "pubchem_cid": 23676143
+  },
+  "Disodium Cocoyl Glutamate": {
+    "smiles": null,
+    "mw": "191.09",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 5,
+    "tpsa": 106,
+    "pubchem_cid": 167560
+  },
+  "Sodium Lauroyl Sarcosinate": {
+    "smiles": null,
+    "mw": "293.38",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 60.4,
+    "pubchem_cid": 23668817
+  },
+  "Cetrimonium Chloride": {
+    "smiles": null,
+    "mw": "320.0",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 1,
+    "tpsa": 0,
+    "pubchem_cid": 8154
+  },
+  "Behentrimonium Chloride": {
+    "smiles": null,
+    "mw": "404.2",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 1,
+    "tpsa": 0,
+    "pubchem_cid": 3014969
+  }
+}

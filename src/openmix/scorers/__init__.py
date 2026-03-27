@@ -13,11 +13,13 @@ This module provides multiple implementations:
 from openmix.scorers.base import Scorer, CompositeScorer
 from openmix.scorers.model import ModelScorer
 from openmix.scorers.lab import LabScorer, ManualScorer
+from openmix.scorers.molecular import MolecularScorer
 
 __all__ = [
     "Scorer",
     "CompositeScorer",
     "ModelScorer",
+    "MolecularScorer",
     "LabScorer",
     "ManualScorer",
 ]

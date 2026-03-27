@@ -2,19 +2,19 @@
 
 # OpenMix
 
-### Autonomous Formulation Science
+### The Open-Source Framework for Computational Formulation Science
 
-*Define an experiment. Run it. Wake up to results.*
+*From physics observation to autonomous mixture design — the missing infrastructure between single-molecule tools and real-world formulation.*
 
-**The autoresearch pattern, applied to chemistry.**
+**RDKit is for molecules. OpenMix is for mixtures.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![CI](https://github.com/vijayvkrishnan/openmix/actions/workflows/ci.yml/badge.svg)](https://github.com/vijayvkrishnan/openmix/actions)
-[![Tests](https://img.shields.io/badge/Tests-60%20passed-brightgreen.svg)](tests/)
-[![Rules](https://img.shields.io/badge/Knowledge-85%20rules-orange.svg)](src/openmix/knowledge/data/)
+[![Tests](https://img.shields.io/badge/Tests-116%20passed-brightgreen.svg)](tests/)
+[![Rules](https://img.shields.io/badge/Knowledge-85%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
 
-[How It Works](#how-it-works) · [Run an Experiment](#run-an-experiment) · [Plug In Your Own Scorer](#pluggable-evaluation) · [Architecture](#architecture) · [Roadmap](#roadmap) · [Citation](#citation)
+[Observe](#observe-a-formulation) · [Two Modes](#two-modes) · [Autonomous Experiments](#autonomous-experiments) · [Architecture](#architecture) · [Knowledge Base](#contributing-knowledge) · [Roadmap](#roadmap) · [Citation](#citation)
 
 </div>
 
@@ -22,306 +22,541 @@
 
 ## The Problem
 
-Chemistry has open-source tools for individual molecules (RDKit, DeepChem, ChemProp). But formulation science — combining ingredients into stable, effective mixtures — has no computational infrastructure. Every formulation scientist relies on institutional memory, expensive trial-and-error, and proprietary databases.
+Chemistry has excellent open-source tools for individual molecules — [RDKit](https://www.rdkit.org/), [DeepChem](https://deepchem.io/), [ChemProp](https://github.com/chemprop/chemprop). But the moment you ask *"what happens when I mix these ingredients together?"* — the tooling disappears.
 
-Meanwhile, autonomous research frameworks (AI Scientist, autoresearch) have transformed ML experimentation. Nobody has applied that pattern to chemistry.
+Every formulation scientist — cosmetics, pharma, food, supplements — relies on institutional memory, expensive trial-and-error, and proprietary databases locked inside large corporations. There is no open-source framework for computational mixture science.
 
-**OpenMix is the autoresearch framework for formulation science.**
+**OpenMix changes that.**
 
 ---
 
-<a id="how-it-works"></a>
-
 ## Quick Start
-
-### 1. Install
 
 ```bash
 pip install openmix
 ```
 
-### 2. Try it (no API key needed)
+<a id="observe-a-formulation"></a>
 
-```bash
-openmix demo
-```
+### Observe a formulation
 
-```
-  1. Validate: Catches ingredient interactions
-  [X] BENZOYL PEROXIDE + RETINOL — oxidizes and deactivates on contact
-  [X] COPPER TRIPEPTIDE-1 + ASCORBIC ACID — Fenton reaction, free radicals
-  [!] RETINOL + GLYCOLIC ACID — pH conflict, irritation synergy
-
-  2. Score: Quantitative stability prediction
-  Simple Moisturizer: 94.0/100
-    Compatibility: 35.0/35  pH: 25.0/25  HLB: 14.0/20  ...
-```
-
-### 3. Run an autonomous experiment (needs API key)
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...   # or OPENAI_API_KEY
-openmix run "Design a gentle sulfate-free baby shampoo that won't irritate eyes"
-```
-
-OpenMix plans the experiment from your brief, selects appropriate ingredients, and iterates autonomously:
-
-```
-  Planning experiment from brief...
-  Plan: gentle-sulfate-free-baby-shampoo | 4 required + 25 available ingredients
-
-  [ 1] REJECTED — Glycerin at 0.2% below minimum 2.0%
-  [ 2] REJECTED — Total is 96.3%, target is 100%
-  [ 3] REJECTED — Glycerin at 1.7% below minimum 2.0%
-  [ 4] 100.0/100  *CONVERGED*
-
-  BEST FORMULATION (12 ingredients, pH 6.0)
-  Water                               65.0%  solvent
-  Cocamidopropyl Betaine              12.0%  surfactant
-  Coco-Glucoside                       8.0%  surfactant
-  Glycerin                             3.5%  humectant
-  Sodium Cocoyl Glutamate              3.0%  surfactant
-  ...
-```
-
-No YAML files to write. Describe your research question in plain English.
-
-For more control, use a YAML experiment file: `openmix experiment experiment.yaml`
-
----
-
-## How It Works
-
-```
-Natural Language Brief    "Design a stable vitamin C serum..."
-     |
-Experiment Planner        LLM generates ingredient pool + constraints
-     |
-LLM (pluggable)           Anthropic, OpenAI, Ollama, any provider
-     |
-Constraint Enforcement    Rejects non-compliant formulas before scoring
-     |
-Scorer (pluggable)        Heuristic | Trained Model | Lab Feedback | Manual
-     |
-Iteration Loop            Propose -> Score -> Analyze -> Improve -> Repeat
-     |
-Post-Experiment Analysis  Which ingredients, patterns, sub-scores matter
-     |
-Experiment Log (JSON)     Every trial recorded. Reproducible. Shareable.
-```
-
-Every component is pluggable. The framework handles the loop.
-
----
-
-<a id="run-an-experiment"></a>
-
-## Run an Experiment
-
-```bash
-pip install openmix[agent]
-export ANTHROPIC_API_KEY=sk-ant-...
-```
-
-### 1. Define the experiment
-
-```yaml
-# experiments/multivitamin_gummy.yaml
-
-name: multivitamin-gummy
-brief: |
-  Design a comprehensive multivitamin gummy containing Vitamin C,
-  B-vitamins, calcium, iron, and zinc. The challenge: many of these
-  nutrients actively degrade or inhibit each other. Find the combination
-  that actually works together.
-
-ingredient_pool:
-  required:
-    - name: Ascorbic Acid
-      min_pct: 5.0
-      max_pct: 20.0
-    - name: Calcium Carbonate
-      min_pct: 10.0
-      max_pct: 30.0
-  available:
-    - Ferrous Sulfate
-    - Iron Bisglycinate
-    - Zinc Oxide
-    - Cyanocobalamin
-    - Methylcobalamin
-    - Thiamine Hydrochloride
-    - Folic Acid
-    - Vitamin D3
-    # ... full ingredient pool
-
-constraints:
-  max_ingredients: 18
-  total_percentage: 100
-  category: supplement
-
-llm:
-  provider: anthropic              # or: openai, ollama, together, groq
-  model: claude-sonnet-4-20250514
-  api_key_env: ANTHROPIC_API_KEY
-
-settings:
-  max_iterations: 30
-  target_score: 90
-  mode: formulation
-```
-
-### 2. Run it
-
-```bash
-openmix experiment experiments/multivitamin_gummy.yaml --save results.json
-```
-
-### 3. Results
-
-```
-======================================================================
-  OPENMIX EXPERIMENT: multivitamin-gummy
-======================================================================
-  Pool: 26 ingredients  |  Target: 90/100  |  Max: 30 iterations
-
-  [ 1]  62.8/100  (c:10.8 pH:21.0 H:14.0 i:10.0 s: 7.0)
-  [ 2]  54.0/100  (c: 0.0 pH:23.0 H:14.0 i:10.0 s: 7.0)
-  [ 3]  66.8/100  (c:18.8 pH:17.0 H:14.0 i:10.0 s: 7.0)
-  ...
-  [ 9]  80.2/100  (c:24.2 pH:25.0 H:14.0 i:10.0 s: 7.0)  *NEW BEST*
-  [10]  58.8/100
-  [11]  87.5/100  (c:31.5 pH:25.0 H:14.0 i:10.0 s: 7.0)  *NEW BEST*
-
-  Converged at iteration 11.
-
-  BEST FORMULATION
-  Score: 87.5/100  |  pH: 3.2  |  16 ingredients
-
-  INCI Name                                     %  Function
-  ---------------------------------------- ------  --------------------
-  Glucose Syrup                             28.0%  sweetener/texture
-  Gelatin                                   18.0%  gelling agent
-  Sucrose                                   15.0%  sweetener
-  Calcium Carbonate                         12.0%  mineral supplement
-  Ascorbic Acid                              8.0%  vitamin C
-  Maltodextrin                               8.0%  bulking agent
-  Tocopherol                                 3.0%  vitamin E
-  Sodium Citrate                             1.7%  buffer
-  Vitamin D3                                 1.5%  fat-soluble vitamin
-  Zinc Oxide                                 1.2%  zinc source
-  Potassium Sorbate                          1.0%  preservative
-  Pantothenic Acid                           0.9%  vitamin B5
-  Pyridoxine Hydrochloride                   0.8%  vitamin B6
-  Riboflavin                                 0.5%  vitamin B2
-  Methylcobalamin                            0.3%  vitamin B12
-  Biotin                                     0.1%  vitamin B7
-                                           ------
-                                    Total  100.0%
-
-  EXPERIMENT ANALYSIS
-    Insights:
-    1. [strong] Thiamine in 83% of low-scoring formulas vs 0% of top
-       — degrades with ascorbic acid in solution
-    2. [strong] Methylcobalamin in 100% of top vs 50% of bottom
-       — more stable than Cyanocobalamin with Vitamin C
-    3. [strong] Compatibility is the key differentiator:
-       21.9/35 in top formulas vs 8.8/35 in bottom
-```
-
-The agent navigated real nutrient interactions — calcium blocks iron absorption, ascorbic acid degrades B12, folic acid reduces zinc bioavailability. It learned which vitamin forms are compatible (Methylcobalamin over Cyanocobalamin), which ingredients to drop (iron, thiamine, folic acid), and produced a complete, manufacturable formula.
-
-Every trial is recorded in a JSON experiment log for reproducibility.
-
----
-
-<a id="pluggable-evaluation"></a>
-
-## Pluggable Evaluation
-
-The experiment framework doesn't care where the score comes from. Swap the evaluation function based on what you have:
+The physics observation engine resolves each ingredient to its molecular identity (INCI → SMILES → LogP, MW, charge, HLB), then reports what it **sees**, what it **expected**, and where they **disagree**. No arbitrary scores — structured physics observations.
 
 ```python
-from openmix import Experiment
+from openmix import Formula, observe
 
-# Built-in heuristic (no data needed — works out of the box)
-exp = Experiment.from_file("experiment.yaml")
+serum = Formula(
+    name="Vitamin C Serum",
+    ingredients=[
+        ("Water", 70.0),
+        ("Ascorbic Acid", 15.0),
+        ("Propanediol", 8.0),
+        ("Glycerin", 5.0),
+        ("Phenoxyethanol", 0.5),
+        ("Tocopherol", 0.5),
+        ("Citric Acid", 0.5),
+        ("Sodium Hydroxide", 0.5),
+    ],
+    target_ph=3.0,
+    category="skincare",
+)
 
-# Trained ML model (domain-specific, learned from data)
-from openmix.scorers import ModelScorer
-scorer = ModelScorer.load("models/stability.pkl", feature_fn=my_features)
-exp = Experiment.from_file("experiment.yaml", evaluate=scorer)
-
-# Real lab feedback (cloud lab, robotic platform, or manual entry)
-from openmix.scorers import LabScorer, ManualScorer
-exp = Experiment.from_file("experiment.yaml", evaluate=ManualScorer())
-
-# Your own cloud lab
-class MyLabScorer(LabScorer):
-    def run_experiment(self, formula):
-        result = my_lab_api.run_stability_screen(formula)
-        return {"stable": result.passed, "shelf_life_months": result.shelf_life}
-
-exp = Experiment.from_file("experiment.yaml", evaluate=MyLabScorer())
-
-# Composite (model where confident, heuristic as fallback)
-from openmix.scorers import CompositeScorer
-exp = Experiment.from_file("experiment.yaml",
-    evaluate=CompositeScorer(primary=model_scorer, fallback=heuristic))
+print(observe(serum))
 ```
 
-This is how the framework scales from "try it on your laptop" to "run it in a cloud lab."
+```
+Physics Observation (engineering): Vitamin C Serum
+Resolved: 100% of ingredients
 
----
+STRUCTURAL:
+  [ ] formula: Total: 100.0%
 
-## Validation & Scoring
+Concern count: 0 (lower = better, 0 = no concerns)
+```
 
-OpenMix also works as a standalone validation and scoring tool:
+A clean formula produces clean observations. For problematic formulations, the engine reports molecular observations (LogP/solubility, MW/penetration), charge conflicts, phase behavior, missing preservatives, and knowledge base violations — each as a structured observation with what was seen, what was expected, and whether they agree.
+
+### Validate interactions
 
 ```python
-from openmix import Formula, validate, score
+from openmix import Formula, validate
 
-formula = Formula(
+report = validate(Formula(
     ingredients=[
         ("Sodium Hypochlorite", 5.0),
         ("Ammonia", 3.0),
         ("Water", 92.0),
     ],
     category="home_care",
-)
-
-# Qualitative: what's wrong and why
-report = validate(formula, mode="safety")
-# -> [X] Produces toxic Chloramine gas. Never combine.
-
-# Quantitative: decomposed stability score
-stability = score(formula)
-# -> 0/100 (compatibility: 0/35 — hard rule violation)
+))
+print(report)
 ```
 
-### Three Validation Modes
+```
+OpenMix Validation Report
+Score: 75/100  |  1 errors, 0 warnings, 0 info
 
-| Mode | Hard Rules | Soft Rules | Use Case |
+  [X] SODIUM HYPOCHLORITE + AMMONIA
+      Produces toxic Chloramine gas (NH2Cl). Leading cause of household
+      chemical poisoning. Never combine.
+```
+
+### CLI
+
+```bash
+openmix observe formula.yaml                   # Physics observations
+openmix observe formula.yaml --mode discovery  # Discovery mode
+openmix validate formula.yaml                  # Rule-based validation
+openmix run "Design a stable vitamin C serum"  # Autonomous experiment (needs API key)
+openmix demo                                   # Try it now (no API key)
+```
+
+---
+
+<a id="two-modes"></a>
+
+## Two Modes: One Engine
+
+The same physics observation engine serves two fundamentally different goals. Same observations, different interpretation.
+
+### Engineering Mode (default)
+
+*"Build me a stable formula."*
+
+Discrepancies are problems to fix. Soft violations are risks to mitigate. The optimization target is **zero concerns**.
+
+```python
+obs = observe(formula, mode="engineering")
+# Concern count: 3.4 (lower = better, 0 = no concerns)
+```
+
+The autonomous experiment runner uses engineering mode to iterate toward stable, manufacturable formulations. Every concern the physics engine flags is something the LLM resolves on the next iteration.
+
+### Discovery Mode
+
+*"Why does this work despite the rules saying it shouldn't?"*
+
+Hard violations still count — safety is non-negotiable. But soft violations become **signals** and low-confidence discrepancies become **knowledge gaps** worth investigating.
+
+```python
+obs = observe(formula, mode="discovery")
+# Hard violations: 0  |  Signals: 2  |  Knowledge gaps: 1
+
+obs.signals        # Soft violations — interesting interactions to explore
+obs.discoveries    # Low-confidence discrepancies — where expectations may be wrong
+```
+
+Every major scientific breakthrough follows the same pattern: expectation existed → something violated it → someone **noticed** → they **investigated** instead of dismissing. Penicillin. CRISPR. GLP-1. Discovery mode is the noticing.
+
+| | Engineering | Discovery |
+|---|---|---|
+| **Goal** | Zero concerns | Investigate surprises |
+| **Hard violations** | Block (safety) | Block (safety) |
+| **Soft violations** | Penalize | Surface as `signals` |
+| **Physics discrepancies** | Fix them | Investigate them |
+| **Low-confidence expectations** | Flag as uncertain | Highlight as `discoveries` |
+| **Best for** | Product development | Research, novel combinations |
+
+---
+
+## Ingredient Resolution
+
+OpenMix resolves any INCI ingredient name to its molecular identity and physicochemical properties through a three-tier lookup:
+
+```
+INCI Name → Seed Cache (2K ingredients, ships with package)
+          → User Cache (~/.openmix/, grows over time)
+          → PubChem API (runtime fallback)
+          → RDKit enrichment (optional: LogP, MW, HLB, charge from SMILES)
+```
+
+```python
+from openmix.resolver import resolve
+
+props = resolve("Niacinamide")
+# ResolvedIngredient(smiles='c1ccc(c(c1)C(=O)N)N', log_p=-0.35,
+#                    molecular_weight=122.12, charge_type='nonionic', ...)
+```
+
+This is how the observation engine knows that Retinol (LogP 5.7) is hydrophobic and needs solubilization, or that mixing an anionic surfactant with a cationic one will cause precipitation. Not a lookup table — molecular physics.
+
+---
+
+<a id="autonomous-experiments"></a>
+
+## Autonomous Experiments
+
+An LLM agent that explores the formulation space through iterative optimization, guided by physics observations. Not "generate and check" — the agent reads structured observations, analyzes what the physics shows, and converges.
+
+### From natural language
+
+```bash
+pip install openmix[agent]
+export ANTHROPIC_API_KEY=sk-ant-...
+
+openmix run "Design a stable vitamin C serum under $30/kg"
+```
+
+OpenMix plans the experiment from your brief, selects ingredients, and iterates:
+
+```
+======================================================================
+  OPENMIX EXPERIMENT: vitamin-c-stability
+======================================================================
+  Pool: 29 ingredients  |  Target: zero concerns  |  Max: 30 iterations
+
+  [ 1] REJECTED — Total is 90.0%, target is 100%
+  [ 2] concerns:  0.0  violations:0H/0S  *NEW BEST*
+
+  Converged at iteration 2 — zero concerns.
+
+  BEST FORMULATION
+  Concerns: 0.0  |  pH: 3.0  |  12 ingredients
+  Violations: 0 hard, 0 soft  |  Resolved: 100%
+
+  Water                                     70.0%  solvent
+  Ascorbic Acid                             15.0%  active
+  Propanediol                                8.0%  humectant
+  Glycerin                                   5.0%  humectant
+  Ferulic Acid                               0.5%  antioxidant
+  Phenoxyethanol                             0.5%  preservative
+  ...
+```
+
+### From YAML (for reproducibility)
+
+```yaml
+# experiments/vitamin_c_stability.yaml
+name: vitamin-c-stability
+brief: |
+  Find the most stable vitamin C serum formulation. Maximize ascorbic acid
+  concentration while maintaining pH 2.5-3.5 and total COGS under $30/kg.
+
+ingredient_pool:
+  required:
+    - name: Ascorbic Acid
+      min_pct: 10.0
+      max_pct: 20.0
+      function: active
+  available:
+    - Water
+    - Glycerin
+    - Niacinamide
+    - Ferulic Acid
+    - Tocopherol
+    - Phenoxyethanol
+    # ... full ingredient pool
+
+constraints:
+  target_ph: [2.5, 3.5]
+  max_ingredients: 12
+  total_percentage: 100
+  category: skincare
+
+llm:
+  provider: anthropic           # or: openai, ollama, together, groq, custom
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+settings:
+  max_iterations: 30
+  mode: formulation             # or: discovery
+```
+
+```bash
+openmix experiment experiments/vitamin_c_stability.yaml --save results.json
+```
+
+### The loop
+
+```
+Natural Language Brief       "Design a stable vitamin C serum..."
+     |
+Experiment Planner           LLM generates ingredient pool + constraints
+     |
+LLM (pluggable)             Anthropic, OpenAI, Ollama, any provider
+     |
+Constraint Enforcement       Rejects non-compliant formulas before observation
+     |
+Physics Observation Engine   Resolve ingredients → observe → report discrepancies
+     |
+Iteration Loop               Propose → Observe → Analyze → Improve → Repeat
+     |
+Post-Experiment Analysis     Which ingredients, patterns, violations matter
+     |
+Experiment Log (JSON)        Every trial recorded. Reproducible. Shareable.
+```
+
+Every component is pluggable. The framework handles the loop.
+
+### Pluggable evaluation
+
+The experiment runner accepts custom evaluation functions for when you have real data:
+
+```python
+from openmix import Experiment
+from openmix.scorers import ModelScorer, ManualScorer
+
+# Built-in physics observations (default — works out of the box)
+exp = Experiment.from_file("experiment.yaml")
+
+# Trained ML model (domain-specific)
+scorer = ModelScorer.load("models/stability.pkl", feature_fn=my_features)
+exp = Experiment.from_file("experiment.yaml", evaluate=scorer)
+
+# Real lab feedback (cloud lab, robotic platform, or manual entry)
+exp = Experiment.from_file("experiment.yaml", evaluate=ManualScorer())
+```
+
+This is how the framework scales from "try it on your laptop" to "run it in a cloud lab."
+
+---
+
+## Validation Modes
+
+Not all formulation is the same. A consumer brand needs strict guardrails. A drug discovery researcher needs freedom to explore.
+
+```python
+report = validate(formula, mode="safety")       # Flag everything
+report = validate(formula, mode="formulation")   # Real issues only, with mitigations
+report = validate(formula, mode="discovery")     # Only block genuinely dangerous reactions
+```
+
+| Mode | Hard Rules (toxic gas, carcinogens) | Soft Rules (pH conflicts, absorption) | Use Case |
 |------|:---:|:---:|----------|
-| **`safety`** | Error | Warning | Consumer products |
-| **`formulation`** | Error | Info + mitigations | Professional formulators |
-| **`discovery`** | Error | Ignored | Research, novel combinations |
+| **`safety`** | Error | Warning | Consumer products, home care, OTC |
+| **`formulation`** | Error | Info (with mitigations) | Professional formulators, trained chemists |
+| **`discovery`** | Error | Ignored | Drug discovery, research, novel combinations |
 
-### Knowledge Base
+Hard rules **always fire in every mode**. Bleach + ammonia produces toxic gas regardless of intent. But debated interactions like Niacinamide + Vitamin C? In discovery mode, you're free to explore.
 
-85 interaction rules (32 hard + 53 soft) across 6 domains, each with confidence scores, literature sources, conditions, and mitigations.
+### Coverage honesty
 
-| Domain | Rules |
-|--------|-------|
-| Skincare & Cosmetics | 21 |
-| Supplements | 13 |
-| Pharma (Maillard, MgSt hydrolysis, PVP peroxide) | 15 |
-| Food Science (sulfite-thiamine, phytate-iron) | 10 |
-| Beverages | 5 |
-| Home Care + Cross-category safety | 21 |
+When OpenMix validates a formula in a domain with thin rule coverage, it says so:
 
-### Contributing Rules
+```
+  [!] COVERAGE WARNING: Category 'pharma' has 15 dedicated rules.
+      Consider additional domain-specific review. Contributions welcome.
+```
 
-Rules are YAML files — **no code required**. Two types:
+A 100/100 in a domain with limited rules is misleading. We'd rather be honest about what we know and don't know.
+
+<details>
+<summary><b>Beverage: Catches carcinogen formation</b></summary>
+
+```python
+validate(Formula(
+    ingredients=[("Ascorbic Acid", 0.5), ("Sodium Benzoate", 0.1),
+                 ("Citric Acid", 2.0), ("Water", 97.4)],
+    category="beverage",
+))
+# [X] ERROR: Ascorbic Acid + Sodium Benzoate can form benzene
+#     (a Group 1 carcinogen) in acidic conditions with heat or UV.
+#     Source: FDA beverage benzene survey 2006
+```
+
+</details>
+
+<details>
+<summary><b>Pharma: Catches Maillard degradation</b></summary>
+
+```python
+validate(Formula(
+    ingredients=[("Lactose Monohydrate", 60.0), ("Amlodipine", 5.0),
+                 ("Microcrystalline Cellulose", 30.0),
+                 ("Magnesium Stearate", 1.0), ("Croscarmellose Sodium", 4.0)],
+    category="pharma",
+))
+# [X] ERROR: Lactose + Amlodipine — Maillard reaction degrades drug.
+#     Source: Narang et al. 2012, J Pharm Biomed Anal
+```
+
+</details>
+
+<details>
+<summary><b>Same formula, three modes</b></summary>
+
+```python
+formula = Formula(
+    ingredients=[("Retinol", 1.0), ("Glycolic Acid", 8.0), ("Water", 91.0)],
+    category="skincare",
+)
+
+validate(formula, mode="safety")
+# [!] WARNING: Retinol + Glycolic Acid increases irritation at high
+#     concentrations. Use in separate products.
+
+validate(formula, mode="formulation")
+# [-] INFO: Retinol + Glycolic Acid — irritation risk at high concentrations.
+#     Mitigation: Reduce to <0.5% retinol, <5% glycolic.
+
+validate(formula, mode="discovery")
+# (no issue — only dangerous reactions flagged in discovery mode)
+```
+
+</details>
+
+---
+
+## Heuristic Scoring
+
+In addition to the observation engine, OpenMix includes a deterministic stability score — a decomposed objective function that tells you exactly what to improve.
+
+| Sub-Score | Weight | What It Measures |
+|-----------|--------|------------------|
+| **Compatibility** | /35 | No dangerous interactions (hard rule = instant zero) |
+| **pH Suitability** | /25 | All pH-sensitive ingredients in their optimal range |
+| **Emulsion Balance** | /20 | Oil phase HLB matched by emulsifier system |
+| **Formula Integrity** | /10 | Percentages sum to 100%, no duplicates |
+| **System Completeness** | /10 | Preservative present, reasonable ingredient count |
+
+```python
+from openmix import Formula, score
+
+s = score(my_formula)
+print(f"Total: {s.total}/100")
+print(f"Weakest area: pH ({s.ph_suitability}/25)")
+```
+
+This is a heuristic model. The observation engine provides richer physics-based feedback. Both are available; the experiment runner uses observations by default.
+
+---
+
+<a id="architecture"></a>
+
+## Architecture
+
+OpenMix is built in layers. Each is independently useful. Together, they form the infrastructure for autonomous formulation science.
+
+```
++---------------------------------------------------------------------+
+|                                                                     |
+|   Layer 4: EXPERIMENT          Autonomous Formulation Agent         |
+|   +-------------------------------------------------------------+  |
+|   |  LLM proposes -> Observe -> Constrain -> Analyze -> Iterate |  |
+|   |  Active learning loop . Cloud lab integration . Safety       |  |
+|   +-------------------------------------------------------------+  |
+|                              ^                                      |
+|   Layer 3: OPTIMIZE          |  Multi-Objective Design              |
+|   +--------------------------+----------------------------------+   |
+|   |  Bayesian optimization . Ingredient substitution            |   |
+|   |  Pareto frontier (cost vs stability vs efficacy)            |   |
+|   +-------------------------------------------------------------+   |
+|                              ^                                      |
+|   Layer 2: PREDICT           |  ML Mixture Properties               |
+|   +--------------------------+----------------------------------+   |
+|   |  Stability prediction . Phase behavior . Shelf life         |   |
+|   |  FormulaBench benchmark . Mixture fingerprints              |   |
+|   +-------------------------------------------------------------+   |
+|                              ^                                      |
+|   Layer 1.5: OBSERVE    <====+====  CURRENT (v0.2)                  |
+|   +--------------------------+----------------------------------+   |
+|   |  Physics observation engine . Molecular resolution          |   |
+|   |  Dual modes (engineering / discovery) . Concern tracking    |   |
+|   +-------------------------------------------------------------+   |
+|                              ^                                      |
+|   Layer 1: VALIDATE          |  Rule-Based Intelligence             |
+|   +--------------------------+----------------------------------+   |
+|   |  85 rules (32 hard + 53 soft) . 3 validation modes          |   |
+|   |  Conditional (pH, concentration) . Coverage honesty         |   |
+|   +-------------------------------------------------------------+   |
+|                              ^                                      |
+|   Layer 0: FOUNDATION        |  Schema & Bridges                    |
+|   +--------------------------+----------------------------------+   |
+|   |  Formula representation . INCI->SMILES resolver . RDKit     |   |
+|   |  Community knowledge base (YAML -- no code to contribute)   |   |
+|   +-------------------------------------------------------------+   |
+|                                                                     |
++---------------------------------------------------------------------+
+```
+
+---
+
+## Domains
+
+| Domain | Example Checks | Rules |
+|--------|---------------|-------|
+| **Skincare & Cosmetics** | Retinol + AHA pH conflict, BPO + antioxidant oxidation, copper peptide Fenton reaction, emulsion HLB | 21 |
+| **Pharma** | Lactose-amine Maillard, MgSt ester hydrolysis, PVP peroxide, gelatin crosslinking | 15 |
+| **Supplements** | Calcium/Iron absorption competition, probiotics + preservatives, B12 degradation | 13 |
+| **Food Science** | Sulfite-thiamine destruction, sorbic acid + nitrite mutagenicity, phytate-mineral chelation | 10 |
+| **Home Care** | Bleach + acid/ammonia toxic gas, cationic + anionic surfactant precipitation | 21 |
+| **Beverages** | Protein precipitation at low pH, benzene formation, tannin-iron complexes | 5 |
+
+---
+
+## What Makes OpenMix Different
+
+| Capability | RDKit | DeepChem | AI Scientist | Proprietary | **OpenMix** |
+|:-----------|:-----:|:--------:|:------------:|:-----------:|:-----------:|
+| Single-molecule properties | Yes | Yes | N/A | Yes | Via RDKit |
+| **Mixture/formulation analysis** | No | No | No | Closed | **Open** |
+| **Physics observation engine** | N/A | N/A | N/A | No | **Dual-mode** |
+| **Molecular resolution (INCI→SMILES)** | N/A | N/A | N/A | Closed | **Open (2K seed + PubChem)** |
+| **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
+| Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
+| Ingredient interaction rules | No | No | No | Partial | **85 rules, 6 domains** |
+| Validation modes (safety/discovery) | N/A | N/A | N/A | No | **3 modes** |
+| Coverage honesty | N/A | N/A | N/A | No | **Warns on thin domains** |
+| Community-contributable knowledge | N/A | N/A | N/A | No | **YAML, no code** |
+| Bring your own LLM | N/A | N/A | Partial | No | **Any provider** |
+
+---
+
+## FormulaBench
+
+A benchmark for formulation property prediction, complementary to [CheMixHub](https://arxiv.org/html/2506.12231v1) (which covers thermophysical mixture properties). CheMixHub answers "what are the physical properties of this mixture?" — FormulaBench answers "will this formulation work?"
+
+| Dataset | Domain | Records | Task | Metric | Baseline |
+|---------|--------|---------|------|--------|----------|
+| **Shampoo Stability** | Personal care | 812 | Binary classification | AUROC | XGBoost: 0.85 |
+| **Pharma Solubility** | Drug delivery | 251 | Regression (mg/mL) | MAE | XGBoost: 2.30 |
+
+- **Leave-ingredients-out evaluation**: domain features improve generalization to unseen ingredients
+- **4 planned tasks**: stability classification, compatibility scoring, shelf life regression, failure mode prediction
+- Data sources: [Velho et al. 2024 (Nature Sci Data)](https://doi.org/10.1038/s41597-024-03573-w), [CheMixHub (Rajaonson et al. 2025)](https://arxiv.org/abs/2506.12231)
+
+See [docs/formulabench-spec.md](docs/formulabench-spec.md) for the full specification.
+
+---
+
+## Bring Your Own LLM
+
+```yaml
+# Anthropic
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+  api_key_env: ANTHROPIC_API_KEY
+
+# OpenAI
+llm:
+  provider: openai
+  model: gpt-4o
+  api_key_env: OPENAI_API_KEY
+
+# Local model via Ollama (free, no API key)
+llm:
+  provider: ollama
+  model: llama3.1
+
+# Any OpenAI-compatible endpoint (Together, Groq, vLLM, LM Studio)
+llm:
+  provider: custom
+  model: meta-llama/Llama-3.1-70B
+  base_url: https://api.together.xyz/v1
+  api_key_env: TOGETHER_API_KEY
+```
+
+---
+
+<a id="contributing-knowledge"></a>
+
+## Contributing Knowledge
+
+OpenMix knowledge lives in YAML. **Chemists contribute domain expertise without writing code.**
+
+Two rule types:
 
 ```yaml
 # HARD — unconditional, dangerous. Always fires in all modes.
@@ -356,169 +591,11 @@ Rules are YAML files — **no code required**. Two types:
     nicotinic acid. Widely debated. Many products combine these.
 ```
 
-Every rule has a confidence score, literature source, and optional conditions and mitigations. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
+Every rule has a **confidence score**, a **source citation**, and optional **conditions** and **mitigations**. This isn't a binary lookup table — it's a nuanced knowledge base.
 
-**We especially need:** pharmaceutical excipient compatibility, food science interactions, and regional regulatory constraints.
+**We especially need:** pharmaceutical excipient compatibility, food science interactions, drug delivery, and regional regulatory constraints.
 
-### More Examples
-
-<details>
-<summary><b>Beverage: Catches carcinogen formation</b></summary>
-
-```python
-validate(Formula(
-    ingredients=[("Ascorbic Acid", 0.5), ("Sodium Benzoate", 0.1),
-                 ("Citric Acid", 2.0), ("Water", 97.4)],
-    category="beverage",
-))
-# [X] ERROR: Ascorbic Acid + Sodium Benzoate can form benzene
-#     (a Group 1 carcinogen) in acidic conditions with heat or UV.
-#     Source: FDA beverage benzene survey 2006
-```
-
-</details>
-
-<details>
-<summary><b>Pharma: Catches Maillard degradation</b></summary>
-
-```python
-validate(Formula(
-    ingredients=[("Lactose Monohydrate", 60.0), ("Amlodipine", 5.0),
-                 ("Microcrystalline Cellulose", 30.0),
-                 ("Magnesium Stearate", 1.0), ("Croscarmellose Sodium", 4.0)],
-    category="pharma",
-))
-# [X] ERROR: Lactose + Amlodipine — Maillard reaction degrades drug.
-#     Source: Narang et al. 2012, J Pharm Biomed Anal
-#
-# [!] COVERAGE WARNING: Category 'pharma' has 15 dedicated rules.
-#     Consider additional domain-specific review.
-```
-
-</details>
-
-<details>
-<summary><b>Validation modes: Same formula, different context</b></summary>
-
-```python
-formula = Formula(
-    ingredients=[("Retinol", 1.0), ("Glycolic Acid", 8.0), ("Water", 91.0)],
-    category="skincare",
-)
-
-validate(formula, mode="safety")
-# [!] WARNING: Retinol + Glycolic Acid increases irritation at high
-#     concentrations. Use in separate products.
-
-validate(formula, mode="formulation")
-# [-] INFO: Retinol + Glycolic Acid — irritation risk at high concentrations.
-#     Mitigation: Reduce to <0.5% retinol, <5% glycolic.
-
-validate(formula, mode="discovery")
-# (no issue — only dangerous reactions flagged in discovery mode)
-```
-
-</details>
-
----
-
-## What Makes OpenMix Different
-
-| Capability | RDKit | DeepChem | AI Scientist | Proprietary | **OpenMix** |
-|:-----------|:-----:|:--------:|:------------:|:-----------:|:-----------:|
-| Single-molecule properties | Yes | Yes | N/A | Yes | Via RDKit |
-| **Mixture/formulation analysis** | No | No | No | Closed | **Open** |
-| **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
-| Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
-| Ingredient interaction rules | No | No | No | Partial | **85 rules, 6 domains** |
-| Validation modes (safety/discovery) | N/A | N/A | N/A | No | **3 modes** |
-| Community-contributable knowledge | N/A | N/A | N/A | No | **YAML, no code** |
-| Bring your own LLM | N/A | N/A | Partial | No | **Any provider** |
-
----
-
-<a id="architecture"></a>
-
-## Architecture
-
-```
-+---------------------------------------------------------------------+
-|                                                                     |
-|   EXPERIMENT RUNNER (the autoresearch loop)                         |
-|   +-------------------------------------------------------------+  |
-|   |  YAML brief -> LLM proposes -> Score -> Constrain -> Iterate |  |
-|   |  Post-experiment analysis . Experiment log (JSON)            |  |
-|   +-------------------------------------------------------------+  |
-|        |               |                |                           |
-|   LLM Provider    Scorer (pluggable)    Constraint Enforcer         |
-|   - Anthropic     - Heuristic           - Required ingredients      |
-|   - OpenAI        - Trained model       - Percentage ranges         |
-|   - Ollama        - Lab feedback        - pH, max count             |
-|   - Any OAI-      - Manual entry        - Ingredient pool           |
-|     compatible    - Composite                                       |
-|        |               |                                            |
-|   +-------------------------------------------------------------+  |
-|   |  VALIDATION + SCORING ENGINE                                 |  |
-|   |  85 rules (hard/soft) . 3 modes . Coverage honesty           |  |
-|   |  Decomposed stability score (5 sub-scores, 0-100)            |  |
-|   +-------------------------------------------------------------+  |
-|        |                                                            |
-|   +-------------------------------------------------------------+  |
-|   |  KNOWLEDGE BASE (YAML — community-contributable)             |  |
-|   |  Interaction rules . Oil HLB . Aliases . pH ranges           |  |
-|   +-------------------------------------------------------------+  |
-|                                                                     |
-+---------------------------------------------------------------------+
-```
-
----
-
-## Bring Your Own LLM
-
-Configure in the experiment YAML:
-
-```yaml
-# Anthropic
-llm:
-  provider: anthropic
-  model: claude-sonnet-4-20250514
-  api_key_env: ANTHROPIC_API_KEY
-
-# OpenAI
-llm:
-  provider: openai
-  model: gpt-4o
-  api_key_env: OPENAI_API_KEY
-
-# Local model via Ollama (free, no API key)
-llm:
-  provider: ollama
-  model: llama3.1
-
-# Any OpenAI-compatible endpoint (Together, Groq, vLLM, LM Studio)
-llm:
-  provider: custom
-  model: meta-llama/Llama-3.1-70B
-  base_url: https://api.together.xyz/v1
-  api_key_env: TOGETHER_API_KEY
-```
-
----
-
-## FormulaBench
-
-A benchmark for formulation property prediction, complementary to [CheMixHub](https://arxiv.org/html/2506.12231v1) (which covers thermophysical mixture properties). CheMixHub answers "what are the physical properties of this mixture?" — FormulaBench answers "will this formulation work?"
-
-| Dataset | Domain | Records | Task | Metric | Baseline |
-|---------|--------|---------|------|--------|----------|
-| **Shampoo Stability** | Personal care | 812 | Binary classification | AUROC | XGBoost: 0.85 |
-| **Pharma Solubility** | Drug delivery | 251 | Regression (mg/mL) | MAE | XGBoost: 2.30 |
-
-- **Leave-ingredients-out evaluation**: domain features improve generalization to unseen ingredients
-- **4 planned tasks**: stability classification, compatibility scoring, shelf life regression, failure mode prediction
-- Data sources: [Velho et al. 2024 (Nature Sci Data)](https://doi.org/10.1038/s41597-024-03573-w), [CheMixHub (Rajaonson et al. 2025)](https://arxiv.org/abs/2506.12231)
-
-See [docs/formulabench-spec.md](docs/formulabench-spec.md) for the full specification.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
 ---
 
@@ -526,15 +603,15 @@ See [docs/formulabench-spec.md](docs/formulabench-spec.md) for the full specific
 
 ## Roadmap
 
-| Milestone | Target | Status |
-|-----------|--------|--------|
-| **v0.1** — Experiment framework, validation, scoring | **Now** | Shipped |
-| **v0.2** — FormulaBench baselines, more rules, CI | Q2 2026 | In progress |
-| **v0.3** — INCI-to-SMILES bridge, molecular scoring | Q3 2026 | |
-| **v0.5** — Trained stability models, HuggingFace | Q4 2026 | |
-| **v1.0** — Mixture property prediction | H1 2027 | |
-| **v2.0** — Multi-objective optimization, Bayesian search | 2027 | |
-| **v3.0** — Cloud lab integration, active learning | 2028+ | |
+| Milestone | Target | What Ships |
+|-----------|--------|------------|
+| **v0.1** | March 2026 | Formula schema, 85 rules, heuristic scoring, autonomous experiment loop, 3 validation modes, FormulaBench baselines, CLI |
+| **v0.2** | March 2026 | **Physics observation engine, ingredient resolver (INCI→SMILES), dual modes (engineering/discovery), molecular scorer** |
+| **v0.3** | Q2 2026 | Expanded knowledge base (200+ rules), CI hardening, more benchmark datasets |
+| **v0.5** | Q3 2026 | Trained stability models, pre-trained models on HuggingFace |
+| **v1.0** | Q4 2026 | Mixture property prediction (stability, phase, shelf life), MCP server for AI agent integration |
+| **v2.0** | 2027 | Multi-objective optimization, ingredient substitution, Bayesian search |
+| **v3.0** | 2028+ | Autonomous formulation agent with cloud lab integration and active learning |
 
 ---
 
@@ -543,33 +620,34 @@ See [docs/formulabench-spec.md](docs/formulabench-spec.md) for the full specific
 ```
 openmix/
   src/openmix/
-    experiment.py         # Autonomous experiment runner (YAML or natural language)
-    llm.py                # Multi-provider LLM abstraction
-    constraints.py        # Programmatic constraint enforcement
-    analysis.py           # Post-experiment insight extraction
-    score.py              # Heuristic stability scoring
-    validate.py           # Rule-based validation (3 modes)
-    discover.py           # Hypothesis-driven rule discovery (experimental)
-    matching.py           # Ingredient name matching
-    schema.py             # Formula, Ingredient, ValidationReport
-    molecular.py          # RDKit integration (optional)
-    scorers/              # Pluggable evaluation functions
-      model.py            #   Trained ML model scorer
-      lab.py              #   Lab feedback (cloud lab, manual entry)
-      base.py             #   Scorer interface, composite
-    benchmarks/           # FormulaBench datasets + features
-    knowledge/data/       # YAML rules (85 interactions, 42 HLB values)
-    cli/                  # CLI: run, demo, experiment, validate, score, info
-  experiments/            # YAML experiment definitions
-  tests/                  # 60 tests
-  docs/                   # FormulaBench spec
+    observe.py              # Physics observation engine (engineering / discovery)
+    resolver/               # INCI → SMILES → molecular properties
+      resolve.py            #   Three-tier resolution (seed → cache → PubChem)
+      cache.py              #   Local cache management
+      pubchem.py            #   PubChem API integration
+      seed_ingredients.json #   Bundled ingredient data (~2K)
+    experiment.py           # Autonomous experiment runner (YAML or natural language)
+    llm.py                  # Multi-provider LLM abstraction
+    constraints.py          # Programmatic constraint enforcement
+    analysis.py             # Post-experiment insight extraction
+    validate.py             # Rule-based validation (3 modes)
+    score.py                # Heuristic stability scoring (5 sub-scores)
+    discover.py             # Hypothesis-driven rule discovery
+    matching.py             # Ingredient name matching
+    schema.py               # Formula, Ingredient, ValidationReport
+    molecular.py            # RDKit integration (optional)
+    scorers/                # Pluggable evaluation functions
+      molecular.py          #   Physics-informed scorer (uses resolver)
+      model.py              #   Trained ML model scorer
+      lab.py                #   Lab feedback (cloud lab, manual entry)
+      base.py               #   Scorer interface, composite
+    benchmarks/             # FormulaBench datasets + features
+    knowledge/data/         # YAML rules (85 interactions, 42 HLB values)
+    cli/                    # CLI: observe, run, validate, score, demo, info
+  experiments/              # YAML experiment definitions
+  tests/                    # 116 tests
+  docs/                     # FormulaBench spec
 ```
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). The highest-impact contribution is **domain knowledge** — interaction rules for pharma, food, materials science. No code needed, just YAML.
 
 ---
 
@@ -577,13 +655,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). The highest-impact contribution is **dom
 
 ## Citation
 
+If you use OpenMix in research, please cite:
+
 ```bibtex
 @software{krishnan2026openmix,
   author = {Krishnan, Vijay},
-  title = {OpenMix: Autonomous Formulation Science},
+  title = {OpenMix: An Open-Source Framework for Computational Formulation Science},
   year = {2026},
   url = {https://github.com/vijayvkrishnan/openmix},
-  version = {0.1.0},
+  version = {0.2.0},
   license = {Apache-2.0}
 }
 ```

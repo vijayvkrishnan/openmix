@@ -78,12 +78,17 @@ class ExperimentAnalysis:
         return "\n".join(lines)
 
 
+def _trial_score(t: Trial) -> float:
+    """Get a numeric score from a trial (works with both scorer and observer)."""
+    return t.stability.total if t.stability else (100 - t.concern_count)
+
+
 def analyze(log: ExperimentLog) -> ExperimentAnalysis:
     """Analyze a completed experiment log."""
     if not log.trials:
         return ExperimentAnalysis()
 
-    scores = [t.stability.total for t in log.trials]
+    scores = [_trial_score(t) for t in log.trials]
     mean_score = sum(scores) / len(scores)
 
     import numpy as np
@@ -92,14 +97,15 @@ def analyze(log: ExperimentLog) -> ExperimentAnalysis:
     # Find when best was first achieved
     best = max(scores)
     convergence_iter = None
-    for t in log.trials:
-        if t.stability.total == best:
+    for i, t in enumerate(log.trials):
+        trial_score = t.stability.total if t.stability else (100 - t.concern_count)
+        if trial_score == best:
             convergence_iter = t.iteration
             break
 
     # Split trials into top/bottom by score
-    top_trials = [t for t in log.trials if t.stability.total >= mean_score]
-    bottom_trials = [t for t in log.trials if t.stability.total < mean_score]
+    top_trials = [t for t in log.trials if _trial_score(t) >= mean_score]
+    bottom_trials = [t for t in log.trials if _trial_score(t) < mean_score]
 
     # Ingredient frequency in top vs bottom
     top_ingredients = _ingredient_frequency(top_trials)
@@ -177,8 +183,9 @@ def _extract_insights(
                 strength="strong" if diff > 0.5 else "moderate",
             ))
 
-    # Check sub-score patterns
-    if top_trials and bottom_trials:
+    # Check sub-score patterns (only when stability scores available)
+    has_stability = all(t.stability is not None for t in all_trials)
+    if has_stability and top_trials and bottom_trials:
         top_ph = sum(t.stability.ph_suitability for t in top_trials) / len(top_trials)
         bottom_ph = sum(t.stability.ph_suitability for t in bottom_trials) / len(bottom_trials)
 
@@ -204,7 +211,7 @@ def _extract_insights(
             ))
 
     # Score trajectory insight
-    scores = [t.stability.total for t in all_trials]
+    scores = [_trial_score(t) for t in all_trials]
     if len(scores) >= 5:
         first_half = scores[:len(scores)//2]
         second_half = scores[len(scores)//2:]
