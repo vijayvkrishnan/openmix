@@ -137,7 +137,7 @@ def cmd_run(args):
 
 def cmd_demo(args):
     """Run a built-in demo — no files or API keys needed."""
-    from openmix import Formula, validate, score as compute_score, observe as observe_fn
+    from openmix import Formula, validate, observe as observe_fn
 
     print(f"OpenMix v{__version__} -- Demo\n")
 

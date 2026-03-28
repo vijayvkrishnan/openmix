@@ -20,7 +20,7 @@ from openmix.resolver import resolve
 from openmix.knowledge.loader import load_knowledge, Knowledge
 from openmix.matching import match_ingredient
 from openmix.benchmarks.shampoo import (
-    ShampooRecord, INGREDIENT_COLS, TRADE_TO_TYPE, TRADE_TO_SMILES,
+    ShampooRecord, INGREDIENT_COLS, TRADE_TO_TYPE,
     TRADE_TO_INCI,
 )
 
