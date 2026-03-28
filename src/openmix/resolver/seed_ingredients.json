@@ -1,1118 +1,1602 @@
 {
   "Water": {
-    "smiles": null,
+    "smiles": "O",
     "mw": "18.015",
     "log_p": -0.5,
     "hbd": 1,
     "hba": 1,
     "tpsa": 1,
-    "pubchem_cid": 962
+    "pubchem_cid": 962,
+    "charge_type": "nonionic"
   },
   "Ethanol": {
-    "smiles": null,
+    "smiles": "CCO",
     "mw": "46.07",
     "log_p": -0.1,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 702
+    "pubchem_cid": 702,
+    "charge_type": "nonionic"
   },
   "Isopropyl Alcohol": {
-    "smiles": null,
+    "smiles": "CC(C)O",
     "mw": "60.10",
     "log_p": 0.3,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 3776
+    "pubchem_cid": 3776,
+    "charge_type": "nonionic"
   },
   "Propylene Glycol": {
-    "smiles": null,
+    "smiles": "CC(CO)O",
     "mw": "76.09",
     "log_p": -0.9,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 1030
+    "pubchem_cid": 1030,
+    "charge_type": "nonionic"
   },
   "Butylene Glycol": {
-    "smiles": null,
+    "smiles": "CC(CCO)O",
     "mw": "90.12",
     "log_p": -0.4,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 7896
+    "pubchem_cid": 7896,
+    "charge_type": "nonionic"
   },
   "Propanediol": {
-    "smiles": null,
+    "smiles": "CCC(O)O",
     "mw": "76.09",
     "log_p": -0.3,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 134919
+    "pubchem_cid": 134919,
+    "charge_type": "nonionic"
   },
   "Glycerin": {
-    "smiles": null,
+    "smiles": "C(C(CO)O)O",
     "mw": "92.09",
     "log_p": -1.8,
     "hbd": 3,
     "hba": 3,
     "tpsa": 60.7,
-    "pubchem_cid": 753
+    "pubchem_cid": 753,
+    "charge_type": "nonionic"
   },
   "Pentylene Glycol": {
-    "smiles": null,
+    "smiles": "CCCC(CO)O",
     "mw": "104.15",
     "log_p": 0.2,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 93000
+    "pubchem_cid": 93000,
+    "charge_type": "nonionic"
   },
   "Ethoxydiglycol": {
-    "smiles": null,
+    "smiles": "CCOCCOCCO",
     "mw": "134.17",
     "log_p": -0.5,
     "hbd": 1,
     "hba": 3,
     "tpsa": 38.7,
-    "pubchem_cid": 8146
+    "pubchem_cid": 8146,
+    "charge_type": "nonionic"
   },
   "Dimethyl Sulfoxide": {
-    "smiles": null,
+    "smiles": "CS(=O)C",
     "mw": "78.14",
     "log_p": -0.6,
     "hbd": 0,
     "hba": 2,
     "tpsa": 36.3,
-    "pubchem_cid": 679
+    "pubchem_cid": 679,
+    "charge_type": "nonionic"
   },
   "Betaine": {
-    "smiles": null,
+    "smiles": "C[N+](C)(C)CC(=O)[O-]",
     "mw": "117.15",
     "log_p": 0.5,
     "hbd": 0,
     "hba": 2,
     "tpsa": 40.1,
-    "pubchem_cid": 247
+    "pubchem_cid": 247,
+    "charge_type": "amphoteric"
   },
   "Sorbitol": {
-    "smiles": null,
+    "smiles": "C([C@H]([C@H]([C@@H]([C@H](CO)O)O)O)O)O",
     "mw": "182.17",
     "log_p": -3.1,
     "hbd": 6,
     "hba": 6,
     "tpsa": 121,
-    "pubchem_cid": 5780
+    "pubchem_cid": 5780,
+    "charge_type": "nonionic"
   },
   "Panthenol": {
-    "smiles": null,
+    "smiles": "CC(C)(CO)C(C(=O)NCCCO)O",
     "mw": "205.25",
     "log_p": -0.9,
     "hbd": 4,
     "hba": 4,
     "tpsa": 89.8,
-    "pubchem_cid": 4678
+    "pubchem_cid": 4678,
+    "charge_type": "nonionic"
   },
   "Allantoin": {
-    "smiles": null,
+    "smiles": "C1(C(=O)NC(=O)N1)NC(=O)N",
     "mw": "158.12",
     "log_p": -2.2,
     "hbd": 4,
     "hba": 3,
     "tpsa": 113,
-    "pubchem_cid": 204
+    "pubchem_cid": 204,
+    "charge_type": "nonionic"
   },
   "Urea": {
-    "smiles": null,
+    "smiles": "C(=O)(N)N",
     "mw": "60.056",
     "log_p": -1.4,
     "hbd": 2,
     "hba": 1,
     "tpsa": 69.1,
-    "pubchem_cid": 1176
+    "pubchem_cid": 1176,
+    "charge_type": "nonionic"
   },
   "Trehalose": {
-    "smiles": null,
+    "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O[C@@H]2[C@@H]([C@H]([C@@H]([C@H](O2)CO)O)O)O)O)O)O)O",
     "mw": "342.30",
     "log_p": -4.2,
     "hbd": 8,
     "hba": 11,
     "tpsa": 190,
-    "pubchem_cid": 7427
+    "pubchem_cid": 7427,
+    "charge_type": "nonionic"
   },
   "Sodium PCA": {
-    "smiles": null,
+    "smiles": "C1CC(=O)NC1C(=O)[O-].[Na+]",
     "mw": "151.10",
     "log_p": null,
     "hbd": 1,
     "hba": 3,
     "tpsa": 69.2,
-    "pubchem_cid": 23666346
+    "pubchem_cid": 23666346,
+    "charge_type": "anionic"
   },
   "Lactic Acid": {
-    "smiles": null,
+    "smiles": "CC(C(=O)O)O",
     "mw": "90.08",
     "log_p": -0.7,
     "hbd": 2,
     "hba": 3,
     "tpsa": 57.5,
-    "pubchem_cid": 612
+    "pubchem_cid": 612,
+    "charge_type": "nonionic"
   },
   "Squalane": {
-    "smiles": null,
+    "smiles": "CC(C)CCCC(C)CCCC(C)CCCCC(C)CCCC(C)CCCC(C)C",
     "mw": "422.8",
     "log_p": 14.7,
     "hbd": 0,
     "hba": 0,
     "tpsa": 0,
-    "pubchem_cid": 8089
+    "pubchem_cid": 8089,
+    "charge_type": "nonionic"
   },
   "Isopropyl Myristate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCC(=O)OC(C)C",
     "mw": "270.5",
     "log_p": 7.2,
     "hbd": 0,
     "hba": 2,
     "tpsa": 26.3,
-    "pubchem_cid": 8042
+    "pubchem_cid": 8042,
+    "charge_type": "nonionic"
   },
   "Isopropyl Palmitate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC(=O)OC(C)C",
     "mw": "298.5",
     "log_p": 8.2,
     "hbd": 0,
     "hba": 2,
     "tpsa": 26.3,
-    "pubchem_cid": 8907
+    "pubchem_cid": 8907,
+    "charge_type": "nonionic"
   },
   "Cetyl Alcohol": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCO",
     "mw": "242.44",
     "log_p": 7.3,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 2682
+    "pubchem_cid": 2682,
+    "charge_type": "nonionic"
   },
   "Cetearyl Alcohol": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCCO.CCCCCCCCCCCCCCCCO",
     "mw": "512.9",
     "log_p": null,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 62238
+    "pubchem_cid": 62238,
+    "charge_type": "nonionic"
   },
   "Stearyl Alcohol": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCCO",
     "mw": "270.5",
     "log_p": 8.4,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 8221
+    "pubchem_cid": 8221,
+    "charge_type": "nonionic"
   },
   "Stearic Acid": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCC(=O)O",
     "mw": "284.5",
     "log_p": 7.4,
     "hbd": 1,
     "hba": 2,
     "tpsa": 37.3,
-    "pubchem_cid": 5281
+    "pubchem_cid": 5281,
+    "charge_type": "nonionic"
   },
   "Oleic Acid": {
-    "smiles": null,
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)O",
     "mw": "282.5",
     "log_p": 6.5,
     "hbd": 1,
     "hba": 2,
     "tpsa": 37.3,
-    "pubchem_cid": 445639
+    "pubchem_cid": 445639,
+    "charge_type": "nonionic"
   },
   "Linoleic Acid": {
-    "smiles": null,
+    "smiles": "CCCCC/C=C\\C/C=C\\CCCCCCCC(=O)O",
     "mw": "280.4",
     "log_p": 6.8,
     "hbd": 1,
     "hba": 2,
     "tpsa": 37.3,
-    "pubchem_cid": 5280450
+    "pubchem_cid": 5280450,
+    "charge_type": "nonionic"
   },
   "Sorbitan Oleate": {
-    "smiles": null,
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)OC[C@H]([C@@H]1[C@@H]([C@H](CO1)O)O)O",
     "mw": "428.6",
     "log_p": 6,
     "hbd": 3,
     "hba": 6,
     "tpsa": 96.2,
-    "pubchem_cid": 9920342
+    "pubchem_cid": 9920342,
+    "charge_type": "nonionic"
   },
   "Sorbitan Stearate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCC(=O)OC[C@H]([C@@H]1[C@@H]([C@H](CO1)O)O)O",
     "mw": "430.6",
     "log_p": 6.9,
     "hbd": 3,
     "hba": 6,
     "tpsa": 96.2,
-    "pubchem_cid": 16218600
+    "pubchem_cid": 16218600,
+    "charge_type": "nonionic"
   },
   "Glyceryl Stearate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCC(=O)O.C(C(CO)O)O",
     "mw": "376.6",
     "log_p": null,
     "hbd": 4,
     "hba": 5,
     "tpsa": 98,
-    "pubchem_cid": 93066
+    "pubchem_cid": 93066,
+    "charge_type": "nonionic"
   },
   "Steareth-2": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCCOCCOCCO",
     "mw": "358.6",
     "log_p": 8.2,
     "hbd": 1,
     "hba": 3,
     "tpsa": 38.7,
-    "pubchem_cid": 4165923
+    "pubchem_cid": 4165923,
+    "charge_type": "nonionic"
   },
   "Lecithin": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC(=O)OC[C@H](COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCC/C=C/C/C=C/CCCCC",
     "mw": "758.1",
     "log_p": 12.9,
     "hbd": 0,
     "hba": 8,
     "tpsa": 111,
-    "pubchem_cid": 16213884
+    "pubchem_cid": 16213884,
+    "charge_type": "amphoteric"
   },
   "Sodium Lauryl Sulfate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCOS(=O)(=O)[O-].[Na+]",
     "mw": "288.38",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 74.8,
-    "pubchem_cid": 3423265
+    "pubchem_cid": 3423265,
+    "charge_type": "anionic"
   },
   "Sodium Laureth Sulfate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCOCCOS(=O)(=O)[O-].[Na+]",
     "mw": "332.43",
     "log_p": null,
     "hbd": 0,
     "hba": 5,
     "tpsa": 84,
-    "pubchem_cid": 23665884
+    "pubchem_cid": 23665884,
+    "charge_type": "anionic"
   },
   "Coco-Glucoside": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O",
     "mw": "348.5",
     "log_p": 3.5,
     "hbd": 4,
     "hba": 6,
     "tpsa": 99.4,
-    "pubchem_cid": 369373
+    "pubchem_cid": 369373,
+    "charge_type": "nonionic"
   },
   "Decyl Glucoside": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCO[C@H]1[C@@H]([C@H]([C@@H]([C@H](O1)CO)O)O)O",
     "mw": "320.42",
     "log_p": 2.4,
     "hbd": 4,
     "hba": 6,
     "tpsa": 99.4,
-    "pubchem_cid": 62142
+    "pubchem_cid": 62142,
+    "charge_type": "nonionic"
   },
   "Ascorbic Acid": {
-    "smiles": null,
+    "smiles": "C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O",
     "mw": "176.12",
     "log_p": -1.6,
     "hbd": 4,
     "hba": 6,
     "tpsa": 107,
-    "pubchem_cid": 54670067
+    "pubchem_cid": 54670067,
+    "charge_type": "nonionic"
   },
   "Sodium Ascorbyl Phosphate": {
-    "smiles": null,
+    "smiles": "C([C@@H]([C@@H]1C(=C(C(=O)O1)OP(=O)([O-])[O-])[O-])O)O.[Na+].[Na+].[Na+]",
     "mw": "322.05",
     "log_p": null,
     "hbd": 2,
     "hba": 9,
     "tpsa": 162,
-    "pubchem_cid": 10990876
+    "pubchem_cid": 10990876,
+    "charge_type": "anionic"
   },
   "Ascorbyl Glucoside": {
-    "smiles": null,
+    "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)OC2=C([C@H](OC2=O)[C@H](CO)O)O)O)O)O)O",
     "mw": "338.26",
     "log_p": -3.1,
     "hbd": 7,
     "hba": 11,
     "tpsa": 186,
-    "pubchem_cid": 54693473
+    "pubchem_cid": 54693473,
+    "charge_type": "nonionic"
   },
   "Niacinamide": {
-    "smiles": null,
+    "smiles": "C1=CC(=CN=C1)C(=O)N",
     "mw": "122.12",
     "log_p": -0.4,
     "hbd": 1,
     "hba": 2,
     "tpsa": 56,
-    "pubchem_cid": 936
+    "pubchem_cid": 936,
+    "charge_type": "nonionic"
   },
   "Retinol": {
-    "smiles": null,
+    "smiles": "CC1=C(C(CCC1)(C)C)/C=C/C(=C/C=C/C(=C/CO)/C)/C",
     "mw": "286.5",
     "log_p": 5.7,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 445354
+    "pubchem_cid": 445354,
+    "charge_type": "nonionic"
   },
   "Retinal": {
-    "smiles": null,
+    "smiles": "CC1=C(C(CCC1)(C)C)/C=C/C(=C/C=C/C(=C/C=O)/C)/C",
     "mw": "284.4",
     "log_p": 6.2,
     "hbd": 0,
     "hba": 1,
     "tpsa": 17.1,
-    "pubchem_cid": 638015
+    "pubchem_cid": 638015,
+    "charge_type": "nonionic"
   },
   "Retinyl Palmitate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC(=O)OC/C=C(\\C)/C=C/C=C(\\C)/C=C/C1=C(CCCC1(C)C)C",
     "mw": "524.9",
     "log_p": 13.6,
     "hbd": 0,
     "hba": 2,
     "tpsa": 26.3,
-    "pubchem_cid": 5280531
+    "pubchem_cid": 5280531,
+    "charge_type": "nonionic"
   },
   "Bakuchiol": {
-    "smiles": null,
+    "smiles": "CC(=CCC[C@@](C)(C=C)/C=C/C1=CC=C(C=C1)O)C",
     "mw": "256.4",
     "log_p": 6.1,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 5468522
+    "pubchem_cid": 5468522,
+    "charge_type": "nonionic"
   },
   "Arbutin": {
-    "smiles": null,
+    "smiles": "C1=CC(=CC=C1O)O[C@H]2[C@@H]([C@H]([C@@H]([C@H](O2)CO)O)O)O",
     "mw": "272.25",
     "log_p": -0.7,
     "hbd": 5,
     "hba": 7,
     "tpsa": 120,
-    "pubchem_cid": 440936
+    "pubchem_cid": 440936,
+    "charge_type": "nonionic"
   },
   "Tranexamic Acid": {
-    "smiles": null,
+    "smiles": "C1CC(CCC1CN)C(=O)O",
     "mw": "157.21",
     "log_p": -2,
     "hbd": 2,
     "hba": 3,
     "tpsa": 63.3,
-    "pubchem_cid": 5526
+    "pubchem_cid": 5526,
+    "charge_type": "nonionic"
   },
   "Kojic Acid": {
-    "smiles": null,
+    "smiles": "C1=C(OC=C(C1=O)O)CO",
     "mw": "142.11",
     "log_p": -0.9,
     "hbd": 2,
     "hba": 4,
     "tpsa": 66.8,
-    "pubchem_cid": 3840
+    "pubchem_cid": 3840,
+    "charge_type": "nonionic"
   },
   "Glycolic Acid": {
-    "smiles": null,
+    "smiles": "C(C(=O)O)O",
     "mw": "76.05",
     "log_p": -1.1,
     "hbd": 2,
     "hba": 3,
     "tpsa": 57.5,
-    "pubchem_cid": 757
+    "pubchem_cid": 757,
+    "charge_type": "nonionic"
   },
   "Salicylic Acid": {
-    "smiles": null,
+    "smiles": "C1=CC=C(C(=C1)C(=O)O)O",
     "mw": "138.12",
     "log_p": 2.3,
     "hbd": 2,
     "hba": 3,
     "tpsa": 57.5,
-    "pubchem_cid": 338
+    "pubchem_cid": 338,
+    "charge_type": "nonionic"
   },
   "Mandelic Acid": {
-    "smiles": null,
+    "smiles": "C1=CC=C(C=C1)C(C(=O)O)O",
     "mw": "152.15",
     "log_p": 0.6,
     "hbd": 2,
     "hba": 3,
     "tpsa": 57.5,
-    "pubchem_cid": 1292
+    "pubchem_cid": 1292,
+    "charge_type": "nonionic"
   },
   "Azelaic Acid": {
-    "smiles": null,
+    "smiles": "C(CCCC(=O)O)CCCC(=O)O",
     "mw": "188.22",
     "log_p": 1.6,
     "hbd": 2,
     "hba": 4,
     "tpsa": 74.6,
-    "pubchem_cid": 2266
+    "pubchem_cid": 2266,
+    "charge_type": "nonionic"
   },
   "Ferulic Acid": {
-    "smiles": null,
+    "smiles": "COC1=C(C=CC(=C1)/C=C/C(=O)O)O",
     "mw": "194.18",
     "log_p": 1.5,
     "hbd": 2,
     "hba": 4,
     "tpsa": 66.8,
-    "pubchem_cid": 445858
+    "pubchem_cid": 445858,
+    "charge_type": "nonionic"
   },
   "Resveratrol": {
-    "smiles": null,
+    "smiles": "C1=CC(=CC=C1/C=C/C2=CC(=CC(=C2)O)O)O",
     "mw": "228.24",
     "log_p": 3.1,
     "hbd": 3,
     "hba": 3,
     "tpsa": 60.7,
-    "pubchem_cid": 445154
+    "pubchem_cid": 445154,
+    "charge_type": "nonionic"
   },
   "Adenosine": {
-    "smiles": null,
+    "smiles": "C1=NC(=C2C(=N1)N(C=N2)[C@H]3[C@@H]([C@@H]([C@H](O3)CO)O)O)N",
     "mw": "267.24",
     "log_p": -1.1,
     "hbd": 4,
     "hba": 8,
     "tpsa": 140,
-    "pubchem_cid": 60961
+    "pubchem_cid": 60961,
+    "charge_type": "nonionic"
   },
   "Copper Tripeptide-1": {
-    "smiles": null,
+    "smiles": "C1=C(NC=N1)C[C@@H](C(=O)N[C@@H](CCCCN)C(=O)[O-])NC(=O)CN.[Cu+2]",
     "mw": "402.92",
     "log_p": null,
     "hbd": 5,
     "hba": 7,
     "tpsa": 179,
-    "pubchem_cid": 71587328
+    "pubchem_cid": 71587328,
+    "charge_type": "anionic"
   },
   "Palmitoyl Tripeptide-1": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC(=O)NCC(=O)N[C@@H](CC1=CN=CN1)C(=O)N[C@@H](CCCCN)C(=O)O",
     "mw": "578.8",
     "log_p": 3.2,
     "hbd": 6,
     "hba": 7,
     "tpsa": 179,
-    "pubchem_cid": 10231864
+    "pubchem_cid": 10231864,
+    "charge_type": "nonionic"
   },
   "Tocopherol": {
-    "smiles": null,
+    "smiles": "CC1=C(C=C2CCC(OC2=C1C)(C)CCCC(C)CCCC(C)CCCC(C)C)O",
     "mw": "416.7",
     "log_p": 10.3,
     "hbd": 1,
     "hba": 2,
     "tpsa": 29.5,
-    "pubchem_cid": 14986
+    "pubchem_cid": 14986,
+    "charge_type": "nonionic"
   },
   "Tocopheryl Acetate": {
-    "smiles": null,
+    "smiles": "CC1=C(C(=C(C2=C1OC(CC2)(C)CCCC(C)CCCC(C)CCCC(C)C)C)OC(=O)C)C",
     "mw": "472.7",
     "log_p": 10.8,
     "hbd": 0,
     "hba": 3,
     "tpsa": 35.5,
-    "pubchem_cid": 2117
+    "pubchem_cid": 2117,
+    "charge_type": "nonionic"
   },
   "Phenoxyethanol": {
-    "smiles": null,
+    "smiles": "C1=CC=C(C=C1)OCCO",
     "mw": "138.16",
     "log_p": 1.2,
     "hbd": 1,
     "hba": 2,
     "tpsa": 29.5,
-    "pubchem_cid": 31236
+    "pubchem_cid": 31236,
+    "charge_type": "nonionic"
   },
   "Ethylhexylglycerin": {
-    "smiles": null,
+    "smiles": "CCCCC(CC)COCC(CO)O",
     "mw": "204.31",
     "log_p": 1.9,
     "hbd": 2,
     "hba": 3,
     "tpsa": 49.7,
-    "pubchem_cid": 9859093
+    "pubchem_cid": 9859093,
+    "charge_type": "nonionic"
   },
   "Caprylyl Glycol": {
-    "smiles": null,
+    "smiles": "CCCCCCC(CO)O",
     "mw": "146.23",
     "log_p": 1.8,
     "hbd": 2,
     "hba": 2,
     "tpsa": 40.5,
-    "pubchem_cid": 14231
+    "pubchem_cid": 14231,
+    "charge_type": "nonionic"
   },
   "Sodium Benzoate": {
-    "smiles": null,
+    "smiles": "C1=CC=C(C=C1)C(=O)[O-].[Na+]",
     "mw": "144.10",
     "log_p": null,
     "hbd": 0,
     "hba": 2,
     "tpsa": 40.1,
-    "pubchem_cid": 517055
+    "pubchem_cid": 517055,
+    "charge_type": "anionic"
   },
   "Potassium Sorbate": {
-    "smiles": null,
+    "smiles": "C/C=C/C=C/C(=O)[O-].[K+]",
     "mw": "150.22",
     "log_p": null,
     "hbd": 0,
     "hba": 2,
     "tpsa": 40.1,
-    "pubchem_cid": 23676745
+    "pubchem_cid": 23676745,
+    "charge_type": "anionic"
   },
   "Benzyl Alcohol": {
-    "smiles": null,
+    "smiles": "C1=CC=C(C=C1)CO",
     "mw": "108.14",
     "log_p": 1.1,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 244
+    "pubchem_cid": 244,
+    "charge_type": "nonionic"
   },
   "Sorbic Acid": {
-    "smiles": null,
+    "smiles": "C/C=C/C=C/C(=O)O",
     "mw": "112.13",
     "log_p": 1.3,
     "hbd": 1,
     "hba": 2,
     "tpsa": 37.3,
-    "pubchem_cid": 643460
+    "pubchem_cid": 643460,
+    "charge_type": "nonionic"
   },
   "Dehydroacetic Acid": {
-    "smiles": null,
+    "smiles": "CC1=CC(=O)C(C(=O)O1)C(=O)C",
     "mw": "168.15",
     "log_p": 0.3,
     "hbd": 0,
     "hba": 4,
     "tpsa": 60.4,
-    "pubchem_cid": 122903
+    "pubchem_cid": 122903,
+    "charge_type": "nonionic"
   },
   "Chlorphenesin": {
-    "smiles": null,
+    "smiles": "C1=CC(=CC=C1OCC(CO)O)Cl",
     "mw": "202.63",
     "log_p": 1.2,
     "hbd": 2,
     "hba": 3,
     "tpsa": 49.7,
-    "pubchem_cid": 7697
+    "pubchem_cid": 7697,
+    "charge_type": "nonionic"
   },
   "Methylparaben": {
-    "smiles": null,
+    "smiles": "COC(=O)C1=CC=C(C=C1)O",
     "mw": "152.15",
     "log_p": 2,
     "hbd": 1,
     "hba": 3,
     "tpsa": 46.5,
-    "pubchem_cid": 7456
+    "pubchem_cid": 7456,
+    "charge_type": "nonionic"
   },
   "Propylparaben": {
-    "smiles": null,
+    "smiles": "CCCOC(=O)C1=CC=C(C=C1)O",
     "mw": "180.20",
     "log_p": 3,
     "hbd": 1,
     "hba": 3,
     "tpsa": 46.5,
-    "pubchem_cid": 7175
+    "pubchem_cid": 7175,
+    "charge_type": "nonionic"
   },
   "Hydroxyethylcellulose": {
-    "smiles": null,
+    "smiles": "CC(COCC1C(C(C(C(O1)OC2C(OC(C(C2OCC(C)O)OCC(C)O)OCC(C)O)COCC(C)O)OCC(C)O)OCC(C)O)OCC(C)O)O",
     "mw": "806.9",
     "log_p": -3,
     "hbd": 8,
     "hba": 19,
     "tpsa": 263,
-    "pubchem_cid": 4327536
+    "pubchem_cid": 4327536,
+    "charge_type": "nonionic"
   },
   "Sodium Carboxymethyl Cellulose": {
-    "smiles": null,
+    "smiles": "CC(=O)O.C(C(C(C(C(C=O)O)O)O)O)O.[Na]",
     "mw": "263.20",
     "log_p": null,
     "hbd": 6,
     "hba": 8,
     "tpsa": 156,
-    "pubchem_cid": 6328154
+    "pubchem_cid": 6328154,
+    "charge_type": "nonionic"
   },
   "Pectin": {
-    "smiles": null,
+    "smiles": "[C@@H]1([C@H]([C@H](O[C@H]([C@@H]1O)O)C(=O)O)O)O",
     "mw": "194.14",
     "log_p": -2.3,
     "hbd": 5,
     "hba": 7,
     "tpsa": 127,
-    "pubchem_cid": 441476
+    "pubchem_cid": 441476,
+    "charge_type": "nonionic"
   },
   "Agar": {
-    "smiles": null,
+    "smiles": "CC1[C@H]([C@H]2C(C(O1)CO2)OC3[C@@H]([C@H]([C@H]([C@H](O3)CO)O)OC)O)O",
     "mw": "336.33",
     "log_p": -2.2,
     "hbd": 4,
     "hba": 9,
     "tpsa": 127,
-    "pubchem_cid": 71571511
+    "pubchem_cid": 71571511,
+    "charge_type": "nonionic"
   },
   "Citric Acid": {
-    "smiles": null,
+    "smiles": "C(C(=O)O)C(CC(=O)O)(C(=O)O)O",
     "mw": "192.12",
     "log_p": -1.7,
     "hbd": 4,
     "hba": 7,
     "tpsa": 132,
-    "pubchem_cid": 311
+    "pubchem_cid": 311,
+    "charge_type": "nonionic"
   },
   "Sodium Hydroxide": {
-    "smiles": null,
+    "smiles": "[OH-].[Na+]",
     "mw": "39.997",
     "log_p": null,
     "hbd": 1,
     "hba": 1,
     "tpsa": 1,
-    "pubchem_cid": 14798
+    "pubchem_cid": 14798,
+    "charge_type": "nonionic"
   },
   "Triethanolamine": {
-    "smiles": null,
+    "smiles": "C(CO)N(CCO)CCO",
     "mw": "149.19",
     "log_p": -1,
     "hbd": 3,
     "hba": 4,
     "tpsa": 63.9,
-    "pubchem_cid": 7618
+    "pubchem_cid": 7618,
+    "charge_type": "nonionic"
   },
   "Sodium Citrate": {
-    "smiles": null,
+    "smiles": "C(C(=O)[O-])C(CC(=O)[O-])(C(=O)[O-])O.[Na+].[Na+].[Na+]",
     "mw": "258.07",
     "log_p": null,
     "hbd": 1,
     "hba": 7,
     "tpsa": 141,
-    "pubchem_cid": 6224
+    "pubchem_cid": 6224,
+    "charge_type": "anionic"
   },
   "Disodium EDTA": {
-    "smiles": null,
+    "smiles": "C(CN(CC(=O)[O-])CC(=O)[O-])N(CC(=O)O)CC(=O)O.[Na+].[Na+]",
     "mw": "336.21",
     "log_p": null,
     "hbd": 2,
     "hba": 10,
     "tpsa": 161,
-    "pubchem_cid": 13020083
+    "pubchem_cid": 13020083,
+    "charge_type": "anionic"
   },
   "Phytic Acid": {
-    "smiles": null,
+    "smiles": "C1(C(C(C(C(C1OP(=O)(O)O)OP(=O)(O)O)OP(=O)(O)O)OP(=O)(O)O)OP(=O)(O)O)OP(=O)(O)O",
     "mw": "660.04",
     "log_p": -10.3,
     "hbd": 12,
     "hba": 24,
     "tpsa": 401,
-    "pubchem_cid": 890
+    "pubchem_cid": 890,
+    "charge_type": "nonionic"
   },
   "Sodium Phosphate": {
-    "smiles": null,
+    "smiles": "[O-]P(=O)([O-])[O-].[Na+]",
     "mw": "117.961",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 86.3,
-    "pubchem_cid": 21225609
+    "pubchem_cid": 21225609,
+    "charge_type": "anionic"
   },
   "Potassium Hydroxide": {
-    "smiles": null,
+    "smiles": "[OH-].[K+]",
     "mw": "56.106",
     "log_p": null,
     "hbd": 1,
     "hba": 1,
     "tpsa": 1,
-    "pubchem_cid": 14797
+    "pubchem_cid": 14797,
+    "charge_type": "nonionic"
   },
   "BHT": {
-    "smiles": null,
+    "smiles": "CC1=CC(=C(C(=C1)C(C)(C)C)O)C(C)(C)C",
     "mw": "220.35",
     "log_p": 5.3,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 31404
+    "pubchem_cid": 31404,
+    "charge_type": "nonionic"
   },
   "BHA": {
-    "smiles": null,
+    "smiles": "CC(C)(C)C1=C(C=CC(=C1)OC)O",
     "mw": "180.24",
     "log_p": 3.2,
     "hbd": 1,
     "hba": 2,
     "tpsa": 29.5,
-    "pubchem_cid": 8456
+    "pubchem_cid": 8456,
+    "charge_type": "nonionic"
   },
   "Ascorbyl Palmitate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC(=O)OC[C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O",
     "mw": "414.5",
     "log_p": 6.3,
     "hbd": 3,
     "hba": 7,
     "tpsa": 113,
-    "pubchem_cid": 54680660
+    "pubchem_cid": 54680660,
+    "charge_type": "nonionic"
   },
   "Avobenzone": {
-    "smiles": null,
+    "smiles": "CC(C)(C)C1=CC=C(C=C1)C(=O)CC(=O)C2=CC=C(C=C2)OC",
     "mw": "310.4",
     "log_p": 4.8,
     "hbd": 0,
     "hba": 3,
     "tpsa": 43.4,
-    "pubchem_cid": 51040
+    "pubchem_cid": 51040,
+    "charge_type": "nonionic"
   },
   "Octinoxate": {
-    "smiles": null,
+    "smiles": "CCCCC(CC)COC(=O)/C=C/C1=CC=C(C=C1)OC",
     "mw": "290.4",
     "log_p": 5.3,
     "hbd": 0,
     "hba": 3,
     "tpsa": 35.5,
-    "pubchem_cid": 5355130
+    "pubchem_cid": 5355130,
+    "charge_type": "nonionic"
   },
   "Titanium Dioxide": {
-    "smiles": null,
+    "smiles": "O=[Ti]=O",
     "mw": "79.866",
     "log_p": null,
     "hbd": 0,
     "hba": 2,
     "tpsa": 34.1,
-    "pubchem_cid": 26042
+    "pubchem_cid": 26042,
+    "charge_type": "nonionic"
   },
   "Zinc Oxide": {
-    "smiles": null,
+    "smiles": "[O-2].[Zn+2]",
     "mw": "81.4",
     "log_p": null,
     "hbd": 0,
     "hba": 1,
     "tpsa": 1,
-    "pubchem_cid": 3007857
+    "pubchem_cid": 3007857,
+    "charge_type": "nonionic"
   },
   "Octocrylene": {
-    "smiles": null,
+    "smiles": "CCCCC(CC)COC(=O)C(=C(C1=CC=CC=C1)C2=CC=CC=C2)C#N",
     "mw": "361.5",
     "log_p": 7.1,
     "hbd": 0,
     "hba": 3,
     "tpsa": 50.1,
-    "pubchem_cid": 22571
+    "pubchem_cid": 22571,
+    "charge_type": "nonionic"
   },
   "Cholecalciferol": {
-    "smiles": null,
+    "smiles": "C[C@H](CCCC(C)C)[C@H]1CC[C@@H]\\2[C@@]1(CCC/C2=C\\C=C/3\\C[C@H](CCC3=C)O)C",
     "mw": "384.6",
     "log_p": 7.9,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 5280795
+    "pubchem_cid": 5280795,
+    "charge_type": "nonionic"
   },
   "Ergocalciferol": {
-    "smiles": null,
+    "smiles": "C[C@H](/C=C/[C@H](C)C(C)C)[C@H]1CC[C@@H]\\2[C@@]1(CCC/C2=C\\C=C/3\\C[C@H](CCC3=C)O)C",
     "mw": "396.6",
     "log_p": 7.4,
     "hbd": 1,
     "hba": 1,
     "tpsa": 20.2,
-    "pubchem_cid": 5280793
+    "pubchem_cid": 5280793,
+    "charge_type": "nonionic"
   },
   "Menaquinone": {
-    "smiles": null,
+    "smiles": "CC1=C(C(=O)C2=CC=CC=C2C1=O)C/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CCC=C(C)C",
     "mw": "512.8",
     "log_p": 10.8,
     "hbd": 0,
     "hba": 2,
     "tpsa": 34.1,
-    "pubchem_cid": 14009404
+    "pubchem_cid": 14009404,
+    "charge_type": "nonionic"
   },
   "Pyridoxine Hydrochloride": {
-    "smiles": null,
+    "smiles": "CC1=NC=C(C(=C1O)CO)CO.Cl",
     "mw": "205.64",
     "log_p": null,
     "hbd": 4,
     "hba": 4,
     "tpsa": 73.6,
-    "pubchem_cid": 6019
+    "pubchem_cid": 6019,
+    "charge_type": "nonionic"
   },
   "Thiamine Hydrochloride": {
-    "smiles": null,
+    "smiles": "CC1=C(SC=[N+]1CC2=CN=C(N=C2N)C)CCO.Cl.[Cl-]",
     "mw": "337.3",
     "log_p": null,
     "hbd": 3,
     "hba": 6,
     "tpsa": 104,
-    "pubchem_cid": 6202
+    "pubchem_cid": 6202,
+    "charge_type": "cationic"
   },
   "Riboflavin": {
-    "smiles": null,
+    "smiles": "CC1=CC2=C(C=C1C)N(C3=NC(=O)NC(=O)C3=N2)C[C@@H]([C@@H]([C@@H](CO)O)O)O",
     "mw": "376.4",
     "log_p": -1.5,
     "hbd": 5,
     "hba": 7,
     "tpsa": 155,
-    "pubchem_cid": 493570
+    "pubchem_cid": 493570,
+    "charge_type": "nonionic"
   },
   "Cyanocobalamin": {
-    "smiles": null,
+    "smiles": "CC1=CC2=C(C=C1C)[N+](=CN2)[C@@H]3[C@@H]([C@@H]([C@H](O3)CO)OP(=O)(O)O[C@H](C)CNC(=O)CC[C@@]4([C@H]([C@@H]5[C@]6([C@@]([C@@H](C(=N6)/C(=C\\7/[C@@]([C@@H](/C(=C/C8=N/C(=C(\\C4=N5)/C)/[C@H](C8(C)C)CCC(=N)[O-])/N7)CCC(=N)[O-])(C)CC(=O)N)/C)CCC(=N)[O-])(C)CC(=O)N)C)CC(=O)N)C)O.[C]#N.[Co+2]",
     "mw": "1355.4",
     "log_p": null,
     "hbd": 12,
     "hba": 22,
     "tpsa": 497,
-    "pubchem_cid": 166596686
+    "pubchem_cid": 166596686,
+    "charge_type": "amphoteric"
   },
   "Methylcobalamin": {
-    "smiles": null,
+    "smiles": "[CH3-].CC1=CC2=C(C=C1C)N(C=N2)[C@@H]3[C@@H]([C@@H]([C@H](O3)CO)OP(=O)([O-])OC(C)CNC(=O)CC[C@@]4([C@H]([C@@H]5[C@]6([C@@]([C@@H](/C(=C(/C7=N/C(=C\\C8=N/C(=C(\\C4=N5)/C)/[C@H](C8(C)C)CCC(=O)N)/[C@H]([C@]7(C)CC(=O)N)CCC(=O)N)\\C)/[N-]6)CCC(=O)N)(C)CC(=O)N)C)CC(=O)N)C)O.[Co+3]",
     "mw": "1344.4",
     "log_p": null,
     "hbd": 9,
     "hba": 20,
     "tpsa": 452,
-    "pubchem_cid": 10898559
+    "pubchem_cid": 10898559,
+    "charge_type": "anionic"
   },
   "Folic Acid": {
-    "smiles": null,
+    "smiles": "C1=CC(=CC=C1C(=O)N[C@@H](CCC(=O)O)C(=O)O)NCC2=CN=C3C(=N2)C(=O)NC(=N3)N",
     "mw": "441.4",
     "log_p": -1.1,
     "hbd": 6,
     "hba": 10,
     "tpsa": 209,
-    "pubchem_cid": 135398658
+    "pubchem_cid": 135398658,
+    "charge_type": "nonionic"
   },
   "Biotin": {
-    "smiles": null,
+    "smiles": "C1[C@H]2[C@@H]([C@@H](S1)CCCCC(=O)O)NC(=O)N2",
     "mw": "244.31",
     "log_p": 0.3,
     "hbd": 3,
     "hba": 4,
     "tpsa": 104,
-    "pubchem_cid": 171548
+    "pubchem_cid": 171548,
+    "charge_type": "nonionic"
   },
   "Pantothenic Acid": {
-    "smiles": null,
+    "smiles": "CC(C)(CO)[C@H](C(=O)NCCC(=O)O)O",
     "mw": "219.23",
     "log_p": -1.1,
     "hbd": 4,
     "hba": 5,
     "tpsa": 107,
-    "pubchem_cid": 6613
+    "pubchem_cid": 6613,
+    "charge_type": "nonionic"
   },
   "Calcium Carbonate": {
-    "smiles": null,
+    "smiles": "C(=O)([O-])[O-].[Ca+2]",
     "mw": "100.09",
     "log_p": null,
     "hbd": 0,
     "hba": 3,
     "tpsa": 63.2,
-    "pubchem_cid": 10112
+    "pubchem_cid": 10112,
+    "charge_type": "anionic"
   },
   "Calcium Citrate": {
-    "smiles": null,
+    "smiles": "C(C(=O)[O-])C(CC(=O)[O-])(C(=O)[O-])O.C(C(=O)[O-])C(CC(=O)[O-])(C(=O)[O-])O.[Ca+2].[Ca+2].[Ca+2]",
     "mw": "498.4",
     "log_p": null,
     "hbd": 2,
     "hba": 14,
     "tpsa": 281,
-    "pubchem_cid": 13136
+    "pubchem_cid": 13136,
+    "charge_type": "anionic"
   },
   "Ferrous Sulfate": {
-    "smiles": null,
+    "smiles": "[O-]S(=O)(=O)[O-].[Fe+2]",
     "mw": "151.91",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 88.6,
-    "pubchem_cid": 24393
+    "pubchem_cid": 24393,
+    "charge_type": "anionic"
   },
   "Ferrous Fumarate": {
-    "smiles": null,
+    "smiles": "C(=C/C(=O)[O-])\\C(=O)[O-].[Fe+2]",
     "mw": "169.90",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 80.3,
-    "pubchem_cid": 6433164
+    "pubchem_cid": 6433164,
+    "charge_type": "anionic"
   },
   "Iron Bisglycinate": {
-    "smiles": null,
+    "smiles": "C(C(=O)O)N.C(C(=O)O)N.[Fe]",
     "mw": "205.98",
     "log_p": null,
     "hbd": 4,
     "hba": 6,
     "tpsa": 127,
-    "pubchem_cid": 129722163
+    "pubchem_cid": 129722163,
+    "charge_type": "nonionic"
   },
   "Zinc Gluconate": {
-    "smiles": null,
+    "smiles": "C([C@H]([C@H]([C@@H]([C@H](C(=O)[O-])O)O)O)O)O.C([C@H]([C@H]([C@@H]([C@H](C(=O)[O-])O)O)O)O)O.[Zn+2]",
     "mw": "455.7",
     "log_p": null,
     "hbd": 10,
     "hba": 14,
     "tpsa": 283,
-    "pubchem_cid": 443445
+    "pubchem_cid": 443445,
+    "charge_type": "anionic"
   },
   "Zinc Bisglycinate": {
-    "smiles": null,
+    "smiles": "C(C(=O)[O-])N.C(C(=O)[O-])N.[Zn+2]",
     "mw": "213.5",
     "log_p": null,
     "hbd": 2,
     "hba": 6,
     "tpsa": 132,
-    "pubchem_cid": 151910
+    "pubchem_cid": 151910,
+    "charge_type": "anionic"
   },
   "Magnesium Citrate": {
-    "smiles": null,
+    "smiles": "C(C(=O)[O-])C(CC(=O)[O-])(C(=O)[O-])O.C(C(=O)[O-])C(CC(=O)[O-])(C(=O)[O-])O.[Mg+2].[Mg+2].[Mg+2]",
     "mw": "451.12",
     "log_p": null,
     "hbd": 2,
     "hba": 14,
     "tpsa": 281,
-    "pubchem_cid": 6099959
+    "pubchem_cid": 6099959,
+    "charge_type": "anionic"
   },
   "Magnesium Oxide": {
-    "smiles": null,
+    "smiles": "O=[Mg]",
     "mw": "40.305",
     "log_p": null,
     "hbd": 0,
     "hba": 1,
     "tpsa": 17.1,
-    "pubchem_cid": 14792
+    "pubchem_cid": 14792,
+    "charge_type": "nonionic"
   },
   "Magnesium Glycinate": {
-    "smiles": null,
+    "smiles": "C(C(=O)[O-])N.C(C(=O)[O-])N.[Mg+2]",
     "mw": "172.42",
     "log_p": null,
     "hbd": 2,
     "hba": 6,
     "tpsa": 132,
-    "pubchem_cid": 84645
+    "pubchem_cid": 84645,
+    "charge_type": "anionic"
   },
   "Lactose": {
-    "smiles": null,
+    "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@@H](O1)O[C@@H]2[C@H](OC([C@@H]([C@H]2O)O)O)CO)O)O)O)O",
     "mw": "342.30",
     "log_p": -4.7,
     "hbd": 8,
     "hba": 11,
     "tpsa": 190,
-    "pubchem_cid": 440995
+    "pubchem_cid": 440995,
+    "charge_type": "nonionic"
   },
   "Mannitol": {
-    "smiles": null,
+    "smiles": "C([C@H]([C@H]([C@@H]([C@@H](CO)O)O)O)O)O",
     "mw": "182.17",
     "log_p": -3.1,
     "hbd": 6,
     "hba": 6,
     "tpsa": 121,
-    "pubchem_cid": 6251
+    "pubchem_cid": 6251,
+    "charge_type": "nonionic"
   },
   "Magnesium Stearate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCC(=O)[O-].CCCCCCCCCCCCCCCCCC(=O)[O-].[Mg+2]",
     "mw": "591.2",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 80.3,
-    "pubchem_cid": 11177
+    "pubchem_cid": 11177,
+    "charge_type": "anionic"
   },
   "Sodium Stearyl Fumarate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCCOC(=O)/C=C/C(=O)[O-].[Na+]",
     "mw": "390.5",
     "log_p": null,
     "hbd": 0,
     "hba": 4,
     "tpsa": 66.4,
-    "pubchem_cid": 23665634
+    "pubchem_cid": 23665634,
+    "charge_type": "anionic"
   },
   "Calcium Chloride": {
-    "smiles": null,
+    "smiles": "[Cl-].[Cl-].[Ca+2]",
     "mw": "110.98",
     "log_p": null,
     "hbd": 0,
     "hba": 2,
     "tpsa": 0,
-    "pubchem_cid": 5284359
+    "pubchem_cid": 5284359,
+    "charge_type": "nonionic"
   },
   "Sodium Metabisulfite": {
-    "smiles": null,
+    "smiles": "[O-]S(=O)S(=O)(=O)[O-].[Na+].[Na+]",
     "mw": "190.11",
     "log_p": null,
     "hbd": 0,
     "hba": 6,
     "tpsa": 125,
-    "pubchem_cid": 656671
+    "pubchem_cid": 656671,
+    "charge_type": "anionic"
   },
   "Sodium Nitrite": {
-    "smiles": null,
+    "smiles": "N(=O)[O-].[Na+]",
     "mw": "68.995",
     "log_p": null,
     "hbd": 0,
     "hba": 3,
     "tpsa": 52.5,
-    "pubchem_cid": 23668193
+    "pubchem_cid": 23668193,
+    "charge_type": "anionic"
   },
   "Sucrose": {
-    "smiles": null,
+    "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O[C@]2([C@H]([C@@H]([C@H](O2)CO)O)O)CO)O)O)O)O",
     "mw": "342.30",
     "log_p": -3.7,
     "hbd": 8,
     "hba": 11,
     "tpsa": 190,
-    "pubchem_cid": 5988
+    "pubchem_cid": 5988,
+    "charge_type": "nonionic"
   },
   "Glucose": {
-    "smiles": null,
+    "smiles": "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O",
     "mw": "180.16",
     "log_p": -2.6,
     "hbd": 5,
     "hba": 6,
     "tpsa": 110,
-    "pubchem_cid": 5793
+    "pubchem_cid": 5793,
+    "charge_type": "nonionic"
   },
   "Sodium Cocoyl Glutamate": {
-    "smiles": null,
+    "smiles": "C(CC(=O)[O-])[C@@H](C(=O)O)N.[Na+]",
     "mw": "169.11",
     "log_p": null,
     "hbd": 2,
     "hba": 5,
     "tpsa": 103,
-    "pubchem_cid": 23676143
+    "pubchem_cid": 23676143,
+    "charge_type": "anionic"
   },
   "Disodium Cocoyl Glutamate": {
-    "smiles": null,
+    "smiles": "C(CC(=O)[O-])[C@@H](C(=O)[O-])N.[Na+].[Na+]",
     "mw": "191.09",
     "log_p": null,
     "hbd": 1,
     "hba": 5,
     "tpsa": 106,
-    "pubchem_cid": 167560
+    "pubchem_cid": 167560,
+    "charge_type": "anionic"
   },
   "Sodium Lauroyl Sarcosinate": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCC(=O)N(C)CC(=O)[O-].[Na+]",
     "mw": "293.38",
     "log_p": null,
     "hbd": 0,
     "hba": 3,
     "tpsa": 60.4,
-    "pubchem_cid": 23668817
+    "pubchem_cid": 23668817,
+    "charge_type": "anionic"
   },
   "Cetrimonium Chloride": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCC[N+](C)(C)C.[Cl-]",
     "mw": "320.0",
     "log_p": null,
     "hbd": 0,
     "hba": 1,
     "tpsa": 0,
-    "pubchem_cid": 8154
+    "pubchem_cid": 8154,
+    "charge_type": "cationic"
   },
   "Behentrimonium Chloride": {
-    "smiles": null,
+    "smiles": "CCCCCCCCCCCCCCCCCCCCCC[N+](C)(C)C.[Cl-]",
     "mw": "404.2",
     "log_p": null,
     "hbd": 0,
     "hba": 1,
     "tpsa": 0,
-    "pubchem_cid": 3014969
+    "pubchem_cid": 3014969,
+    "charge_type": "cationic"
+  },
+  "Lauryl Glucoside": {
+    "smiles": "CCCCCCCCCCCCOC1[C@@H]([C@H]([C@@H]([C@H](O1)CO)O)O)O",
+    "mw": "348.5",
+    "log_p": 3.5,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 99.4,
+    "pubchem_cid": 10893439,
+    "charge_type": "nonionic"
+  },
+  "Madecassoside": {
+    "smiles": "C[C@@H]1CC[C@@]2(CC[C@@]3(C(=CC[C@H]4[C@]3(C[C@H]([C@@H]5[C@@]4(C[C@H]([C@@H]([C@@]5(C)CO)O)O)C)O)C)[C@@H]2[C@H]1C)C)C(=O)O[C@H]6[C@@H]([C@H]([C@@H]([C@H](O6)CO[C@H]7[C@@H]([C@H]([C@@H]([C@H](O7)CO)O[C@H]8[C@@H]([C@@H]([C@H]([C@@H](O8)C)O)O)O)O)O)O)O)O",
+    "mw": "975.1",
+    "log_p": -1.2,
+    "hbd": 13,
+    "hba": 20,
+    "tpsa": 335,
+    "pubchem_cid": 24825675,
+    "charge_type": "nonionic"
+  },
+  "Asiaticoside": {
+    "smiles": "C[C@@H]1CC[C@@]2(CC[C@@]3(C(=CC[C@H]4[C@]3(CC[C@@H]5[C@@]4(C[C@H]([C@@H]([C@@]5(C)CO)O)O)C)C)[C@@H]2[C@H]1C)C)C(=O)O[C@H]6[C@@H]([C@H]([C@@H]([C@H](O6)CO[C@H]7[C@@H]([C@H]([C@@H]([C@H](O7)CO)O[C@H]8[C@@H]([C@@H]([C@H]([C@@H](O8)C)O)O)O)O)O)O)O)O",
+    "mw": "959.1",
+    "log_p": 0.1,
+    "hbd": 12,
+    "hba": 19,
+    "tpsa": 315,
+    "pubchem_cid": 11954171,
+    "charge_type": "nonionic"
+  },
+  "Ectoin": {
+    "smiles": "CC1=NCC[C@H](N1)C(=O)O",
+    "mw": "142.16",
+    "log_p": -0.8,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 61.7,
+    "pubchem_cid": 126041,
+    "charge_type": "nonionic"
+  },
+  "Bisabolol": {
+    "smiles": "CC1=CC[C@@H](CC1)[C@@](C)(CCC=C(C)C)O",
+    "mw": "222.37",
+    "log_p": 3.8,
+    "hbd": 1,
+    "hba": 1,
+    "tpsa": 20.2,
+    "pubchem_cid": 1549992,
+    "charge_type": "nonionic"
+  },
+  "Ergothioneine": {
+    "smiles": "C[N+](C)(C)[C@@H](CC1=CNC(=S)N1)C(=O)[O-]",
+    "mw": "229.30",
+    "log_p": 0.3,
+    "hbd": 2,
+    "hba": 3,
+    "tpsa": 96.3,
+    "pubchem_cid": 5351619,
+    "charge_type": "amphoteric"
+  },
+  "Quercetin": {
+    "smiles": "C1=CC(=C(C=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O)O",
+    "mw": "302.23",
+    "log_p": 1.5,
+    "hbd": 5,
+    "hba": 7,
+    "tpsa": 127,
+    "pubchem_cid": 5280343,
+    "charge_type": "nonionic"
+  },
+  "Epigallocatechin Gallate": {
+    "smiles": "C1[C@H]([C@H](OC2=CC(=CC(=C21)O)O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O",
+    "mw": "458.4",
+    "log_p": 1.2,
+    "hbd": 8,
+    "hba": 11,
+    "tpsa": 197,
+    "pubchem_cid": 65064,
+    "charge_type": "nonionic"
+  },
+  "Coenzyme Q10": {
+    "smiles": "CC1=C(C(=O)C(=C(C1=O)OC)OC)C/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CC/C=C(\\C)/CCC=C(C)C",
+    "mw": "863.3",
+    "log_p": 19.4,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 52.6,
+    "pubchem_cid": 5281915,
+    "charge_type": "nonionic"
+  },
+  "Alpha-Lipoic Acid": {
+    "smiles": "C1CSSC1CCCCC(=O)O",
+    "mw": "206.3",
+    "log_p": 1.7,
+    "hbd": 1,
+    "hba": 4,
+    "tpsa": 87.9,
+    "pubchem_cid": 864,
+    "charge_type": "nonionic"
+  },
+  "Cetyl Ethylhexanoate": {
+    "smiles": "CCCCCCCCCCCCCCCCOC(=O)C(CC)CCCC",
+    "mw": "368.6",
+    "log_p": 10.7,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 26.3,
+    "pubchem_cid": 42956,
+    "charge_type": "nonionic"
+  },
+  "Dicaprylyl Carbonate": {
+    "smiles": "CCCCCCCCOC(=O)OCCCCCCCC",
+    "mw": "286.4",
+    "log_p": 7.4,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 35.5,
+    "pubchem_cid": 9904000,
+    "charge_type": "nonionic"
+  },
+  "Diisopropyl Adipate": {
+    "smiles": "CC(C)OC(=O)CCCCC(=O)OC(C)C",
+    "mw": "230.30",
+    "log_p": 2.2,
+    "hbd": 0,
+    "hba": 4,
+    "tpsa": 52.6,
+    "pubchem_cid": 23368,
+    "charge_type": "nonionic"
+  },
+  "Erythritol": {
+    "smiles": "C([C@H]([C@H](CO)O)O)O",
+    "mw": "122.12",
+    "log_p": -2.3,
+    "hbd": 4,
+    "hba": 4,
+    "tpsa": 80.9,
+    "pubchem_cid": 222285,
+    "charge_type": "nonionic"
+  },
+  "Xylitol": {
+    "smiles": "C([C@H](C([C@H](CO)O)O)O)O",
+    "mw": "152.15",
+    "log_p": -2.5,
+    "hbd": 5,
+    "hba": 5,
+    "tpsa": 101,
+    "pubchem_cid": 6912,
+    "charge_type": "nonionic"
+  },
+  "Hydroxyethyl Cellulose": {
+    "smiles": "CC(COCC1C(C(C(C(O1)OC2C(OC(C(C2OCC(C)O)OCC(C)O)OCC(C)O)COCC(C)O)OCC(C)O)OCC(C)O)OCC(C)O)O",
+    "mw": "806.9",
+    "log_p": -3,
+    "hbd": 8,
+    "hba": 19,
+    "tpsa": 263,
+    "pubchem_cid": 4327536,
+    "charge_type": "nonionic"
+  },
+  "Sclerotium Gum": {
+    "smiles": "C(C1C(C(C(C(O1)OCC2C(C(C(C(O2)OC3C(C(OC(C3O)P)CO)O)O)OC4C(C(C(C(O4)CO)O)OP)O)O)O)O)O)O",
+    "mw": "714.5",
+    "log_p": -7.2,
+    "hbd": 12,
+    "hba": 20,
+    "tpsa": 317,
+    "pubchem_cid": 131750928,
+    "charge_type": "nonionic"
+  },
+  "Sodium Dehydroacetate": {
+    "smiles": "CC1=CC(=O)[C-](C(=O)O1)C(=O)C.[Na+]",
+    "mw": "190.13",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 5,
+    "tpsa": 60.4,
+    "pubchem_cid": 23721629,
+    "charge_type": "nonionic"
+  },
+  "Sodium Phytate": {
+    "smiles": "[H+].[H+].[H+].C1(C(C(C(C(C1OP(=O)([O-])[O-])OP(=O)([O-])[O-])OP(=O)([O-])[O-])OP(=O)([O-])[O-])OP(=O)([O-])[O-])OP(=O)([O-])[O-].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+]",
+    "mw": "857.87",
+    "log_p": null,
+    "hbd": 3,
+    "hba": 24,
+    "tpsa": 435,
+    "pubchem_cid": 23724990,
+    "charge_type": "anionic"
+  },
+  "Tetrasodium EDTA": {
+    "smiles": "C(CN(CC(=O)[O-])CC(=O)[O-])N(CC(=O)[O-])CC(=O)[O-].[Na+].[Na+].[Na+].[Na+]",
+    "mw": "380.17",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 10,
+    "tpsa": 167,
+    "pubchem_cid": 6144,
+    "charge_type": "anionic"
+  },
+  "Trisodium Ethylenediamine Disuccinate": {
+    "smiles": "C(CN[C@@H](CC(=O)[O-])C(=O)[O-])N[C@@H](CC(=O)[O-])C(=O)O.[Na+].[Na+].[Na+]",
+    "mw": "358.19",
+    "log_p": null,
+    "hbd": 3,
+    "hba": 10,
+    "tpsa": 182,
+    "pubchem_cid": 73555305,
+    "charge_type": "anionic"
+  },
+  "Aminomethyl Propanol": {
+    "smiles": "CC(C)(CO)N",
+    "mw": "89.14",
+    "log_p": -0.8,
+    "hbd": 2,
+    "hba": 2,
+    "tpsa": 46.3,
+    "pubchem_cid": 11807,
+    "charge_type": "nonionic"
+  },
+  "Sodium Lactate": {
+    "smiles": "CC(C(=O)[O-])O.[Na+]",
+    "mw": "112.06",
+    "log_p": null,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 60.4,
+    "pubchem_cid": 23666456,
+    "charge_type": "anionic"
+  },
+  "Malic Acid": {
+    "smiles": "C(C(C(=O)O)O)C(=O)O",
+    "mw": "134.09",
+    "log_p": -1.3,
+    "hbd": 3,
+    "hba": 5,
+    "tpsa": 94.8,
+    "pubchem_cid": 525,
+    "charge_type": "nonionic"
+  },
+  "Tartaric Acid": {
+    "smiles": "[C@@H]([C@H](C(=O)O)O)(C(=O)O)O",
+    "mw": "150.09",
+    "log_p": -1.9,
+    "hbd": 4,
+    "hba": 6,
+    "tpsa": 115,
+    "pubchem_cid": 444305,
+    "charge_type": "nonionic"
+  },
+  "Phosphoric Acid": {
+    "smiles": "OP(=O)(O)O",
+    "mw": "97.995",
+    "log_p": -2.1,
+    "hbd": 3,
+    "hba": 4,
+    "tpsa": 77.8,
+    "pubchem_cid": 1004,
+    "charge_type": "nonionic"
+  },
+  "Ethylhexyl Methoxycinnamate": {
+    "smiles": "CCCCC(CC)COC(=O)/C=C/C1=CC=C(C=C1)OC",
+    "mw": "290.4",
+    "log_p": 5.3,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 35.5,
+    "pubchem_cid": 5355130,
+    "charge_type": "nonionic"
+  },
+  "Butyl Methoxydibenzoylmethane": {
+    "smiles": "CC(C)(C)C1=CC=C(C=C1)C(=O)CC(=O)C2=CC=C(C=C2)OC",
+    "mw": "310.4",
+    "log_p": 4.8,
+    "hbd": 0,
+    "hba": 3,
+    "tpsa": 43.4,
+    "pubchem_cid": 51040,
+    "charge_type": "nonionic"
+  },
+  "Ethylhexyl Salicylate": {
+    "smiles": "CCCCC(CC)COC(=O)C1=CC=CC=C1O",
+    "mw": "250.33",
+    "log_p": 5.7,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 46.5,
+    "pubchem_cid": 8364,
+    "charge_type": "nonionic"
+  },
+  "Homosalate": {
+    "smiles": "CC1CC(CC(C1)(C)C)OC(=O)C2=CC=CC=C2O",
+    "mw": "262.34",
+    "log_p": 5,
+    "hbd": 1,
+    "hba": 3,
+    "tpsa": 46.5,
+    "pubchem_cid": 8362,
+    "charge_type": "nonionic"
+  },
+  "Bemotrizinol": {
+    "smiles": "CCCCC(CC)COC1=CC(=C(C=C1)C2=NC(=NC(=N2)C3=CC=C(C=C3)OC)C4=C(C=C(C=C4)OCC(CC)CCCC)O)O",
+    "mw": "627.8",
+    "log_p": 10.4,
+    "hbd": 2,
+    "hba": 8,
+    "tpsa": 107,
+    "pubchem_cid": 135487856,
+    "charge_type": "nonionic"
+  },
+  "Bisoctrizole": {
+    "smiles": "CC(C)(C)CC(C)(C)C1=CC(=C(C(=C1)N2N=C3C=CC=CC3=N2)O)CC4=C(C(=CC(=C4)C(C)(C)CC(C)(C)C)N5N=C6C=CC=CC6=N5)O",
+    "mw": "658.9",
+    "log_p": 12.8,
+    "hbd": 2,
+    "hba": 6,
+    "tpsa": 102,
+    "pubchem_cid": 3571576,
+    "charge_type": "nonionic"
+  },
+  "Sucralose": {
+    "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@H](O1)O[C@]2([C@H]([C@@H]([C@H](O2)CCl)O)O)CCl)O)O)Cl)O",
+    "mw": "397.6",
+    "log_p": -1.5,
+    "hbd": 5,
+    "hba": 8,
+    "tpsa": 129,
+    "pubchem_cid": 71485,
+    "charge_type": "nonionic"
+  },
+  "Lactose Monohydrate": {
+    "smiles": "C([C@@H]1[C@@H]([C@@H]([C@H]([C@@H](O1)O[C@@H]2[C@H](O[C@@H]([C@@H]([C@H]2O)O)O)CO)O)O)O)O.O",
+    "mw": "360.31",
+    "log_p": null,
+    "hbd": 9,
+    "hba": 12,
+    "tpsa": 191,
+    "pubchem_cid": 104938,
+    "charge_type": "nonionic"
+  },
+  "Colloidal Silicon Dioxide": {
+    "smiles": "O=[Si]=O",
+    "mw": "60.084",
+    "log_p": null,
+    "hbd": 0,
+    "hba": 2,
+    "tpsa": 34.1,
+    "pubchem_cid": 24261,
+    "charge_type": "nonionic"
+  },
+  "Talc": {
+    "smiles": "[OH-].[OH-].[O-][Si]12O[Si]3(O[Si](O1)(O[Si](O2)(O3)[O-])[O-])[O-].[Mg+2].[Mg+2].[Mg+2]",
+    "mw": "379.27",
+    "log_p": null,
+    "hbd": 2,
+    "hba": 12,
+    "tpsa": 150,
+    "pubchem_cid": 165411828,
+    "charge_type": "anionic"
   }
 }

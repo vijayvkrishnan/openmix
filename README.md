@@ -45,36 +45,53 @@ The physics observation engine resolves each ingredient to its molecular identit
 ```python
 from openmix import Formula, observe
 
-serum = Formula(
-    name="Vitamin C Serum",
+cream = Formula(
+    name="Retinol Night Cream",
     ingredients=[
-        ("Water", 70.0),
-        ("Ascorbic Acid", 15.0),
-        ("Propanediol", 8.0),
-        ("Glycerin", 5.0),
-        ("Phenoxyethanol", 0.5),
-        ("Tocopherol", 0.5),
-        ("Citric Acid", 0.5),
-        ("Sodium Hydroxide", 0.5),
+        ("Water", 60.0),
+        ("Retinol", 2.0),
+        ("Squalane", 15.0),
+        ("Cetyl Alcohol", 5.0),
+        ("Glycerin", 8.0),
+        ("Niacinamide", 5.0),
+        ("Ascorbic Acid", 5.0),
     ],
-    target_ph=3.0,
+    target_ph=5.5,
     category="skincare",
 )
 
-print(observe(serum))
+print(observe(cream))
 ```
 
 ```
-Physics Observation (engineering): Vitamin C Serum
+Physics Observation (engineering): Retinol Night Cream
 Resolved: 100% of ingredients
+
+Violations (0 hard, 2 soft):
+  [SOFT (conf 0.5)] NIACINAMIDE + ASCORBIC ACID
+    At low pH and high concentrations, niacinamide may convert to nicotinic acid.
+    Widely debated. Many commercial products combine these successfully.
+  [SOFT (conf 0.7)] RETINOL + ASCORBIC ACID
+    Retinol is unstable in the acidic conditions required for L-Ascorbic Acid.
+
+MOLECULAR:
+  [!] Squalane: LogP 14.7 at 15.0% — hydrophobic
+      Expected: Hydrophobic ingredients in aqueous systems need solubilization
+      LogP 14.7 suggests poor water solubility. At 15.0%, ensure adequate emulsifier.
+  [?] Cetyl Alcohol: LogP 7.3 at 5.0% — hydrophobic
 
 STRUCTURAL:
   [ ] formula: Total: 100.0%
+  [!] formula: Water-based formula without detected preservative
 
-Concern count: 0 (lower = better, 0 = no concerns)
+PHASE:
+  [?] formula: Hydrophobic phase: 22.0% — Retinol (2.0%), Squalane (15.0%),
+      Cetyl Alcohol (5.0%)
+
+Concern count: 3.2 (lower = better, 0 = no concerns)
 ```
 
-A clean formula produces clean observations. For problematic formulations, the engine reports molecular observations (LogP/solubility, MW/penetration), charge conflicts, phase behavior, missing preservatives, and knowledge base violations — each as a structured observation with what was seen, what was expected, and whether they agree.
+The engine caught: two ingredient interactions with confidence scores and literature context, a hydrophobic solubility concern from molecular LogP, a missing preservative system, and a 22% oil phase needing emulsification. Each observation reports what was seen, what was expected, and whether they agree.
 
 ### Validate interactions
 
