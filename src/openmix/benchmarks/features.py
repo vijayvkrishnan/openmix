@@ -15,10 +15,13 @@ from __future__ import annotations
 import numpy as np
 
 from openmix.score import score as compute_score
+from openmix.observe import observe
+from openmix.resolver import resolve
 from openmix.knowledge.loader import load_knowledge, Knowledge
 from openmix.matching import match_ingredient
 from openmix.benchmarks.shampoo import (
     ShampooRecord, INGREDIENT_COLS, TRADE_TO_TYPE, TRADE_TO_SMILES,
+    TRADE_TO_INCI,
 )
 
 
@@ -141,14 +144,12 @@ def tier3_features(record: ShampooRecord, kb: Knowledge | None = None) -> np.nda
 
 
 def _aggregate_molecular_properties(record: ShampooRecord) -> np.ndarray:
-    """Compute weighted molecular descriptor statistics."""
-    try:
-        from openmix.molecular import compute_properties, is_available
-        if not is_available():
-            return np.zeros(8, dtype=np.float32)
-    except ImportError:
-        return np.zeros(8, dtype=np.float32)
+    """
+    Compute weighted molecular descriptor statistics.
 
+    Uses the resolver (seed cache + PubChem) for molecular properties.
+    Falls back to RDKit if available for ingredients not in the cache.
+    """
     mw_list = []
     logp_list = []
     tpsa_list = []
@@ -157,33 +158,159 @@ def _aggregate_molecular_properties(record: ShampooRecord) -> np.ndarray:
     for col, pct in zip(INGREDIENT_COLS, record.feature_vector):
         if pct == 0:
             continue
-        smiles = TRADE_TO_SMILES.get(col)
-        if not smiles:
-            continue
-
-        props = compute_properties(smiles)
-        if props:
-            mw_list.append(props["molecular_weight"])
-            logp_list.append(props["log_p"])
-            tpsa_list.append(props["tpsa"])
-            weights.append(pct)
+        # Resolve via INCI name (uses seed cache, no network needed for common ingredients)
+        inci = TRADE_TO_INCI.get(col, col)
+        resolved = resolve(inci)
+        if resolved.resolved:
+            mw = float(resolved.molecular_weight) if resolved.molecular_weight else None
+            logp = resolved.log_p
+            tpsa = resolved.tpsa
+            if mw is not None:
+                mw_list.append(mw)
+            if logp is not None:
+                logp_list.append(logp)
+                weights.append(pct)
+            if tpsa is not None:
+                tpsa_list.append(tpsa)
 
     if not weights:
         return np.zeros(8, dtype=np.float32)
 
-    weights = np.array(weights)
-    weights = weights / weights.sum()
+    w = np.array(weights)
+    w = w / w.sum()
+
+    # Pad tpsa_list to match weights if needed
+    tpsa_arr = np.array(tpsa_list[:len(weights)]) if tpsa_list else np.zeros(len(weights))
+    mw_arr = np.array(mw_list[:len(weights)]) if mw_list else np.zeros(len(weights))
 
     return np.array([
-        np.average(mw_list, weights=weights),      # weighted mean MW
-        np.average(logp_list, weights=weights),     # weighted mean LogP
-        np.average(tpsa_list, weights=weights),     # weighted mean TPSA
-        np.std(mw_list) if len(mw_list) > 1 else 0,   # MW diversity
-        np.std(logp_list) if len(logp_list) > 1 else 0, # LogP diversity
-        np.min(logp_list),                          # most hydrophilic component
-        np.max(logp_list),                          # most hydrophobic component
-        np.max(logp_list) - np.min(logp_list),      # hydrophilic-lipophilic span
+        float(np.average(mw_arr, weights=w)) if len(mw_arr) == len(w) else 0,
+        float(np.average(logp_list, weights=w)),
+        float(np.average(tpsa_arr, weights=w)) if len(tpsa_arr) == len(w) else 0,
+        float(np.std(mw_list)) if len(mw_list) > 1 else 0,
+        float(np.std(logp_list)) if len(logp_list) > 1 else 0,
+        float(np.min(logp_list)),
+        float(np.max(logp_list)),
+        float(np.max(logp_list) - np.min(logp_list)),
     ], dtype=np.float32)
+
+
+def tier4_features(record: ShampooRecord, kb: Knowledge | None = None) -> np.ndarray:
+    """
+    Tier 4: Tier 3 + pairwise interaction features + observation features.
+
+    This is where formulation-awareness matters. Instead of treating
+    ingredients independently, we compute features that capture HOW
+    ingredients interact — charge compatibility, LogP deltas, and
+    concentration-weighted interaction terms.
+    """
+    t3 = tier3_features(record, kb)
+    interaction = _pairwise_interaction_features(record)
+
+    formula = record.to_formula()
+    obs = observe(formula)
+
+    obs_features = np.array([
+        obs.concern_count,
+        obs.hard_violations,
+        obs.soft_violations,
+        len(obs.concerns),
+        obs.resolution_rate,
+        obs.concern_score,
+        # Charge conflict: binary
+        1.0 if any(o.category == "charge" and o.agreement == "discrepancy"
+                    for o in obs.observations) else 0.0,
+        # Phase concern: hydrophobic phase percentage
+        _extract_hydrophobic_pct(obs),
+    ], dtype=np.float32)
+
+    return np.concatenate([t3, interaction, obs_features])
+
+
+def _pairwise_interaction_features(record: ShampooRecord) -> np.ndarray:
+    """
+    Compute pairwise interaction features between ingredients.
+
+    This is the key insight: formulation stability depends on HOW
+    ingredients interact, not just what's present. A cationic surfactant
+    at 1% with anionic at 10% is different from cationic at 5% with
+    anionic at 5%.
+
+    Features:
+    - Cationic-anionic interaction strength (product of concentrations)
+    - Cationic polymer × anionic surfactant interaction (coacervation signal)
+    - Cationic polymer × cationic surfactant competition
+    - Max pairwise charge incompatibility
+    - Surfactant diversity (number of distinct surfactant types)
+    - Amphoteric buffering ratio (amphoteric / total charged)
+    - Thickener-to-surfactant ratio
+    """
+    # Collect concentrations by surfactant type
+    type_pcts: dict[str, float] = {}
+    for col, pct in zip(INGREDIENT_COLS, record.feature_vector):
+        if pct == 0:
+            continue
+        stype = TRADE_TO_TYPE.get(col, "unknown")
+        type_pcts[stype] = type_pcts.get(stype, 0) + pct
+
+    anionic = type_pcts.get("anionic", 0)
+    cationic = type_pcts.get("cationic", 0)
+    amphoteric = type_pcts.get("amphoteric", 0)
+    nonionic = type_pcts.get("nonionic", 0)
+    cat_polymer = type_pcts.get("cationic_polymer", 0)
+    thickener = type_pcts.get("nonionic_thickener", 0)
+
+    total_surf = anionic + cationic + amphoteric + nonionic + 1e-8
+    total_charged = anionic + cationic + 1e-8
+
+    # Cationic-anionic interaction strength
+    # Higher values = more charge interaction (destabilizing unless managed)
+    cat_anion_interaction = cationic * anionic
+
+    # Cationic polymer × anionic surfactant (coacervation — the key stability mechanism)
+    # This is the primary driver in conditioning shampoos
+    coacervation_potential = cat_polymer * anionic
+
+    # Cationic polymer × cationic surfactant (competition for anionic sites)
+    cat_competition = cat_polymer * cationic
+
+    # Amphoteric buffering: amphoteric surfactants moderate charge interactions
+    amphoteric_buffer = amphoteric / total_charged
+
+    # Surfactant type diversity
+    n_types = sum(1 for v in type_pcts.values() if v > 0)
+
+    # Thickener-to-surfactant ratio
+    thickener_ratio = thickener / total_surf
+
+    # Nonionic fraction (stabilizing in most systems)
+    nonionic_fraction = nonionic / total_surf
+
+    # Polymer loading relative to surfactant (too much or too little matters)
+    polymer_loading = cat_polymer / total_surf
+
+    return np.array([
+        cat_anion_interaction,
+        coacervation_potential,
+        cat_competition,
+        amphoteric_buffer,
+        float(n_types),
+        thickener_ratio,
+        nonionic_fraction,
+        polymer_loading,
+    ], dtype=np.float32)
+
+
+def _extract_hydrophobic_pct(obs) -> float:
+    """Extract hydrophobic phase percentage from phase observations."""
+    for o in obs.observations:
+        if o.category == "phase" and "Hydrophobic phase:" in o.observed:
+            try:
+                pct_str = o.observed.split(":")[1].split("%")[0].strip()
+                return float(pct_str)
+            except (IndexError, ValueError):
+                pass
+    return 0.0
 
 
 # Feature names for interpretability
@@ -208,4 +335,14 @@ TIER3_NAMES = (
      "score_hlb", "score_integrity", "score_completeness",
      "n_penalties", "n_bonuses",
      "hard_violations", "soft_violations", "confidence_penalty"]
+)
+
+TIER4_NAMES = (
+    TIER3_NAMES +
+    ["cat_anion_interaction", "coacervation_potential", "cat_competition",
+     "amphoteric_buffer", "n_surfactant_types", "thickener_ratio",
+     "nonionic_fraction", "polymer_loading",
+     "obs_concern_count", "obs_hard_violations", "obs_soft_violations",
+     "obs_n_concerns", "obs_resolution_rate",
+     "obs_concern_score", "obs_charge_conflict", "obs_hydrophobic_pct"]
 )

@@ -28,6 +28,8 @@ Every formulation scientist — cosmetics, pharma, food, supplements — relies 
 
 **OpenMix changes that.**
 
+OpenMix resolves any ingredient to its molecular identity and observes formulations through physics, out of the box, no training data required. The knowledge base catches dangerous interactions. The experiment runner automates exploration. And because evaluation is pluggable, proprietary stability data becomes a force multiplier. The more diverse your ingredient space, the more the molecular features differentiate.
+
 ---
 
 ## Quick Start
