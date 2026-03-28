@@ -1,6 +1,7 @@
 """Tests for the ingredient resolver."""
 
 import json
+import sys
 from unittest.mock import patch, MagicMock
 from pathlib import Path
 
@@ -12,6 +13,10 @@ from openmix.resolver.resolve import (
     _session_cache,
 )
 from openmix.resolver.cache import load_seed_cache, SEED_DATA_PATH
+
+# Use sys.modules for unambiguous module reference (avoids name collision
+# between the resolve module and resolve function on Python 3.10)
+_resolve_mod = sys.modules["openmix.resolver.resolve"]
 
 
 # ---------------------------------------------------------------------------
@@ -106,9 +111,9 @@ def test_resolve_from_seed_cache():
     """Seed cache hit should resolve immediately."""
     _clear_session_cache()
     fake_seed = {"GLYCERIN": {"smiles": "OCC(O)CO", "mw": 92.09, "log_p": -1.76}}
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value=fake_seed), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}), \
-         patch("openmix.resolver.resolve.lookup_pubchem", return_value=None):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value=fake_seed), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}), \
+         patch.object(_resolve_mod, "lookup_pubchem", return_value=None):
         result = resolve("Glycerin")
     assert result.resolved is True
     assert result.source == "seed"
@@ -119,9 +124,9 @@ def test_resolve_from_user_cache():
     """User cache should be checked after seed cache miss."""
     _clear_session_cache()
     fake_user = {"NIACINAMIDE": {"smiles": "c1ccc(c(c1)C(=O)N)N", "mw": 122.12}}
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value={}), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value=fake_user), \
-         patch("openmix.resolver.resolve.lookup_pubchem", return_value=None):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value={}), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value=fake_user), \
+         patch.object(_resolve_mod, "lookup_pubchem", return_value=None):
         result = resolve("Niacinamide")
     assert result.resolved is True
     assert result.source == "cache"
@@ -131,10 +136,10 @@ def test_resolve_from_pubchem():
     """PubChem fallback should be used when caches miss."""
     _clear_session_cache()
     pubchem_data = {"smiles": "O=C(O)C1CC1", "mw": 86.09, "log_p": 0.5}
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value={}), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}), \
-         patch("openmix.resolver.resolve.lookup_pubchem", return_value=pubchem_data), \
-         patch("openmix.resolver.resolve.save_to_user_cache") as mock_save:
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value={}), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}), \
+         patch.object(_resolve_mod, "lookup_pubchem", return_value=pubchem_data), \
+         patch.object(_resolve_mod, "save_to_user_cache") as mock_save:
         result = resolve("Cyclopropanecarboxylic Acid")
     assert result.resolved is True
     assert result.source == "pubchem"
@@ -145,9 +150,9 @@ def test_resolve_from_pubchem():
 def test_resolve_unresolved():
     """Ingredient not found anywhere should return unresolved."""
     _clear_session_cache()
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value={}), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}), \
-         patch("openmix.resolver.resolve.lookup_pubchem", return_value=None):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value={}), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}), \
+         patch.object(_resolve_mod, "lookup_pubchem", return_value=None):
         result = resolve("Made Up Ingredient XYZ")
     assert result.resolved is False
     assert result.smiles is None
@@ -157,8 +162,8 @@ def test_resolve_session_cache():
     """Second call for same ingredient should hit session cache."""
     _clear_session_cache()
     fake_seed = {"GLYCERIN": {"smiles": "OCC(O)CO", "mw": 92.09}}
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value=fake_seed), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value=fake_seed), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}):
         r1 = resolve("Glycerin")
         # Second call — seed cache shouldn't be checked again
         r2 = resolve("Glycerin")
@@ -169,8 +174,8 @@ def test_resolve_case_insensitive():
     """Resolution should be case-insensitive."""
     _clear_session_cache()
     fake_seed = {"GLYCERIN": {"smiles": "OCC(O)CO", "mw": 92.09}}
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value=fake_seed), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value=fake_seed), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}):
         r1 = resolve("glycerin")
         _clear_session_cache()
         r2 = resolve("GLYCERIN")
@@ -185,8 +190,8 @@ def test_resolve_many():
         "GLYCERIN": {"smiles": "OCC(O)CO", "mw": 92.09},
         "WATER": {"smiles": "O", "mw": 18.02},
     }
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value=fake_seed), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value=fake_seed), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}):
         results = resolve_many(["Glycerin", "Water"])
     assert "Glycerin" in results
     assert "Water" in results
@@ -209,8 +214,8 @@ def test_rdkit_enrichment_when_available():
     except ImportError:
         has_rdkit = False
 
-    with patch("openmix.resolver.resolve._get_seed_cache", return_value=fake_seed), \
-         patch("openmix.resolver.resolve._get_user_cache", return_value={}):
+    with patch.object(_resolve_mod, "_get_seed_cache", return_value=fake_seed), \
+         patch.object(_resolve_mod, "_get_user_cache", return_value={}):
         result = resolve("Glycerin")
 
     if has_rdkit:

@@ -1,5 +1,6 @@
 """Tests for the physics observation engine."""
 
+import sys
 from unittest.mock import patch
 from openmix import Formula
 from openmix.observe import (
@@ -9,6 +10,10 @@ from openmix.observe import (
     FormulationObservation,
 )
 from openmix.resolver.resolve import ResolvedIngredient
+
+# Use sys.modules for unambiguous module reference (avoids name collision
+# between openmix.observe the module and observe the function on Python 3.10)
+_observe_mod = sys.modules["openmix.observe"]
 
 
 # ---------------------------------------------------------------------------
@@ -86,7 +91,7 @@ def _mock_resolve(inci_name: str) -> ResolvedIngredient:
 
 def _observe(formula: Formula) -> FormulationObservation:
     """Run observe() with mocked resolver."""
-    with patch("openmix.observe.resolve", side_effect=_mock_resolve):
+    with patch.object(_observe_mod, "resolve", side_effect=_mock_resolve):
         return observe(formula)
 
 
@@ -442,7 +447,7 @@ def test_unresolved_ingredients_still_checked():
 
 def _observe_mode(formula: Formula, mode: str) -> FormulationObservation:
     """Run observe() with mocked resolver in a specific mode."""
-    with patch("openmix.observe.resolve", side_effect=_mock_resolve):
+    with patch.object(_observe_mod, "resolve", side_effect=_mock_resolve):
         return observe(formula, mode=mode)
 
 
