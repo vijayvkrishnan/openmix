@@ -20,6 +20,7 @@ from openmix.score import StabilityScore
 from openmix.scorers.base import Scorer
 from openmix.resolver import resolve, ResolvedIngredient
 from openmix.knowledge.loader import load_knowledge, Knowledge
+from openmix.knowledge.constants import PRESERVATIVE_NAMES
 from openmix.matching import match_ingredient
 
 
@@ -104,19 +105,6 @@ class MolecularScorer(Scorer):
             return 15.0
 
         pts = 25.0
-
-        for ing in formula.ingredients:
-            r = resolved.get(ing.inci_name)
-            if not r or not r.resolved:
-                continue
-
-            # LogP-based pH reasoning:
-            # - Very hydrophilic molecules (LogP < -2) are typically acids/bases
-            #   that need specific pH ranges
-            # - Ionizable groups shift behavior at different pH values
-
-            # Check for known pH-sensitive actives via the knowledge base
-            # (this preserves the domain knowledge while extending to unknowns)
 
         # Bonus for having pH adjusters
         ph_adjusters = {"CITRIC ACID", "SODIUM HYDROXIDE", "TRIETHANOLAMINE",
@@ -205,14 +193,7 @@ class MolecularScorer(Scorer):
         pts = 0.0
         inci_set = formula.inci_names_upper
 
-        # Preservative detection — check both known names and resolved properties
-        known_preservatives = {
-            "PHENOXYETHANOL", "SODIUM BENZOATE", "POTASSIUM SORBATE",
-            "BENZYL ALCOHOL", "ETHYLHEXYLGLYCERIN", "CAPRYLYL GLYCOL",
-            "METHYLPARABEN", "PROPYLPARABEN", "SORBIC ACID",
-            "DEHYDROACETIC ACID", "CHLORPHENESIN",
-        }
-        has_preservative = bool(inci_set & known_preservatives)
+        has_preservative = bool(inci_set & PRESERVATIVE_NAMES)
 
         has_water = any(n in inci_set for n in ("WATER", "AQUA", "PURIFIED WATER"))
 

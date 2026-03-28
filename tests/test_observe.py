@@ -237,7 +237,7 @@ def test_molecular_hydrophilic_confirmed():
         return _mock_resolve(inci_name)
 
     f = Formula(ingredients=[("Mannitol", 10.0), ("Water", 90.0)])
-    with patch("openmix.observe.resolve", side_effect=mock_with_mannitol):
+    with patch.object(_observe_mod, "resolve", side_effect=mock_with_mannitol):
         obs = observe(f)
     mol = [o for o in obs.observations
            if o.category == "molecular" and "hydrophilic" in o.observed.lower()]

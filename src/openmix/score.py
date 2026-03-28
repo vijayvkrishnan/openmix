@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 
 from openmix.schema import Formula
 from openmix.knowledge.loader import Knowledge, load_knowledge
+from openmix.knowledge.constants import PRESERVATIVE_NAMES
 from openmix.matching import match_ingredient
 
 
@@ -86,14 +87,9 @@ PH_RANGES: dict[str, tuple[float, float]] = {
     "HYALURONIC ACID": (4.0, 7.0),
 }
 
-# Known preservative INCI names (any match = preservative system present)
-PRESERVATIVES: set[str] = {
-    "PHENOXYETHANOL", "SODIUM BENZOATE", "POTASSIUM SORBATE",
-    "BENZYL ALCOHOL", "ETHYLHEXYLGLYCERIN", "CAPRYLYL GLYCOL",
-    "METHYLPARABEN", "PROPYLPARABEN", "DMDM HYDANTOIN",
-    "IMIDAZOLIDINYL UREA", "BENZISOTHIAZOLINONE",
-    "METHYLISOTHIAZOLINONE", "CHLORPHENESIN", "DEHYDROACETIC ACID",
-    "SORBIC ACID", "LEVULINIC ACID", "P-ANISIC ACID",
+PRESERVATIVES: set[str] = PRESERVATIVE_NAMES | {
+    "DMDM HYDANTOIN", "IMIDAZOLIDINYL UREA", "BENZISOTHIAZOLINONE",
+    "METHYLISOTHIAZOLINONE", "LEVULINIC ACID", "P-ANISIC ACID",
 }
 
 

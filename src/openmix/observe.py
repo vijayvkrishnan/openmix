@@ -18,6 +18,7 @@ from typing import Literal, Optional
 from openmix.schema import Formula
 from openmix.resolver import resolve, ResolvedIngredient
 from openmix.knowledge.loader import load_knowledge, Knowledge
+from openmix.knowledge.constants import PRESERVATIVE_NAMES
 from openmix.matching import match_ingredient
 
 ObserveMode = Literal["engineering", "discovery"]
@@ -302,14 +303,8 @@ def _observe_structural(formula: Formula, result: FormulationObservation):
         ))
 
     # Preservative check
-    preservative_names = {
-        "PHENOXYETHANOL", "SODIUM BENZOATE", "POTASSIUM SORBATE",
-        "BENZYL ALCOHOL", "ETHYLHEXYLGLYCERIN", "CAPRYLYL GLYCOL",
-        "METHYLPARABEN", "PROPYLPARABEN", "SORBIC ACID",
-        "DEHYDROACETIC ACID", "CHLORPHENESIN",
-    }
     inci_upper = formula.inci_names_upper
-    has_preservative = bool(inci_upper & preservative_names)
+    has_preservative = bool(inci_upper & PRESERVATIVE_NAMES)
     has_water = any(n in inci_upper for n in ("WATER", "AQUA", "PURIFIED WATER"))
 
     if has_water and not has_preservative:

@@ -183,7 +183,7 @@ Every major scientific breakthrough follows the same pattern: expectation existe
 OpenMix resolves any INCI ingredient name to its molecular identity and physicochemical properties through a three-tier lookup:
 
 ```
-INCI Name → Seed Cache (2K ingredients, ships with package)
+INCI Name → Seed Cache (2,400+ ingredients, ships with package)
           → User Cache (~/.openmix/, grows over time)
           → PubChem API (runtime fallback)
           → RDKit enrichment (optional: LogP, MW, HLB, charge from SMILES)
@@ -511,7 +511,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 | Single-molecule properties | Yes | Yes | N/A | Yes | Via RDKit |
 | **Mixture/formulation analysis** | No | No | No | Closed | **Open** |
 | **Physics observation engine** | N/A | N/A | N/A | No | **Dual-mode** |
-| **Molecular resolution (INCI→SMILES)** | N/A | N/A | N/A | Closed | **Open (2K seed + PubChem)** |
+| **Molecular resolution (INCI→SMILES)** | N/A | N/A | N/A | Closed | **Open (2,400+ seed + PubChem)** |
 | **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
 | Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
 | Ingredient interaction rules | No | No | No | Partial | **85 rules, 6 domains** |
@@ -644,7 +644,7 @@ openmix/
       resolve.py            #   Three-tier resolution (seed → cache → PubChem)
       cache.py              #   Local cache management
       pubchem.py            #   PubChem API integration
-      seed_ingredients.json #   Bundled ingredient data (~2K)
+      seed_ingredients.json #   Bundled ingredient data (2,400+ ingredients)
     experiment.py           # Autonomous experiment runner (YAML or natural language)
     llm.py                  # Multi-provider LLM abstraction
     constraints.py          # Programmatic constraint enforcement

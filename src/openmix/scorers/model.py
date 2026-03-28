@@ -18,6 +18,12 @@ from __future__ import annotations
 
 import pickle
 from pathlib import Path
+
+try:
+    import joblib
+    _USE_JOBLIB = True
+except ImportError:
+    _USE_JOBLIB = False
 from typing import Callable
 
 import numpy as np
@@ -117,14 +123,20 @@ class ModelScorer(Scorer):
             "threshold": self.threshold,
         }
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "wb") as f:
-            pickle.dump(data, f)
+        if _USE_JOBLIB:
+            joblib.dump(data, path)
+        else:
+            with open(path, "wb") as f:
+                pickle.dump(data, f)
 
     @classmethod
     def load(cls, path: str | Path, feature_fn: Callable | None = None) -> ModelScorer:
         """Load a saved scorer."""
-        with open(path, "rb") as f:
-            data = pickle.load(f)
+        if _USE_JOBLIB:
+            data = joblib.load(path)
+        else:
+            with open(path, "rb") as f:
+                data = pickle.load(f)
 
         if feature_fn is None:
             raise ValueError(

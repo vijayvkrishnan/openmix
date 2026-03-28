@@ -33,11 +33,7 @@ from openmix.benchmarks.shampoo import (
     TRADE_TO_INCI, TRADE_TO_TYPE,
 )
 
-try:
-    import anthropic
-    ANTHROPIC_AVAILABLE = True
-except ImportError:
-    ANTHROPIC_AVAILABLE = False
+from openmix.llm import LLMProvider, AnthropicProvider
 
 
 @dataclass
@@ -352,16 +348,16 @@ class DiscoveryEngine:
 
     def __init__(
         self,
+        llm: LLMProvider | None = None,
         api_key: str | None = None,
         model: str = "claude-sonnet-4-20250514",
         max_iterations: int = 4,
         verbose: bool = True,
     ):
-        if not ANTHROPIC_AVAILABLE:
-            raise ImportError("pip install anthropic")
-
-        self.client = anthropic.Anthropic(api_key=api_key)
-        self.model = model
+        if llm is not None:
+            self._llm = llm
+        else:
+            self._llm = AnthropicProvider(model=model, api_key=api_key)
         self.max_iterations = max_iterations
         self.verbose = verbose
 
@@ -370,13 +366,7 @@ class DiscoveryEngine:
             print(msg)
 
     def _call_llm(self, messages: list[dict]) -> str:
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=4096,
-            system=SYSTEM_PROMPT,
-            messages=messages,
-        )
-        return response.content[0].text
+        return self._llm.generate(system=SYSTEM_PROMPT, messages=messages)
 
     def _parse_hypotheses(self, text: str) -> list[dict]:
         json_match = re.search(r"\[.*\]", text, re.DOTALL)
@@ -449,13 +439,6 @@ class DiscoveryEngine:
         self._log("")
 
         # Phase 2: LLM-guided interaction hypotheses, informed by auto-sweep
-        if not ANTHROPIC_AVAILABLE:
-            self._log("  Phase 2: Skipped (no LLM available)")
-            result.total_duration_ms = int((time.time() - start_time) * 1000)
-            if self.verbose:
-                print(result)
-            return result
-
         sweep_summary = "\n".join(
             f"  - {r.hypothesis}" for r in sweep_results[:10]
         ) or "  (no significant single-feature rules found)"
