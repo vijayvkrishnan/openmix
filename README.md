@@ -11,7 +11,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![CI](https://github.com/vijayvkrishnan/openmix/actions/workflows/ci.yml/badge.svg)](https://github.com/vijayvkrishnan/openmix/actions)
-[![Tests](https://img.shields.io/badge/Tests-116%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-124%20passed-brightgreen.svg)](tests/)
 [![Rules](https://img.shields.io/badge/Knowledge-85%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
 
 [Observe](#observe-a-formulation) · [Two Modes](#two-modes) · [Autonomous Experiments](#autonomous-experiments) · [Architecture](#architecture) · [Knowledge Base](#contributing-knowledge) · [Roadmap](#roadmap) · [Citation](#citation)
@@ -664,7 +664,7 @@ openmix/
     knowledge/data/         # YAML rules (85 interactions, 42 HLB values)
     cli/                    # CLI: observe, run, validate, score, demo, info
   experiments/              # YAML experiment definitions
-  tests/                    # 116 tests
+  tests/                    # 124 tests
   docs/                     # FormulaBench spec
 ```
 
