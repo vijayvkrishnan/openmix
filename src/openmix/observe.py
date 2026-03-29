@@ -148,7 +148,8 @@ class FormulationObservation:
                 lines.append(f"  [{icon}] {obs.subject}: {obs.observed}")
                 if obs.agreement == "discrepancy":
                     lines.append(f"      Expected: {obs.expected}")
-                    lines.append(f"      {obs.detail}")
+                    if obs.detail:
+                        lines.append(f"      {obs.detail}")
             lines.append("")
 
         if self.mode == "discovery":
@@ -473,7 +474,7 @@ def _observe_ph(formula: Formula, result: FormulationObservation):
                     f"{pka_entry.optimal_ph_max} for {ing.inci_name}"
                 ),
                 agreement="discrepancy",
-                detail=assessment["detail"],
+                detail="",
                 source=f"Henderson-Hasselbalch, pKa {pka_entry.pka[0]}. "
                        f"{pka_entry.source}",
                 confidence=0.85,
