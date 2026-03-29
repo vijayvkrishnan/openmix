@@ -1,8 +1,9 @@
 """Tests for FormulaBench datasets."""
 
-import numpy as np
 import pytest
 from pathlib import Path
+
+np = pytest.importorskip("numpy")
 
 DATA_DIR = Path(__file__).parent.parent / "data" / "raw"
 
