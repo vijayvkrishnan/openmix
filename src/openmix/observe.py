@@ -19,6 +19,7 @@ from openmix.schema import Formula
 from openmix.resolver import resolve, ResolvedIngredient
 from openmix.knowledge.loader import load_knowledge, Knowledge
 from openmix.knowledge.constants import PRESERVATIVE_NAMES
+from openmix.knowledge.pka import load_pka_data, assess_ph_suitability, IngredientPKa
 from openmix.matching import match_ingredient
 
 ObserveMode = Literal["engineering", "discovery"]
@@ -202,6 +203,10 @@ def observe(
 
     # Phase 5: Charge observations
     _observe_charge(formula, result)
+
+    # Phase 6: pH-ionization observations (Henderson-Hasselbalch)
+    if formula.target_ph is not None:
+        _observe_ph(formula, result)
 
     return result
 
@@ -407,3 +412,69 @@ def _observe_charge(formula: Formula, result: FormulationObservation):
             source="physics",
             confidence=0.8,
         ))
+
+
+# Module-level pKa data cache
+_pka_data: dict[str, IngredientPKa] | None = None
+
+
+def _get_pka_data() -> dict[str, IngredientPKa]:
+    global _pka_data
+    if _pka_data is None:
+        _pka_data = load_pka_data()
+    return _pka_data
+
+
+def _observe_ph(formula: Formula, result: FormulationObservation):
+    """Observe pH-ionization behavior via Henderson-Hasselbalch.
+
+    For each ingredient with known pKa data, compute the ionization
+    fraction at the formula's target pH and report whether the pH
+    is suitable for that ingredient's intended function.
+    """
+    pka_db = _get_pka_data()
+    if not pka_db or formula.target_ph is None:
+        return
+
+    target_ph = formula.target_ph
+
+    for ing in formula.ingredients:
+        key = ing.inci_name.upper().strip()
+        pka_entry = pka_db.get(key)
+        if not pka_entry:
+            continue
+
+        assessment = assess_ph_suitability(pka_entry, target_ph)
+        if assessment["ionized_fraction"] is None:
+            continue
+
+        if assessment["suitable"]:
+            result.observations.append(Observation(
+                category="ph",
+                subject=ing.inci_name,
+                observed=assessment["detail"],
+                expected=(
+                    f"Optimal pH {pka_entry.optimal_ph_min}-"
+                    f"{pka_entry.optimal_ph_max} for {ing.inci_name}"
+                ),
+                agreement="confirmed",
+                detail="",
+                source=f"Henderson-Hasselbalch, pKa {pka_entry.pka[0]}. "
+                       f"{pka_entry.source}",
+                confidence=0.9,
+            ))
+        else:
+            result.observations.append(Observation(
+                category="ph",
+                subject=ing.inci_name,
+                observed=assessment["detail"],
+                expected=(
+                    f"Optimal pH {pka_entry.optimal_ph_min}-"
+                    f"{pka_entry.optimal_ph_max} for {ing.inci_name}"
+                ),
+                agreement="discrepancy",
+                detail=assessment["detail"],
+                source=f"Henderson-Hasselbalch, pKa {pka_entry.pka[0]}. "
+                       f"{pka_entry.source}",
+                confidence=0.85,
+            ))

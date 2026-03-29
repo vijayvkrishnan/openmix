@@ -4,13 +4,16 @@ ML model scorer — trained stability prediction.
 Wraps a trained classifier/regressor to produce StabilityScore objects
 that the experiment framework can use.
 
+SECURITY WARNING: Model serialization uses pickle (via joblib when
+available). Pickle can execute arbitrary code during deserialization.
+Only load model files from sources you trust. Do not load models
+downloaded from untrusted locations. See CWE-502.
+
 Usage:
-    # Train and save a model
     scorer = ModelScorer.train(dataset, feature_fn=tier1_features)
     scorer.save("models/shampoo_stability.pkl")
 
-    # Load and use
-    scorer = ModelScorer.load("models/shampoo_stability.pkl")
+    scorer = ModelScorer.load("models/shampoo_stability.pkl")  # trusted source only
     exp = Experiment.from_file("exp.yaml", evaluate=scorer)
 """
 
@@ -131,7 +134,11 @@ class ModelScorer(Scorer):
 
     @classmethod
     def load(cls, path: str | Path, feature_fn: Callable | None = None) -> ModelScorer:
-        """Load a saved scorer."""
+        """Load a saved scorer.
+
+        WARNING: Uses pickle deserialization. Only load files from trusted
+        sources. Pickle can execute arbitrary code (CWE-502).
+        """
         if _USE_JOBLIB:
             data = joblib.load(path)
         else:

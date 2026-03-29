@@ -556,3 +556,93 @@ def test_engineering_str_output():
     output = str(obs)
     assert "engineering" in output.lower()
     assert "Concern count" in output
+
+
+# ---------------------------------------------------------------------------
+# pH-ionization observations (Henderson-Hasselbalch)
+# ---------------------------------------------------------------------------
+
+from openmix.knowledge.pka import ionization_fraction, load_pka_data
+
+
+def test_ionization_fraction_acid_at_pka():
+    """At pH = pKa, an acid should be 50% ionized."""
+    frac = ionization_fraction(pka=4.0, ph=4.0, acid=True)
+    assert abs(frac - 0.5) < 0.01
+
+
+def test_ionization_fraction_acid_low_ph():
+    """At pH well below pKa, acid should be mostly non-ionized."""
+    frac = ionization_fraction(pka=4.0, ph=2.0, acid=True)
+    assert frac < 0.02
+
+
+def test_ionization_fraction_acid_high_ph():
+    """At pH well above pKa, acid should be mostly ionized."""
+    frac = ionization_fraction(pka=4.0, ph=7.0, acid=True)
+    assert frac > 0.99
+
+
+def test_ionization_fraction_base():
+    """For a base, protonated fraction should be high at low pH."""
+    frac = ionization_fraction(pka=8.0, ph=6.0, acid=False)
+    assert frac > 0.99
+
+
+def test_pka_data_loads():
+    """pKa database should load with entries."""
+    data = load_pka_data()
+    assert len(data) > 0
+    assert "ASCORBIC ACID" in data
+    assert data["ASCORBIC ACID"].pka[0] == 4.17
+
+
+def test_ph_observation_ascorbic_acid_optimal():
+    """Ascorbic acid at pH 3.0 should be confirmed (within optimal range)."""
+    f = Formula(
+        ingredients=[("Ascorbic Acid", 15.0), ("Water", 85.0)],
+        target_ph=3.0,
+    )
+    obs = observe(f)
+    ph_obs = [o for o in obs.observations if o.category == "ph"
+              and "Ascorbic Acid" in o.subject]
+    assert len(ph_obs) == 1
+    assert ph_obs[0].agreement == "confirmed"
+    assert "non-ionized" in ph_obs[0].observed
+
+
+def test_ph_observation_ascorbic_acid_bad_ph():
+    """Ascorbic acid at pH 6.0 should be flagged as discrepancy."""
+    f = Formula(
+        ingredients=[("Ascorbic Acid", 15.0), ("Water", 85.0)],
+        target_ph=6.0,
+    )
+    obs = observe(f)
+    ph_obs = [o for o in obs.observations if o.category == "ph"
+              and "Ascorbic Acid" in o.subject]
+    assert len(ph_obs) == 1
+    assert ph_obs[0].agreement == "discrepancy"
+    assert "ionized" in ph_obs[0].observed
+
+
+def test_ph_observation_preservative_bad_ph():
+    """Sodium Benzoate at pH 7.0 should be flagged (ineffective)."""
+    f = Formula(
+        ingredients=[("Sodium Benzoate", 0.5), ("Water", 99.5)],
+        target_ph=7.0,
+    )
+    obs = observe(f)
+    ph_obs = [o for o in obs.observations if o.category == "ph"
+              and "Sodium Benzoate" in o.subject]
+    assert len(ph_obs) == 1
+    assert ph_obs[0].agreement == "discrepancy"
+
+
+def test_no_ph_observation_without_target_ph():
+    """No pH observations should be generated without a target pH."""
+    f = Formula(
+        ingredients=[("Ascorbic Acid", 15.0), ("Water", 85.0)],
+    )
+    obs = observe(f)
+    ph_obs = [o for o in obs.observations if o.category == "ph"]
+    assert len(ph_obs) == 0

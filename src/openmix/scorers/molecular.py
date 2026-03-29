@@ -1,16 +1,16 @@
 """
-Molecular scorer — physics-informed stability scoring.
+Molecular scorer — stability scoring with resolved molecular properties.
 
-Instead of hardcoded rules for known ingredients, this scorer resolves
-ANY ingredient to its molecular properties and applies physicochemical
-principles to estimate stability.
+Resolves ingredients to molecular identity via the resolver, then applies
+physicochemical checks (LogP-based solubility, charge compatibility from
+SMILES, knowledge base rules) alongside structural heuristics (pH adjuster
+presence, preservative detection, emulsifier coverage).
 
-Key improvements over the heuristic scorer:
-- Works with any ingredient (not just the 85 in the knowledge base)
-- pH suitability based on actual pKa/ionization, not a lookup table
-- Solubility assessment from LogP values
-- HLB computation from molecular structure
-- Charge compatibility from SMILES analysis
+Current limitations:
+- pH scoring checks for presence of pH adjusters, not actual pKa reasoning
+- Emulsion scoring uses keyword/LogP detection, not computed HLB matching
+These are areas where deeper physics (pKa prediction, group contribution
+HLB) would improve accuracy.
 """
 
 from __future__ import annotations
@@ -100,7 +100,9 @@ class MolecularScorer(Scorer):
 
     def _score_ph(self, formula: Formula,
                    resolved: dict[str, ResolvedIngredient]) -> float:
-        """pH suitability from molecular properties."""
+        """pH suitability check. Currently heuristic: awards a bonus if a
+        known pH adjuster is present. Does not yet compute pKa or predict
+        ionization state from molecular structure."""
         if formula.target_ph is None:
             return 15.0
 

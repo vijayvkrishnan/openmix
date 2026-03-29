@@ -1,0 +1,288 @@
+# pKa data for pH-sensitive formulation ingredients.
+#
+# Each entry: name, pKa values, acid/base type, optimal pH range,
+# and what goes wrong outside that range. All pKa values are from
+# published literature at 25°C in aqueous solution.
+#
+# The observation engine uses Henderson-Hasselbalch to compute
+# ionization at the formula's target pH and flags discrepancies.
+
+# ============================================================
+# Skincare / Cosmetic Actives
+# ============================================================
+
+- name: Ascorbic Acid
+  pka: [4.17, 11.57]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 3.5
+  concern_below: Unnecessarily acidic, increases irritation without stability benefit
+  concern_above: >
+    Increasingly deprotonated above pH 4. Ascorbate anion is more susceptible
+    to oxidative degradation. Efficacy and stability decrease significantly
+    above pH 3.5
+  source: "CRC Handbook of Chemistry and Physics"
+
+- name: Salicylic Acid
+  pka: [2.97]
+  type: acid
+  optimal_ph_min: 2.0
+  optimal_ph_max: 4.0
+  concern_below: Unnecessarily acidic
+  concern_above: >
+    Above pH 4, predominantly ionized (salicylate form). Reduced skin
+    penetration since non-ionized form crosses lipid barriers. FDA
+    recommends pH 3-4 for OTC acne products
+  source: "Bjerrum 1958; FDA OTC Monograph"
+
+- name: Glycolic Acid
+  pka: [3.83]
+  type: acid
+  optimal_ph_min: 3.0
+  optimal_ph_max: 4.5
+  concern_below: Increased irritation at very low pH
+  concern_above: >
+    Above pH 4.5, mostly ionized. Reduced exfoliation efficacy as the
+    non-ionized form is the active penetrant. Professional peels use
+    pH 2-3 for deeper penetration
+  source: "Smith 1996, J Am Acad Dermatol"
+
+- name: Lactic Acid
+  pka: [3.86]
+  type: acid
+  optimal_ph_min: 3.5
+  optimal_ph_max: 5.0
+  concern_below: Increased irritation
+  concern_above: >
+    Above pH 5, mostly ionized. Reduced keratolytic activity.
+    Humectant properties persist at higher pH but exfoliation decreases
+  source: "CRC Handbook"
+
+- name: Mandelic Acid
+  pka: [3.41]
+  type: acid
+  optimal_ph_min: 3.0
+  optimal_ph_max: 4.0
+  concern_below: Increased irritation
+  concern_above: Reduced efficacy above pH 4 as ionization increases
+  source: "Draelos & Thaman, Cosmetic Formulation of Skin Care Products"
+
+- name: Azelaic Acid
+  pka: [4.55, 5.50]
+  type: acid
+  optimal_ph_min: 4.0
+  optimal_ph_max: 5.5
+  concern_below: Unnecessary irritation
+  concern_above: >
+    Above pH 5.5, significantly ionized. Reduced skin penetration.
+    Most commercial formulations target pH 4.5-5.0
+  source: "Fitton & Goa 1991, Drugs"
+
+- name: Kojic Acid
+  pka: [7.90]
+  type: acid
+  optimal_ph_min: 4.0
+  optimal_ph_max: 6.0
+  concern_below: Unstable at very low pH
+  concern_above: >
+    Largely non-ionized across cosmetic pH range (pKa 7.9). Stability
+    decreases above pH 6 due to oxidation, not ionization
+  source: "Burdock et al. 2001, Regulatory Toxicology and Pharmacology"
+
+- name: Ferulic Acid
+  pka: [4.58]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 4.0
+  concern_below: Unnecessarily acidic
+  concern_above: >
+    Above pH 4.5, increasingly ionized. Antioxidant synergy with
+    Ascorbic Acid and Tocopherol requires low pH (Pinnell patent
+    specifies pH 2.5-3.5 for optimal combination)
+  source: "Pinnell et al. 2005, US Patent 20050154054"
+
+- name: Tranexamic Acid
+  pka: [4.30, 10.62]
+  type: amphoteric
+  optimal_ph_min: 4.0
+  optimal_ph_max: 7.0
+  concern_below: Unnecessary irritation
+  concern_above: Stable across wide pH range due to zwitterionic nature
+  source: "Merck Index"
+
+- name: Arbutin
+  pka: [9.90]
+  type: acid
+  optimal_ph_min: 5.0
+  optimal_ph_max: 7.0
+  concern_below: >
+    Hydrolyzes to hydroquinone at low pH, which is a more potent but
+    regulated depigmenting agent with safety concerns
+  concern_above: Stable but less effective above pH 7
+  source: "Sugimoto et al. 2004, Biol Pharm Bull"
+
+- name: Niacinamide
+  pka: [3.35]
+  type: base
+  optimal_ph_min: 5.0
+  optimal_ph_max: 7.0
+  concern_below: >
+    Below pH 3.5, hydrolysis to nicotinic acid (niacin) accelerates.
+    Nicotinic acid causes flushing. Rate increases tenfold between pH 4 and pH 2
+  concern_above: Stable at neutral pH. Reduced concern above pH 7
+  source: "Cosmetics & Toiletries 2005; Gehring 2004"
+
+- name: Retinol
+  pka: []
+  type: acid
+  optimal_ph_min: 5.0
+  optimal_ph_max: 6.5
+  concern_below: >
+    Retinol degrades in acidic conditions. Incompatible with low-pH
+    actives like L-Ascorbic Acid. Ester forms (retinyl palmitate) are
+    more pH-stable
+  concern_above: Oxidatively unstable at high pH. Requires antioxidant protection
+  source: "Skin Pharmacol Physiol 2006"
+
+# ============================================================
+# Preservatives
+# ============================================================
+
+- name: Benzoic Acid
+  pka: [4.20]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 4.5
+  concern_below: Effective but unnecessarily acidic
+  concern_above: >
+    Antimicrobial activity requires non-ionized form. Above pH 4.5,
+    mostly ionized (benzoate). Efficacy drops sharply above pH 5.
+    At pH 6, only ~2% in active non-ionized form
+  source: "Chipley 2005, Antimicrobials in Food"
+
+- name: Sodium Benzoate
+  pka: [4.20]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 4.5
+  concern_below: Effective but unnecessarily acidic
+  concern_above: >
+    Preservative efficacy requires conversion to non-ionized benzoic acid.
+    Above pH 4.5, insufficient free acid for antimicrobial activity
+  source: "Chipley 2005, Antimicrobials in Food"
+
+- name: Sorbic Acid
+  pka: [4.76]
+  type: acid
+  optimal_ph_min: 3.0
+  optimal_ph_max: 5.5
+  concern_below: Effective
+  concern_above: >
+    Non-ionized form is the active antimicrobial. Above pH 5.5,
+    mostly ionized (sorbate). Preservative efficacy decreases.
+    At pH 6.5, less than 2% in active form
+  source: "Sofos & Busta 1981, J Food Protection"
+
+- name: Potassium Sorbate
+  pka: [4.76]
+  type: acid
+  optimal_ph_min: 3.0
+  optimal_ph_max: 5.5
+  concern_below: Effective
+  concern_above: >
+    Same mechanism as sorbic acid. Must convert to non-ionized form
+    at low pH to be effective. Ineffective above pH 6
+  source: "Sofos & Busta 1981, J Food Protection"
+
+- name: Dehydroacetic Acid
+  pka: [5.27]
+  type: acid
+  optimal_ph_min: 3.0
+  optimal_ph_max: 6.0
+  concern_below: Effective
+  concern_above: >
+    Higher pKa than benzoic/sorbic acids means broader effective pH range.
+    Still requires some non-ionized form. Less effective above pH 6
+  source: "Varvaresou et al. 2009, Int J Cosmet Sci"
+
+# ============================================================
+# pH Adjusters / Buffers (triprotic)
+# ============================================================
+
+- name: Citric Acid
+  pka: [3.13, 4.76, 6.40]
+  type: acid
+  optimal_ph_min: 2.0
+  optimal_ph_max: 7.0
+  concern_below: null
+  concern_above: null
+  source: "CRC Handbook"
+
+- name: Phosphoric Acid
+  pka: [2.15, 7.20, 12.35]
+  type: acid
+  optimal_ph_min: 1.5
+  optimal_ph_max: 8.0
+  concern_below: null
+  concern_above: null
+  source: "CRC Handbook"
+
+- name: Tartaric Acid
+  pka: [2.89, 4.40]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 5.0
+  concern_below: null
+  concern_above: null
+  source: "CRC Handbook"
+
+- name: Malic Acid
+  pka: [3.40, 5.11]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 5.5
+  concern_below: null
+  concern_above: null
+  source: "CRC Handbook"
+
+- name: Acetic Acid
+  pka: [4.76]
+  type: acid
+  optimal_ph_min: 2.5
+  optimal_ph_max: 5.5
+  concern_below: null
+  concern_above: null
+  source: "CRC Handbook"
+
+# ============================================================
+# Supplements
+# ============================================================
+
+- name: Folic Acid
+  pka: [4.65, 6.75]
+  type: acid
+  optimal_ph_min: 5.0
+  optimal_ph_max: 8.0
+  concern_below: >
+    Degrades rapidly below pH 5. Particularly unstable in acidic
+    solutions with heat and light
+  concern_above: Stable at neutral to slightly alkaline pH
+  source: "Off et al. 2005, J Chromatography A"
+
+- name: Pantothenic Acid
+  pka: [4.41]
+  type: acid
+  optimal_ph_min: 4.0
+  optimal_ph_max: 7.0
+  concern_below: Hydrolysis increases at very low pH
+  concern_above: Stable at neutral pH
+  source: "Merck Index"
+
+- name: Gluconolactone
+  pka: [3.70]
+  type: acid
+  optimal_ph_min: 3.5
+  optimal_ph_max: 5.0
+  concern_below: Unnecessary irritation
+  concern_above: Reduced PHA exfoliation activity
+  source: "Edison et al. 2004, Dermatologic Surgery"
