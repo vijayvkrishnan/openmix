@@ -15,7 +15,7 @@ OpenMix — computational mixture and formulation science.
           mode="discovery"))
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 from openmix.schema import Formula, Ingredient, ValidationReport, Issue
 from openmix.validate import validate
