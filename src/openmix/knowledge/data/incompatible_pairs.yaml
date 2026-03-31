@@ -1412,3 +1412,2930 @@
     egg-box model cross-linking. Intentional in preserves,
     but unwanted calcium can cause premature gelling or
     texture defects in beverages.
+
+
+# =============================================================================
+# EXPANDED RULES
+# =============================================================================
+
+- a: LACTOSE
+  b: GABAPENTIN
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: Qiu et al. 2005, J Pharm Sci 94(12):2689-2706; primary amine Maillard with
+    reducing sugars
+  category: pharma
+  message: 'Gabapentin''s primary amine undergoes Maillard reaction with lactose.
+    Forms lactose-gabapentin conjugate (Schiff base and Amadori product). Use microcrystalline
+    cellulose or mannitol.
+
+    '
+
+- a: LACTOSE
+  b: LISINOPRIL
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Monkhouse & Van Campen 1984, Drug Dev Ind Pharm; primary amine ACE inhibitor
+    class effect
+  category: pharma
+  message: 'Lisinopril (contains primary amine unlike most ACE inhibitors) undergoes
+    Maillard browning with lactose. Use non-reducing excipients (mannitol, MCC, dibasic
+    calcium phosphate).
+
+    '
+
+- a: LACTOSE
+  b: HYDROCHLOROTHIAZIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Abdoh et al. 2004, AAPS PharmSciTech; sulfonamide amine Maillard reaction
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use spray-dried lactose (lower free glucose) or substitute with non-reducing
+    filler.
+  category: pharma
+  message: 'Hydrochlorothiazide''s primary sulfonamide amine undergoes Maillard reaction
+    with lactose, though slower than aliphatic amines. Accelerated at elevated temperature
+    and humidity.
+
+    '
+
+- a: LACTOSE
+  b: VIGABATRIN
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Wirth et al. 1998, Pharm Dev Technol; GABA-analog primary amine-lactose
+    Maillard
+  category: pharma
+  message: 'Vigabatrin (GABA analog with primary amine) undergoes rapid Maillard reaction
+    with lactose. Same mechanism as other amino acid derivative drugs. Use non-reducing
+    excipients.
+
+    '
+
+- a: LACTOSE
+  b: SITAGLIPTIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Primary amine DPP-4 inhibitor class; Janssen et al. 2010, Eur J Pharm Biopharm
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use non-reducing excipients or spray-dried lactose with minimal free
+    reducing sugar.
+  category: pharma
+  message: 'Sitagliptin''s primary amine can undergo Maillard reaction with lactose.
+    DPP-4 inhibitors with free amines are susceptible to reducing sugar incompatibility.
+
+    '
+
+- a: MAGNESIUM STEARATE
+  b: CAPTOPRIL
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Huang & Tong 2004, AAPS PharmSciTech; thiol oxidation catalyzed by metal
+    stearates
+  category: pharma
+  message: 'Magnesium stearate catalyzes oxidation of captopril''s free thiol group
+    to captopril disulfide. Use sodium stearyl fumarate or stearic acid as alternative
+    lubricants.
+
+    '
+
+- a: MAGNESIUM STEARATE
+  b: RANITIDINE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Carstensen et al. 1990, Drug Dev Ind Pharm; Mg2+ catalyzed degradation
+  category: pharma
+  message: 'Magnesium stearate significantly accelerates ranitidine degradation to
+    NDMA (N-nitrosodimethylamine), a probable human carcinogen. Critical safety concern
+    that contributed to ranitidine market withdrawals.
+
+    '
+
+- a: MAGNESIUM STEARATE
+  b: VITAMINS
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Kornblum & Stoopak 1973, J Pharm Sci; hydrophobic film reduces dissolution
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Limit MgSt to <0.5% in vitamin formulations. Minimize blending time.
+  category: pharma
+  message: 'Magnesium stearate''s hydrophobic film can reduce dissolution rate of
+    water-soluble vitamins. Keep levels below 0.5% and minimize blending time in supplement
+    manufacturing.
+
+    '
+
+- a: TETRACYCLINE
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Handbook of Pharmaceutical Excipients, 9th ed.; Albert & Rees 1956, Nature
+  category: pharma
+  message: 'Tetracycline chelates calcium ions forming insoluble tetracycline-calcium
+    complex. Reduces oral bioavailability by 50-80%. Separate administration by 2-3
+    hours.
+
+    '
+
+- a: TETRACYCLINE
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Neuvonen 1976, Eur J Clin Pharmacol; Campbell & Hasinoff 1991, Br J Clin
+    Pharmacol
+  category: pharma
+  message: 'Tetracycline chelates iron ions, forming poorly absorbed complexes. Iron
+    reduces tetracycline bioavailability by 80-90%. Separate by at least 2 hours.
+
+    '
+
+- a: TETRACYCLINE
+  b: ALUMINUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Barr et al. 1971, Clin Pharmacol Ther; FDA labeling requirement
+  category: pharma
+  message: 'Aluminum ions chelate tetracycline, reducing absorption by 90%+. Antacids
+    containing Al must not be co-administered. This interaction is on FDA-required
+    drug labeling.
+
+    '
+
+- a: TETRACYCLINE
+  b: MAGNESIUM OXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Barr et al. 1971, Clin Pharmacol Ther; Mg2+ chelation of tetracyclines
+  category: pharma
+  message: 'Magnesium ions chelate tetracycline similarly to aluminum and calcium.
+    Magnesium-containing antacids reduce tetracycline bioavailability substantially.
+
+    '
+
+- a: DOXYCYCLINE
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Jung et al. 1997, Int J Clin Pharmacol Ther; tetracycline class effect
+  category: pharma
+  message: 'Doxycycline chelates calcium ions like all tetracyclines. Though less
+    affected than tetracycline, bioavailability reduction of 20-50% is clinically
+    significant.
+
+    '
+
+- a: DOXYCYCLINE
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Neuvonen & Penttila 1974, BMJ; tetracycline class + iron interaction
+  category: pharma
+  message: 'Iron chelates doxycycline. Bioavailability reduced by 40-80%. Separate
+    administration by 2-3 hours minimum.
+
+    '
+
+- a: CIPROFLOXACIN
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Lomaestro & Bailie 1995, Ann Pharmacother; FDA labeling requirement
+  category: pharma
+  message: 'Ciprofloxacin chelates divalent and trivalent metal ions via its 3-carboxyl
+    and 4-oxo groups. Calcium reduces bioavailability by 40%. On FDA-required labeling.
+
+    '
+
+- a: CIPROFLOXACIN
+  b: ALUMINUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Nix et al. 1989, Antimicrob Agents Chemother; 85% reduction in AUC
+  category: pharma
+  message: 'Aluminum-containing antacids reduce ciprofloxacin bioavailability by 85%.
+    Never co-administer. Separate by at least 2 hours (cipro first) or 6 hours (antacid
+    first).
+
+    '
+
+- a: CIPROFLOXACIN
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Polk et al. 1989, Antimicrob Agents Chemother; iron chelation of quinolones
+  category: pharma
+  message: 'Iron chelates ciprofloxacin, reducing AUC by 50-75%. Separate administration
+    by at least 2 hours.
+
+    '
+
+- a: LEVOFLOXACIN
+  b: ALUMINUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Shiba et al. 1992, Antimicrob Agents Chemother; fluoroquinolone class effect
+  category: pharma
+  message: 'Aluminum chelates levofloxacin, reducing bioavailability substantially.
+    Fluoroquinolone class effect with polyvalent cation antacids.
+
+    '
+
+- a: LEVOFLOXACIN
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Lehto & Kivisto 1994, Clin Pharmacol Ther; quinolone-iron interaction
+  category: pharma
+  message: 'Iron chelates levofloxacin via same mechanism as ciprofloxacin. Separate
+    by 2+ hours.
+
+    '
+
+- a: LEVODOPA
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Campbell et al. 1990, Br J Clin Pharmacol; iron chelation reduces levodopa
+    absorption
+  category: pharma
+  message: 'Iron chelates levodopa via its catechol group, forming a poorly absorbed
+    complex. Reduces levodopa bioavailability by 50%. Separate by 2+ hours. Critical
+    for Parkinson''s disease management.
+
+    '
+
+- a: LEVOTHYROXINE
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Singh et al. 2000, JAMA; Schneyer 1998, Ann Intern Med
+  category: pharma
+  message: 'Calcium carbonate adsorbs and chelates levothyroxine, reducing absorption
+    by 40-60%. Separate by 4 hours. FDA labeling requires this separation. Critical
+    for hypothyroidism management.
+
+    '
+
+- a: LEVOTHYROXINE
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Campbell et al. 1992, Ann Intern Med; iron-thyroxine complex formation
+  category: pharma
+  message: 'Ferrous sulfate reduces levothyroxine absorption by forming insoluble
+    iron-thyroxine complexes. Separate by 4 hours minimum.
+
+    '
+
+- a: LEVOTHYROXINE
+  b: ALUMINUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Sperber & Liel 1992, Ann Pharmacother; aluminum adsorbs thyroxine
+  category: pharma
+  message: 'Aluminum-containing antacids adsorb levothyroxine, reducing bioavailability.
+    Separate by 4 hours.
+
+    '
+
+- a: POVIDONE
+  b: MORPHINE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.8
+  source: PVP peroxide impurity class effect; Hartauer et al. 2000, Pharm Dev Technol
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use low-peroxide PVP grades. Add antioxidant (BHT, sodium metabisulfite).
+  category: pharma
+  message: 'Residual peroxide in PVP oxidizes morphine''s phenolic hydroxyl groups.
+    Produces pseudomorphine and other oxidative degradants. Use low-peroxide grade
+    PVP.
+
+    '
+
+- a: POVIDONE
+  b: NIFEDIPINE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.85
+  source: Thoma & Klimek 1991, Int J Pharm; photosensitive + peroxide synergy
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use low-peroxide PVP grades. Store protected from light.
+  category: pharma
+  message: 'Nifedipine (a photosensitive dihydropyridine) is oxidized by peroxide
+    impurities in PVP. Combined photo- and peroxide-mediated degradation. Use HPMC
+    as alternative binder.
+
+    '
+
+- a: CROSPOVIDONE
+  b: ATORVASTATIN
+  type: soft
+  mechanism: oxidation
+  confidence: 0.75
+  source: PVP/crospovidone peroxide class effect; Waterman et al. 2002, Pharm Dev
+    Technol
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use croscarmellose sodium as disintegrant alternative.
+  category: pharma
+  message: 'Peroxide impurities in crospovidone can oxidize the lactone ring of atorvastatin.
+    Use croscarmellose sodium or sodium starch glycolate as alternative disintegrants.
+
+    '
+
+- a: GELATIN
+  b: POLYETHYLENE GLYCOL
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Digenis et al. 1994, J Pharm Sci; aldehyde byproducts from PEG oxidation
+    cross-link gelatin
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use HPMC capsules. If gelatin required, add antioxidant and control
+    storage conditions.
+  category: pharma
+  message: 'PEG oxidation produces formaldehyde and other aldehydes that cross-link
+    gelatin capsule shells. Reduces drug dissolution. Worse at elevated temperature
+    and humidity. HPMC capsules avoid this entirely.
+
+    '
+
+- a: GELATIN
+  b: POLYSORBATE 80
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Digenis et al. 1994; Mohamad et al. 2005, J Pharm Biomed Anal; PEG-ester
+    aldehyde generation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use HPMC capsules. Reduce polysorbate levels or add antioxidant.
+  category: pharma
+  message: 'Polysorbate 80 degradation generates aldehydes that cross-link gelatin
+    shells. Same mechanism as PEG. Results in failed dissolution tests on stability.
+
+    '
+
+- a: BENZALKONIUM CHLORIDE
+  b: FLUORESCEIN SODIUM
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 0.95
+  source: Handbook of Pharmaceutical Excipients, 9th ed.; ophthalmic incompatibility
+  category: pharma
+  message: 'Benzalkonium chloride (cationic) precipitates fluorescein sodium (anionic).
+    Known ophthalmic incompatibility. Fluorescein strips must be BAK-free.
+
+    '
+
+- a: BENZALKONIUM CHLORIDE
+  b: HEPARIN SODIUM
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 0.95
+  source: Handbook of Pharmaceutical Excipients, 9th ed.; cationic-anionic precipitation
+  category: pharma
+  message: 'BAK (cationic surfactant) precipitates heparin sodium (highly anionic
+    polysaccharide). Results in immediate loss of anticoagulant activity.
+
+    '
+
+- a: METHYLPARABEN
+  b: PEG 400
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.8
+  source: Patel & Kostenbauder 1958, J Am Pharm Assoc; paraben sequestration by nonionic
+    surfactants
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Increase paraben concentration to compensate for PEG sequestration.
+    Test antimicrobial efficacy.
+  category: pharma
+  message: 'PEG 400 sequesters methylparaben into micelles, reducing free paraben
+    concentration and antimicrobial efficacy. Must increase paraben levels to maintain
+    preservation.
+
+    '
+
+- a: METHYLPARABEN
+  b: POLYSORBATE 80
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: Patel & Kostenbauder 1958; Kazmi & Mitchell 1978, J Pharm Sci
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Increase paraben concentration or use alternative preservative system.
+  category: pharma
+  message: 'Polysorbate 80 sequesters parabens into micelles, reducing free antimicrobial
+    concentration by up to 90%. Classic excipient-preservative incompatibility.
+
+    '
+
+- a: ACTIVATED CHARCOAL
+  b: ACETAMINOPHEN
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 1.0
+  source: Neuvonen & Olkkola 1988, Clin Pharmacokinet; therapeutic adsorption basis
+  category: pharma
+  message: 'Activated charcoal adsorbs acetaminophen, reducing bioavailability to
+    near zero. This is therapeutically exploited in overdose treatment but is an incompatibility
+    in combination products.
+
+    '
+
+- a: KAOLIN
+  b: TETRACYCLINE
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 0.95
+  source: Albert & Rees 1956, Nature; Wagner 1966, J Pharm Sci
+  category: pharma
+  message: 'Kaolin adsorbs tetracycline onto its clay surface, reducing bioavailability
+    by 50-80%. Do not include kaolin-pectin antidiarrheal preparations with tetracycline.
+
+    '
+
+- a: KAOLIN
+  b: CIPROFLOXACIN
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 0.9
+  source: Fluoroquinolone adsorption to clay minerals; class effect
+  category: pharma
+  message: 'Kaolin adsorbs ciprofloxacin and other fluoroquinolones. Separate administration
+    by at least 2 hours.
+
+    '
+
+- a: KETOCONAZOLE
+  b: OMEPRAZOLE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: Chin et al. 1995, Antimicrob Agents Chemother; FDA labeling
+  category: pharma
+  message: 'Ketoconazole requires gastric acid (pH <3) for dissolution. Omeprazole
+    (proton pump inhibitor) raises gastric pH to 4-6, reducing ketoconazole absorption
+    by 80%+. On FDA labeling.
+
+    '
+
+- a: KETOCONAZOLE
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: Blum et al. 1991, Ann Intern Med; antacid raises pH above ketoconazole dissolution
+    threshold
+  category: pharma
+  message: 'Calcium carbonate antacid raises gastric pH above ketoconazole''s dissolution
+    threshold (pH 3). Reduces absorption substantially. Separate by 2 hours.
+
+    '
+
+- a: ITRACONAZOLE
+  b: OMEPRAZOLE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: Lim et al. 2006, J Clin Pharmacol; azole antifungal class effect
+  category: pharma
+  message: 'Itraconazole (capsule form) requires acidic pH for dissolution. PPIs reduce
+    absorption by 60-80%. The oral solution form is less affected.
+
+    '
+
+- a: ITRACONAZOLE
+  b: FAMOTIDINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Lim et al. 2006; H2RA reduces gastric acidity less than PPI
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use itraconazole oral solution (cyclodextrin-based, pH-independent).
+    Or administer with acidic beverage (cola).
+  category: pharma
+  message: 'H2 receptor antagonists raise gastric pH, reducing itraconazole capsule
+    absorption. Effect is less severe than with PPIs but still clinically significant.
+
+    '
+
+- a: EUDRAGIT L
+  b: MAGNESIUM OXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Pharmaceutical coating technology; alkaline excipient-enteric coat interaction
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Apply a seal coat (HPMC subcoat) between alkaline core and enteric coat.
+  category: pharma
+  message: 'Magnesium oxide''s alkalinity (pH ~10) prematurely dissolves Eudragit
+    L enteric coating (dissolves above pH 6). Drug releases in stomach instead of
+    intestine. Use seal coat.
+
+    '
+
+- a: SHELLAC
+  b: ALKALINE EXCIPIENT
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Pearnchob et al. 2003, Drug Dev Ind Pharm; shellac aging and pH sensitivity
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use synthetic enteric polymers (HPMCP, Eudragit) instead of shellac.
+  category: pharma
+  message: 'Shellac coating polymerizes on aging, becoming insoluble. Alkaline excipients
+    accelerate this cross-linking. Drug dissolution fails on stability.
+
+    '
+
+- a: CROSCARMELLOSE SODIUM
+  b: RANITIDINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Wu & Vane 2008, J Pharm Sci; cellulosic disintegrant catalysis
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use sodium starch glycolate as alternative disintegrant.
+  category: pharma
+  message: 'Croscarmellose sodium may catalyze ranitidine degradation. Cellulosic
+    disintegrants can promote formation of nitrosamine impurities (NDMA) in ranitidine.
+
+    '
+
+- a: STARCH
+  b: IODINE
+  type: hard
+  severity: error
+  mechanism: chemical_reaction
+  confidence: 1.0
+  source: Standard organic chemistry; amylose-iodine inclusion complex formation
+  category: pharma
+  message: 'Iodine forms deep blue inclusion complex with starch (amylose helix).
+    Renders both unavailable. Classic analytical chemistry reaction. Never combine
+    in formulations intended to deliver either ingredient.
+
+    '
+
+- a: SODIUM BICARBONATE
+  b: ASPIRIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Edwards 1952, J Pharm Pharmacol; alkaline hydrolysis of acetylsalicylic
+    acid
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Intentional in effervescent formulations (rapid dissolution). Stability
+    is limited — use immediately after dissolving.
+  category: pharma
+  message: 'Sodium bicarbonate accelerates alkaline hydrolysis of aspirin to salicylic
+    acid. This is sometimes intentional (effervescent aspirin) but reduces shelf stability.
+
+    '
+
+- a: SODIUM BICARBONATE
+  b: KETOCONAZOLE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Same gastric pH mechanism; bicarbonate raises pH above dissolution threshold
+  category: pharma
+  message: 'Sodium bicarbonate raises gastric pH, preventing ketoconazole dissolution.
+    Same mechanism as antacid interaction. Do not co-administer.
+
+    '
+
+- a: PVC
+  b: DIAZEPAM
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 0.95
+  source: Kowaluk et al. 1983, Am J Hosp Pharm; drug adsorption to PVC tubing
+  category: pharma
+  message: 'Diazepam adsorbs extensively to PVC tubing and containers, losing 40-80%
+    of drug. Use glass or polyolefin containers for IV diazepam solutions.
+
+    '
+
+- a: PVC
+  b: NITROGLYCERIN
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 1.0
+  source: Yuen et al. 1979, J Pharm Sci; FDA labeling requirement for non-PVC sets
+  category: pharma
+  message: 'Nitroglycerin is extensively absorbed by PVC IV bags and tubing, losing
+    40-80% of drug. FDA requires non-PVC (glass or polyolefin) administration sets.
+
+    '
+
+- a: PVC
+  b: INSULIN
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: Hirsch et al. 1977, Am J Hosp Pharm; protein adsorption to PVC
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Pre-flush PVC tubing with insulin-containing solution to saturate binding
+    sites.
+  category: pharma
+  message: 'Insulin adsorbs to PVC tubing surfaces, reducing delivered dose by 20-40%.
+    Pre-flushing tubing helps saturate binding sites.
+
+    '
+
+- a: WARFARIN
+  b: CHOLESTYRAMINE
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 1.0
+  source: Robinson et al. 1971, Clin Pharmacol Ther; bile acid sequestrant binding
+  category: pharma
+  message: 'Cholestyramine binds warfarin in the GI tract, reducing absorption by
+    50%+. Separate by at least 4-6 hours. Same interaction with other bile acid sequestrants.
+
+    '
+
+- a: WARFARIN
+  b: VITAMIN K
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: Goodman & Gilman's; direct pharmacological antagonism
+  category: pharma
+  message: 'Vitamin K directly antagonizes warfarin''s mechanism of action (vitamin
+    K-dependent clotting factor synthesis). Even dietary vitamin K fluctuations affect
+    INR. Never supplement vitamin K with warfarin therapy.
+
+    '
+
+- a: METHOTREXATE
+  b: FOLIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Goodman & Gilman's; competitive antagonism at DHFR
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Leucovorin (folinic acid) rescue is standard for high-dose MTX. Low-dose
+    folic acid supplementation is sometimes used to reduce MTX toxicity in autoimmune
+    disease.
+  category: pharma
+  message: 'Folic acid competes with methotrexate at dihydrofolate reductase. Can
+    reduce MTX efficacy. However, leucovorin rescue is standard protocol, and low-dose
+    folate is used to reduce MTX side effects in rheumatology.
+
+    '
+
+- a: PHENYTOIN
+  b: CALCIUM CARBONATE
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.85
+  source: McElnay & D'Arcy 1980, Drug-Excipient Interactions; calcium reduces phenytoin
+    absorption
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate administration by 2-4 hours.
+  category: pharma
+  message: 'Calcium carbonate reduces phenytoin absorption through chelation and pH
+    effects. Clinically significant given phenytoin''s narrow therapeutic index. Separate
+    by 2-4 hours.
+
+    '
+
+- a: PHENYTOIN
+  b: ENTERAL NUTRITION
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 0.95
+  source: Bauer 1982, Am J Hosp Pharm; well-documented tube feeding interaction
+  category: pharma
+  message: 'Enteral nutrition formulas bind phenytoin, reducing bioavailability by
+    50-80%. Hold tube feeding 2 hours before and after phenytoin. Well-documented
+    in critical care literature.
+
+    '
+
+- a: SUCRALFATE
+  b: CIPROFLOXACIN
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Nix et al. 1989; sucralfate aluminum chelation of fluoroquinolones
+  category: pharma
+  message: 'Sucralfate contains aluminum which chelates ciprofloxacin. Reduces bioavailability
+    by 90%+. Separate by at least 2 hours with ciprofloxacin given first.
+
+    '
+
+- a: SUCRALFATE
+  b: KETOCONAZOLE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.9
+  source: Same aluminum chelation mechanism as antacid interactions
+  category: pharma
+  message: 'Sucralfate''s aluminum content chelates ketoconazole and raises local
+    pH. Dual mechanism reduces absorption. Separate by at least 2 hours.
+
+    '
+
+- a: LACTOSE
+  b: ISONIAZID
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Garrett 1990, J Pharm Sci; hydrazide-reducing sugar condensation
+  category: pharma
+  message: 'Isoniazid''s hydrazide group undergoes condensation with lactose (reducing
+    sugar). Forms hydrazone adduct. Use non-reducing excipients for isoniazid tablets.
+
+    '
+
+- a: CASEIN
+  b: CARRAGEENAN
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: Langendorff et al. 2000, Food Hydrocolloids; electrostatic casein-carrageenan
+    complex
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Often intentional in dairy products (stabilizes milk). Control concentration
+    and temperature.
+  category: food
+  message: 'Kappa-carrageenan interacts electrostatically with casein micelles. Intentional
+    in chocolate milk (stabilization) but can cause unwanted gelation at high concentration.
+
+    '
+
+- a: WHEY PROTEIN
+  b: PECTIN
+  type: soft
+  mechanism: precipitation
+  confidence: 0.8
+  source: Weinbreck et al. 2003, J Food Sci; complex coacervation below pI
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Keep pH above protein pI. Control ionic strength.
+  category: food
+  message: 'Whey protein and pectin form complex coacervates below the protein''s
+    isoelectric point (pH 4.6). Can be exploited for microencapsulation or avoided
+    in clear beverages.
+
+    '
+
+- a: SOY PROTEIN
+  b: TANNINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: Hagerman & Butler 1981, J Biol Chem; proline-rich protein-tannin binding
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use hydrolyzed soy protein. Add PVP to sequester tannins.
+  category: food
+  message: 'Tannins bind soy protein via hydrogen bonding and hydrophobic interactions.
+    Reduces protein digestibility and causes astringent off-taste. Major issue in
+    soy-based beverages with tea or coffee.
+
+    '
+
+- a: BROMELAIN
+  b: SODIUM BISULFITE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Whitaker 1994, Principles of Enzymology for the Food Sciences; sulfite inactivation
+    of cysteine proteases
+  category: food
+  message: 'Sodium bisulfite irreversibly inactivates bromelain (cysteine protease)
+    by reducing critical disulfide bonds. Do not use sulfite preservatives in bromelain-containing
+    products.
+
+    '
+
+- a: PAPAIN
+  b: SODIUM BISULFITE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Whitaker 1994; same cysteine protease sulfite inactivation mechanism
+  category: food
+  message: 'Sulfites inactivate papain by reducing its essential cysteine residue.
+    Same mechanism as bromelain. Use alternative preservatives.
+
+    '
+
+- a: CAROTENOIDS
+  b: FERROUS SULFATE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.85
+  source: Hurrell 2002, Int J Vitam Nutr Res; iron-catalyzed carotenoid oxidation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use chelated iron (NaFeEDTA, iron bisglycinate) to minimize catalytic
+    activity. Add antioxidants.
+  category: food
+  message: 'Iron ions catalyze oxidative degradation of carotenoid pigments (beta-carotene,
+    lycopene), causing color fading. Chelated iron forms have reduced catalytic activity.
+
+    '
+
+- a: ANTHOCYANINS
+  b: SODIUM BISULFITE
+  type: soft
+  mechanism: degradation
+  confidence: 0.9
+  source: Berke & de Freitas 2005, J Sci Food Agric; bisulfite bleaching of anthocyanins
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use alternative preservatives (potassium sorbate, sodium benzoate) in
+    anthocyanin-colored products.
+  category: food
+  message: 'Bisulfite bleaches anthocyanins by nucleophilic addition at the C-4 position
+    of the flavylium cation. The reaction is reversible on heating but persistent
+    at ambient temperature.
+
+    '
+
+- a: TURMERIC
+  b: SODIUM BICARBONATE
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Tonnesen & Karlsen 1985, Z Lebensm Unters Forsch; curcumin alkaline degradation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Keep pH below 7 for curcumin stability. Use encapsulated turmeric.
+  category: food
+  message: 'Curcumin degrades rapidly above pH 7.5 via alkaline hydrolysis (feruloylmethane
+    pathway). Sodium bicarbonate turns turmeric from yellow to red-brown and accelerates
+    degradation.
+
+    '
+
+- a: BEET RED
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Huang & von Elbe 1987, J Food Sci; ascorbic acid accelerates betanin degradation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Minimize heat exposure. Use isoascorbic acid if antioxidant needed.
+  category: food
+  message: 'Ascorbic acid accelerates degradation of betanins (beet red pigments)
+    in the presence of oxygen. The ascorbyl radical initiates betanin oxidation.
+
+    '
+
+- a: REDUCING SUGARS
+  b: AMINO ACIDS
+  type: soft
+  mechanism: degradation
+  confidence: 1.0
+  source: Maillard 1912; Hodge 1953, J Agric Food Chem; foundational food chemistry
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Control pH (lower pH slows reaction), temperature, and water activity.
+    Use non-reducing sugars (sucrose, trehalose).
+  category: food
+  message: 'The Maillard reaction between reducing sugars and amino acids produces
+    brown color and flavor changes. Desirable in baking/roasting but unwanted in shelf-stable
+    products. Rate increases with temperature, pH, and water activity.
+
+    '
+
+- a: GLUCOSE
+  b: LYSINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.95
+  source: Friedman 1996, J Agric Food Chem; lysine Maillard loss in processed foods
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use trehalose or sucrose. Minimize heat exposure. Store at low water
+    activity.
+  category: food
+  message: 'Lysine''s epsilon-amino group is highly reactive with glucose via Maillard
+    reaction. Up to 40% lysine loss in heat-processed foods. Reduces nutritional value
+    of protein-fortified products.
+
+    '
+
+- a: LACTOSE
+  b: WHEY PROTEIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: O'Brien & Morrissey 1989, Food Chem; Maillard browning in dairy powders
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Remove lactose before spray drying. Store at low humidity and temperature.
+  category: food
+  message: 'Lactose (reducing sugar) undergoes Maillard reaction with whey protein
+    lysine residues during spray drying and storage. Causes browning and off-flavors
+    in dairy powders.
+
+    '
+
+- a: ZINC
+  b: PHYTIC ACID
+  type: soft
+  mechanism: chelation
+  confidence: 0.9
+  source: Lonnerdal 2000, J Nutr; phytate-zinc complex formation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use zinc bisglycinate (chelated). Add phytase enzyme to degrade phytate.
+  category: food
+  message: 'Phytic acid chelates zinc ions, reducing bioavailability by 40-60%. Major
+    concern in zinc-fortified cereal products. Chelated zinc forms resist phytate
+    binding.
+
+    '
+
+- a: CALCIUM
+  b: PHYTIC ACID
+  type: soft
+  mechanism: chelation
+  confidence: 0.85
+  source: Weaver & Kannan 2002, J Food Sci; calcium-phytate interaction
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use calcium citrate-malate (better absorbed). Reduce phytate by fermentation
+    or phytase.
+  category: food
+  message: 'Phytic acid chelates calcium, reducing bioavailability. Less dramatic
+    than iron-phytate but significant at high phytate:calcium ratios common in whole
+    grain products.
+
+    '
+
+- a: SORBIC ACID
+  b: SODIUM HYDROXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.9
+  source: 'Sofos 1989, Boca Raton: CRC Press; sorbic acid pKa 4.76'
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Maintain pH below 6.0 for sorbate efficacy. Use combined preservative
+    systems at higher pH.
+  category: food
+  message: 'Sorbic acid (pKa 4.76) loses antimicrobial activity above pH 6.0 as the
+    undissociated acid form decreases. Alkaline conditions render sorbate preservatives
+    ineffective.
+
+    '
+
+- a: BENZOIC ACID
+  b: SODIUM HYDROXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.9
+  source: Chipley 2005, Antimicrobials in Food; benzoic acid pKa 4.2
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Maintain pH below 4.5 for optimal benzoate efficacy.
+  category: food
+  message: 'Benzoic acid (pKa 4.2) is effective only in acidic conditions (pH <4.5).
+    Above pH 5, the ionized benzoate form has minimal antimicrobial activity.
+
+    '
+
+- a: XANTHAN GUM
+  b: GUAR GUM
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: Casas et al. 2000, J Food Eng; synergistic viscosity increase
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Usually synergistic (intentional). Control total gum concentration to
+    avoid excessive viscosity.
+  category: food
+  message: 'Xanthan and guar gums exhibit strong synergistic viscosity enhancement
+    (8-10x individual viscosities). Usually intentional in food thickening but can
+    cause uncontrolled gel formation if not carefully dosed.
+
+    '
+
+- a: GELATIN
+  b: TANNINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.9
+  source: Hagerman & Butler 1981; standard fining agent mechanism in beverages
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Intentional in wine/beer fining. Avoid in products requiring both gelatin
+    texture and polyphenol content.
+  category: food
+  message: 'Gelatin (proline-rich protein) binds tannins strongly, causing precipitation.
+    Exploited in wine and beer fining but unwanted in nutraceuticals requiring both
+    gelatin matrix and polyphenol activity.
+
+    '
+
+- a: IRON
+  b: CATECHINS
+  type: soft
+  mechanism: chelation
+  confidence: 0.85
+  source: Hurrell et al. 1999, Br J Nutr; polyphenol-iron chelation in tea
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use NaFeEDTA or ferrous bisglycinate. Add ascorbic acid as iron absorption
+    enhancer.
+  category: food
+  message: 'Catechins (from green tea) chelate non-heme iron, reducing bioavailability
+    by 60-90%. Major concern in iron-fortified tea beverages. Chelated iron forms
+    are partially resistant.
+
+    '
+
+- a: LIPASE
+  b: CALCIUM CHLORIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Whitaker 1994; calcium-dependent lipase activation/inhibition
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Control calcium concentration. Some lipases require Ca2+ for activity,
+    others are inhibited.
+  category: food
+  message: 'Calcium ions can either activate or inhibit lipase depending on the enzyme
+    source and concentration. Excess calcium (>10mM) often inhibits by forming insoluble
+    calcium-fatty acid soaps.
+
+    '
+
+- a: NISIN
+  b: GLUTATHIONE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Liu & Hansen 1990, J Food Sci; thiol inactivation of nisin
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Minimize free thiol content. Use nisin in combination with other hurdle
+    technologies.
+  category: food
+  message: 'Glutathione and other free thiols can inactivate nisin by reducing its
+    lanthionine bridge structures. Relevant in meat products with high glutathione
+    content.
+
+    '
+
+- a: IRON
+  b: MANGANESE
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.8
+  source: Rossander-Hulten et al. 1991, Am J Clin Nutr; DMT1 transporter competition
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use chelated forms of both minerals. Separate if high-dose supplementation.
+  category: supplement
+  message: 'Iron and manganese compete for the DMT1 transporter. High-dose iron supplementation
+    can reduce manganese absorption by 40%. Chelated forms use alternate absorption
+    pathways.
+
+    '
+
+- a: COPPER
+  b: MOLYBDENUM
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.75
+  source: Turnlund 1998, J Nutr; copper-molybdenum antagonism via thiomolybdate
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Maintain appropriate Cu:Mo ratio. Standard multivitamin doses are safe.
+  category: supplement
+  message: 'Molybdenum antagonizes copper via thiomolybdate formation in the GI tract.
+    High molybdenum can induce copper deficiency. Well-documented in veterinary medicine
+    (teart pastures).
+
+    '
+
+- a: SELENIUM
+  b: VITAMIN C
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Combs 2001, The Vitamins; reduction of selenite to elemental selenium
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use selenomethionine instead of sodium selenite. Organic selenium is
+    not affected.
+  category: supplement
+  message: 'Ascorbic acid reduces sodium selenite to elemental selenium (insoluble,
+    non-bioavailable). Only affects inorganic selenium forms. Use selenomethionine
+    (organic, unaffected).
+
+    '
+
+- a: CHROMIUM PICOLINATE
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.6
+  source: Stearns & Wetterhahn 1994, FASEB J; Cr6+ to Cr3+ reduction by ascorbate
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Chromium picolinate is already Cr3+ (stable). Only relevant for Cr6+
+    contamination.
+  category: supplement
+  message: 'Ascorbic acid reduces Cr6+ to Cr3+. For chromium picolinate (already Cr3+)
+    this is not directly relevant, but ascorbate can still alter picolinate complex
+    stability in solution. Minimal clinical significance.
+
+    '
+
+- a: THIAMINE
+  b: RIBOFLAVIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Rivlin 1975, Nutr Rev; riboflavin photosensitized oxidation of thiamine
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Protect from light. Use amber glass or opaque packaging. Thiamine mononitrate
+    is more stable than HCl salt.
+  category: supplement
+  message: 'Riboflavin acts as a photosensitizer, generating singlet oxygen that degrades
+    thiamine. Occurs primarily in liquid supplements exposed to light. Dark packaging
+    prevents this.
+
+    '
+
+- a: VITAMIN E
+  b: VITAMIN K
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Booth et al. 2004, Am J Clin Nutr; high-dose vitamin E antagonizes vitamin
+    K
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: At standard supplement doses (400 IU E, 100mcg K) this is not clinically
+    significant.
+  category: supplement
+  message: 'High-dose vitamin E (>1000 IU/day) can antagonize vitamin K-dependent
+    clotting factor carboxylation. Increases bleeding risk, especially with concurrent
+    anticoagulant therapy. Standard doses are safe.
+
+    '
+
+- a: PYRIDOXINE
+  b: LEVODOPA
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 1.0
+  source: Goodman & Gilman's; Yahr et al. 1969, Trans Am Neurol Assoc
+  category: supplement
+  message: 'Pyridoxine (B6) accelerates peripheral conversion of levodopa to dopamine,
+    reducing CNS availability. As little as 5mg B6 can reverse levodopa''s therapeutic
+    effect. Carbidopa prevents this but standalone levodopa is incompatible.
+
+    '
+
+- a: VITAMIN A
+  b: VITAMIN D
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.7
+  source: Johansson & Melhus 2001, Am J Clin Nutr; retinol-vitamin D competition
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Avoid mega-dosing vitamin A. At standard RDA levels, co-administration
+    is fine.
+  category: supplement
+  message: 'High-dose preformed vitamin A (>10,000 IU) may antagonize vitamin D action
+    on bone. At standard supplemental doses (<5,000 IU A with 1,000-2,000 IU D) this
+    is not clinically significant.
+
+    '
+
+- a: GREEN TEA EXTRACT
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.9
+  source: Hurrell et al. 1999, Br J Nutr; EGCG-iron chelation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate green tea extract and iron by 2+ hours. Use chelated iron (bisglycinate).
+  category: supplement
+  message: 'EGCG in green tea extract chelates non-heme iron, reducing absorption
+    by 60-90%. Take green tea supplements between meals and iron with meals, separated
+    by hours.
+
+    '
+
+- a: CURCUMIN
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.8
+  source: Jiao et al. 2006, Free Radic Biol Med; curcumin-iron chelation
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use chelated iron. Separate by 2 hours.
+  category: supplement
+  message: 'Curcumin chelates iron via its beta-diketone moiety. Can reduce iron bioavailability
+    and may exacerbate iron deficiency anemia. Separate timing or use chelated iron.
+
+    '
+
+- a: ST JOHNS WORT
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.7
+  source: Linde et al. 2008, Cochrane Review; polyphenol-iron mechanism
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Separate by 2 hours.
+  category: supplement
+  message: 'St. John''s Wort contains polyphenols (hypericin, quercetin) that chelate
+    iron. Moderate reduction in iron absorption when co-administered.
+
+    '
+
+- a: FISH OIL
+  b: FERROUS SULFATE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.85
+  source: Jacobsen 2015, Oxidative Stability of Seafood Products; iron-catalyzed lipid
+    peroxidation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate softgel and iron tablet. Add vitamin E as antioxidant. Use
+    chelated iron.
+  category: supplement
+  message: 'Iron catalyzes peroxidation of EPA/DHA in fish oil via Fenton mechanism.
+    Produces lipid hydroperoxides, aldehydes (MDA, HNE), and fishy off-flavors. Never
+    include free iron in omega-3 formulations.
+
+    '
+
+- a: EPA
+  b: IRON
+  type: soft
+  mechanism: oxidation
+  confidence: 0.85
+  source: Jacobsen 2015; Frankel 2005, Lipid Oxidation; polyunsaturated FA oxidation
+    by iron
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Chelate iron or physically separate. Include mixed tocopherols as antioxidant.
+  category: supplement
+  message: 'EPA (eicosapentaenoic acid, 5 double bonds) is highly susceptible to iron-catalyzed
+    oxidation. Products include cytotoxic aldehydes and hydroperoxides.
+
+    '
+
+- a: DHA
+  b: COPPER
+  type: soft
+  mechanism: oxidation
+  confidence: 0.8
+  source: Frankel 2005, Lipid Oxidation; copper-catalyzed PUFA oxidation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Chelate copper or physically separate. Include rosemary extract or tocopherols.
+  category: supplement
+  message: 'DHA (docosahexaenoic acid, 6 double bonds) is the most oxidation-sensitive
+    common fatty acid. Copper ions catalyze rapid peroxidation at sub-ppm levels.
+
+    '
+
+- a: PROBIOTICS
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Dave & Shah 1997, Int Dairy J; low pH reduces probiotic viability
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use acid-resistant strains. Microencapsulate probiotics. Use buffered
+    vitamin C.
+  category: supplement
+  message: 'Ascorbic acid''s low pH can reduce viability of acid-sensitive probiotic
+    strains during shelf life. Spore-formers (B. coagulans) and S. boulardii are resistant.
+
+    '
+
+- a: PROBIOTICS
+  b: OREGANO OIL
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Burt 2004, Int J Food Microbiol; carvacrol/thymol antimicrobial action
+  category: supplement
+  message: 'Oregano oil (carvacrol, thymol) is a potent antimicrobial that kills probiotic
+    organisms. The terpenoid compounds disrupt bacterial cell membranes. Never combine
+    in the same formulation.
+
+    '
+
+- a: PROBIOTICS
+  b: GARLIC EXTRACT
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Ankri & Mirelman 1999, Microbes Infect; allicin antimicrobial activity
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate into different capsules. Enterically coat the probiotic.
+  category: supplement
+  message: 'Garlic''s allicin is a broad-spectrum antimicrobial that can reduce probiotic
+    viability. Effect depends on concentration and probiotic strain. Enteric separation
+    is recommended.
+
+    '
+
+- a: PROBIOTICS
+  b: BERBERINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Cernakova & Kostova 2002, Folia Microbiol; berberine antimicrobial activity
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate into different capsules with timed-release. Berberine acts
+    in upper GI, probiotics in lower.
+  category: supplement
+  message: 'Berberine has antimicrobial activity that can reduce probiotic viability.
+    Some evidence suggests they may coexist if physically separated with timed-release
+    delivery systems.
+
+    '
+
+- a: CALCIUM
+  b: THYROID HORMONE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Singh et al. 2000, JAMA 283:2822; calcium adsorption of levothyroxine
+  category: supplement
+  message: 'Calcium supplements reduce thyroid hormone (levothyroxine) absorption
+    by 40-60%. Separate by 4 hours. Critical for hypothyroid patients on calcium supplementation.
+
+    '
+
+- a: MAGNESIUM
+  b: BISPHOSPHONATES
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Recker 1985, NEJM; polyvalent cation chelation of bisphosphonates
+  category: supplement
+  message: 'Magnesium chelates bisphosphonate drugs (alendronate, risedronate), reducing
+    absorption by 60%+. Take bisphosphonate first thing in morning with plain water,
+    wait 30-60 minutes before any supplements.
+
+    '
+
+- a: OMEGA-3
+  b: VITAMIN E
+  type: soft
+  mechanism: degradation
+  confidence: 0.5
+  source: Meydani et al. 1991, Am J Clin Nutr; synergistic but competitive
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Synergistic combination. Vitamin E protects omega-3 from oxidation.
+  category: supplement
+  message: 'Vitamin E and omega-3 are synergistic — tocopherol protects PUFA from
+    peroxidation. However, high omega-3 intake increases vitamin E requirement. Not
+    incompatible; include adequate vitamin E with omega-3 products.
+
+    '
+
+- a: NAC
+  b: NITROGLYCERIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Boesgaard et al. 1992, Circulation; NAC potentiates nitrate vasodilation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Clinical supervision required. Do not combine in supplement products.
+  category: supplement
+  message: 'N-acetylcysteine potentiates nitroglycerin''s hypotensive effect, risking
+    severe hypotension. Thiol groups regenerate nitrate receptor sensitivity. Not
+    for OTC combination.
+
+    '
+
+- a: AVOBENZONE
+  b: OCTINOXATE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.95
+  source: Sayre et al. 2005, Photochem Photobiol; Schwack & Rudolph 1995, J Photochem
+    Photobiol B
+  category: skincare
+  message: 'Octinoxate (ethylhexyl methoxycinnamate) photodegrades avobenzone through
+    triplet-triplet energy transfer. Avobenzone loses 50-90% UV protection in 1 hour
+    of sun exposure. Use octocrylene or Tinosorb S to photostabilize avobenzone instead.
+
+    '
+
+- a: AVOBENZONE
+  b: ZINC OXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Serpone et al. 2002, J Photochem Photobiol A; ZnO photocatalysis
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use coated zinc oxide (dimethicone or silica-coated) to suppress photocatalysis.
+  category: skincare
+  message: 'Uncoated zinc oxide can photocatalyze avobenzone degradation. Coated ZnO
+    (dimethicone or silica coating) suppresses photocatalytic activity and is compatible.
+
+    '
+
+- a: AVOBENZONE
+  b: TITANIUM DIOXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Serpone et al. 2002; TiO2 photocatalysis of organic UV filters
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use coated TiO2 (alumina or silica coating). Most commercial TiO2 is
+    already coated.
+  category: skincare
+  message: 'Uncoated TiO2 photocatalyzes degradation of organic UV filters including
+    avobenzone. Commercial grades are typically coated to suppress this activity.
+
+    '
+
+- a: OCTOCRYLENE
+  b: AVOBENZONE
+  type: soft
+  mechanism: degradation
+  confidence: 0.5
+  source: Chatelain & Gabard 2001, Photochem Photobiol; octocrylene as photostabilizer
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Synergistic — octocrylene stabilizes avobenzone.
+  category: skincare
+  message: 'Synergistic, NOT incompatible. Octocrylene absorbs triplet-state energy
+    from avobenzone, preventing photodegradation. This is one of the standard photostabilizer
+    strategies.
+
+    '
+
+- a: PHENOXYETHANOL
+  b: PROTEINS
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Rosen 2005, Delivery System Handbook; preservative-protein denaturation
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Use at minimum effective concentration (<1%). Test protein stability
+    in final formulation.
+  category: skincare
+  message: 'Phenoxyethanol can denature proteins (peptides, growth factors) at high
+    concentrations. Most commercial peptide products use phenoxyethanol at 0.5-1%
+    without issues. Test stability of sensitive peptide actives.
+
+    '
+
+- a: METHYLISOTHIAZOLINONE
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Collier et al. 1990, Antimicrob Agents Chemother; isothiazolinone electrophile-thiol
+    reactions
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use alternative preservative (phenoxyethanol). MI also has skin sensitization
+    concerns.
+  category: skincare
+  message: 'Methylisothiazolinone (MIT) is an electrophile that reacts with nucleophiles
+    including ascorbic acid. Can reduce both preservative and antioxidant efficacy.
+    MIT also has significant skin sensitization concerns.
+
+    '
+
+- a: CETRIMONIUM BROMIDE
+  b: SODIUM LAURYL SULFATE
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: Rosen 2004, Surfactants and Interfacial Phenomena, 3rd ed.; cationic-anionic
+    precipitation
+  category: skincare
+  message: 'Cationic (cetrimonium) + anionic (SLS) surfactants form insoluble salt
+    precipitate. Both lose function. Never combine in the same phase. Use nonionic
+    or amphoteric surfactants with cationic conditioners.
+
+    '
+
+- a: CETRIMONIUM CHLORIDE
+  b: SODIUM LAURETH SULFATE
+  type: hard
+  severity: error
+  mechanism: precipitation
+  confidence: 1.0
+  source: Rosen 2004; cationic-anionic surfactant incompatibility class
+  category: skincare
+  message: 'Same cationic-anionic precipitation. Cetrimonium (conditioning) and SLES
+    (cleansing) precipitate on contact. Use amphoteric co-surfactants (cocamidopropyl
+    betaine) with either system.
+
+    '
+
+- a: POLYQUATERNIUM-10
+  b: SODIUM LAURYL SULFATE
+  type: soft
+  mechanism: precipitation
+  confidence: 0.75
+  source: Goddard & Ananthapadmanabhan 1993, Interactions of Surfactants with Polymers
+    and Proteins
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: This interaction is intentional in conditioning shampoos — polyquat
+    deposits on hair when SLS is rinsed. Control ratios carefully.
+  category: skincare
+  message: 'Polyquat-10 (cationic polymer) and SLS (anionic surfactant) form complex
+    coacervates. This is exploited in 2-in-1 shampoos for conditioning deposition
+    but can cause product instability if ratios are wrong.
+
+    '
+
+- a: ASCORBYL GLUCOSIDE
+  b: COPPER PEPTIDE
+  type: soft
+  mechanism: chelation
+  confidence: 0.7
+  source: Same Fenton chemistry as L-AA + copper, but glucoside form is more stable
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Less reactive than L-Ascorbic Acid. May be tolerable at low concentrations.
+  category: skincare
+  message: 'Ascorbyl glucoside can still interact with copper peptides via the same
+    Fenton mechanism as L-AA, but the glucoside form is significantly more stable
+    and less reactive. Moderate caution.
+
+    '
+
+- a: RETINOL
+  b: ALPHA HYDROXY ACIDS
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.8
+  source: Draelos 2005, Cutis; class interaction retinoids + AHAs
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use retinal (retinaldehyde) which is more pH-tolerant. Or separate into
+    AM/PM use.
+  category: skincare
+  message: 'All AHAs destabilize retinol at their optimal pH range (3-4). Class effect.
+    Retinaldehyde and encapsulated retinol are more tolerant.
+
+    '
+
+- a: RESVERATROL
+  b: IRON OXIDES
+  type: soft
+  mechanism: degradation
+  confidence: 0.65
+  source: Fenton chemistry; polyphenol-iron catalytic degradation
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Chelate iron traces with EDTA. Use coated iron oxide pigments.
+  category: skincare
+  message: 'Iron from pigments can catalyze oxidation of resveratrol via Fenton-type
+    reaction. Minimal concern at typical tinted product iron oxide levels.
+
+    '
+
+- a: PEPTIDES
+  b: GLYCOLIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.75
+  source: Peptide stability in acidic conditions; Lintner & Peschard 2000, Int J Cosmet
+    Sci
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Buffer pH to 4.5+. Use peptide delivery systems (liposomes) for protection.
+  category: skincare
+  message: 'Most cosmetic peptides (matrixyl, argireline, copper peptides) are unstable
+    below pH 4. Glycolic acid''s optimal pH (3-4) degrades peptide bonds. Buffer or
+    separate into different products.
+
+    '
+
+- a: PEPTIDES
+  b: SALICYLIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.7
+  source: Same peptide-acid instability mechanism; salicylic acid pH 2.5-4
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use encapsulated salicylic acid or separate into different products.
+  category: skincare
+  message: 'Salicylic acid''s optimal pH destabilizes most cosmetic peptides. Less
+    severe than glycolic due to BHA''s lipophilic nature (less contact with water-soluble
+    peptides).
+
+    '
+
+- a: RETINOL
+  b: VITAMIN C ESTER
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: Vitamin C derivatives (SAP, MAP, AAG) are stable at pH 5-7, compatible with
+    retinol
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Vitamin C esters are the solution to retinol + vitamin C incompatibility.
+  category: skincare
+  message: 'Vitamin C esters (SAP, MAP, ascorbyl glucoside) are stable at neutral
+    pH where retinol also thrives. This is NOT an incompatibility — it is the standard
+    solution for combining retinol and vitamin C.
+
+    '
+
+- a: HYDROQUINONE
+  b: HYDROGEN PEROXIDE
+  type: hard
+  severity: error
+  mechanism: oxidation
+  confidence: 0.9
+  source: Quinone chemistry; oxidation of hydroquinone to benzoquinone
+  category: skincare
+  message: 'Hydrogen peroxide oxidizes hydroquinone to benzoquinone, which is toxic
+    and causes dark staining. Complete loss of skin-lightening activity.
+
+    '
+
+- a: AZELAIC ACID
+  b: BENZOYL PEROXIDE
+  type: soft
+  mechanism: irritation
+  confidence: 0.7
+  source: Dermatological guidance; dual oxidative/antimicrobial irritation
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Can be combined at low concentrations under dermatological supervision.
+  category: skincare
+  message: 'Combined use increases irritation and dryness risk. Both have antimicrobial
+    activity — the overlap may be excessive. Some dermatologists combine them for
+    rosacea/acne at reduced concentrations.
+
+    '
+
+- a: NIACINAMIDE
+  b: COPPER PEPTIDE
+  type: soft
+  mechanism: chelation
+  confidence: 0.6
+  source: Niacinamide metal-complexing properties; theoretical concern
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Likely compatible at normal use concentrations. Theoretical rather than
+    well-documented.
+  category: skincare
+  message: 'Niacinamide has mild metal-complexing properties and could theoretically
+    interfere with copper peptide complexes. Evidence is weak — many products combine
+    these successfully.
+
+    '
+
+- a: HYALURONIC ACID
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.6
+  source: Stern et al. 2007, Eur J Cell Biol; free radical degradation of HA
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Use crosslinked HA which is more resistant. Not a significant concern
+    at typical cosmetic concentrations.
+  category: skincare
+  message: 'Free radical species generated during ascorbic acid oxidation can degrade
+    hyaluronic acid chains. Minimal concern at typical cosmetic concentrations and
+    pH.
+
+    '
+
+- a: DIMETHICONE
+  b: WATER
+  type: soft
+  mechanism: precipitation
+  confidence: 0.7
+  source: Silicone chemistry; dimethicone-water phase incompatibility
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Use dimethicone copolyol (PEG/PPG dimethicone) for water compatibility,
+    or proper emulsification.
+  category: skincare
+  message: 'Dimethicone is water-insoluble and will separate in aqueous formulations
+    without proper emulsification. Use silicone emulsifiers or water-soluble silicone
+    derivatives.
+
+    '
+
+- a: CARBOMER
+  b: ELECTROLYTES
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Lubrizol technical bulletin; ionic strength sensitivity of carbomers
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use Carbopol Ultrez grades (more electrolyte tolerant) or acrylates
+    copolymer alternatives.
+  category: skincare
+  message: 'Carbomer (Carbopol) gels collapse in the presence of electrolytes (salts,
+    ionic actives). High salt concentration screens the carboxylate charges that maintain
+    the gel structure.
+
+    '
+
+- a: ASCORBIC ACID
+  b: FERULIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: Lin et al. 2005, J Invest Dermatol; synergistic, NOT incompatible
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Synergistic — ferulic acid stabilizes and enhances vitamin C.
+  category: skincare
+  message: 'Synergistic, NOT incompatible. Ferulic acid doubles the photoprotection
+    of vitamin C+E formulations (CE Ferulic). Both work at pH 2.5-3.5. The gold standard
+    antioxidant combination.
+
+    '
+
+- a: PEA PROTEIN
+  b: CITRIC ACID
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: Lam et al. 2018, Food Chem; plant protein isoelectric precipitation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use hydrolyzed pea protein. Maintain pH above 5.0 or below 3.0 (both
+    sides of pI).
+  category: beverage
+  message: 'Pea protein aggregates near its isoelectric point (pH 4.0-5.0). Citric
+    acid can push pH into this unstable zone. Use extensively hydrolyzed protein for
+    clear acidic beverages.
+
+    '
+
+- a: COLLAGEN PEPTIDES
+  b: TANNINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.8
+  source: Proline-rich protein tannin binding; Hagerman & Butler 1981
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use highly hydrolyzed collagen (<3kDa). Small peptides bind tannins
+    less.
+  category: beverage
+  message: 'Collagen (proline/hydroxyproline-rich) binds tannins strongly. Causes
+    haze and precipitation in tea or coffee-based collagen beverages. Extensively
+    hydrolyzed collagen (<3kDa) is less affected.
+
+    '
+
+- a: CALCIUM
+  b: CARBON DIOXIDE
+  type: soft
+  mechanism: precipitation
+  confidence: 0.8
+  source: Calcium carbonate precipitation in carbonated beverages; standard water
+    chemistry
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use calcium citrate-malate or calcium lactate (more soluble). Avoid
+    calcium carbonate in carbonated products.
+  category: beverage
+  message: 'Carbon dioxide in water forms carbonic acid. At higher pH zones (after
+    CO2 escapes), dissolved calcium can precipitate as calcium carbonate. Use soluble
+    calcium salts for fortification.
+
+    '
+
+- a: PROTEIN
+  b: CARBON DIOXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Ismail et al. 2006, J Food Sci; CO2-induced protein denaturation at interface
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use hydrolyzed proteins. Carbonation level and protein concentration
+    must be balanced.
+  category: beverage
+  message: 'CO2 bubbles create interfacial shear that denatures proteins, causing
+    foam instability and off-flavors. Hydrolyzed proteins (<10kDa) tolerate carbonation
+    better than intact proteins.
+
+    '
+
+- a: ASPARTAME
+  b: CITRIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.9
+  source: Bell & Wetzel 1995, J Agric Food Chem; aspartame hydrolysis in acidic beverages
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use acesulfame K + sucralose blend instead of aspartame for acidic beverages.
+  category: beverage
+  message: 'Aspartame hydrolyzes to diketopiperazine and loses sweetness in acidic
+    conditions (pH 3-4). Half-life is ~40 days at pH 3/25C. Limits shelf life of acidic
+    diet beverages.
+
+    '
+
+- a: ASPARTAME
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Bell & Wetzel 1995; low pH accelerates aspartame degradation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use vitamin C-stable sweeteners (sucralose, acesulfame K, stevia).
+  category: beverage
+  message: 'Ascorbic acid (low pH) accelerates aspartame degradation. In vitamin C-fortified
+    diet beverages, aspartame half-life is significantly shortened.
+
+    '
+
+- a: SUCRALOSE
+  b: SODIUM BICARBONATE
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Grice & Goldsmith 2000, Food Chem Toxicol; sucralose stability at alkaline
+    pH
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Sucralose is most stable at pH 4-6. Alkaline conditions promote slow
+    dechlorination.
+  category: beverage
+  message: 'Sucralose slowly degrades at alkaline pH (>8) via dechlorination. Not
+    a major concern at typical beverage pH but relevant for baking applications.
+
+    '
+
+- a: FERROUS SULFATE
+  b: CITRIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Hurrell 2002, Int J Vitam Nutr Res; iron-ascorbic acid interaction in beverages
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use ferric pyrophosphate (microencapsulated) or NaFeEDTA for citrus
+    beverages.
+  category: beverage
+  message: 'Ferrous sulfate causes metallic off-taste and color changes (dark discoloration)
+    in citrus beverages. Encapsulated or chelated iron forms minimize organoleptic
+    impact.
+
+    '
+
+- a: FERROUS SULFATE
+  b: POLYPHENOLS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.9
+  source: Hurrell et al. 1999, Br J Nutr; iron-polyphenol complex formation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use NaFeEDTA or ferrous bisglycinate. Add ascorbic acid as iron absorption
+    promoter.
+  category: beverage
+  message: 'Ferrous iron forms dark-colored complexes with polyphenols (from tea,
+    coffee, fruit), reducing iron bioavailability and causing unappealing color changes.
+    NaFeEDTA resists polyphenol binding.
+
+    '
+
+- a: ZINC SULFATE
+  b: TANNINS
+  type: soft
+  mechanism: chelation
+  confidence: 0.75
+  source: South & Miller 1998, Food Chem; zinc-tannin complex formation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use zinc bisglycinate. Avoid combining zinc with high-tannin beverages.
+  category: beverage
+  message: 'Zinc forms complexes with tannins, reducing bioavailability. Less dramatic
+    than iron-tannin but still relevant for zinc-fortified tea beverages.
+
+    '
+
+- a: BETA-CAROTENE
+  b: SULFUR DIOXIDE
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Thakur & Arya 1989, CRC Crit Rev Food Sci Nutr; SO2 bleaching of carotenoids
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use sorbate/benzoate preservation instead of sulfite for carotenoid-colored
+    beverages.
+  category: beverage
+  message: 'Sulfur dioxide bleaches beta-carotene and other carotenoid pigments. Beverages
+    colored with natural carotenoids should not use sulfite preservatives.
+
+    '
+
+- a: CAFFEINE
+  b: TANNINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.75
+  source: Martin et al. 1987, J Chem Soc Chem Commun; caffeine-tannin complex (tea
+    cream)
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Known as 'tea cream' — add cream or lower temperature to avoid haze.
+  category: beverage
+  message: 'Caffeine and tannins form complex precipitate known as ''tea cream'' or
+    ''tea scum'' when tea cools. Reversible on heating. Managed in RTD tea by tannin
+    removal or cream addition.
+
+    '
+
+- a: STEVIA
+  b: CALCIUM
+  type: soft
+  mechanism: precipitation
+  confidence: 0.65
+  source: Prakash et al. 2008, Food Chem Toxicol; stevioside-calcium interaction
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Use Reb A (most soluble steviol glycoside). Test calcium-stevia compatibility
+    at target pH.
+  category: beverage
+  message: 'Some steviol glycosides can form calcium complexes that precipitate. Rebaudioside
+    A is less affected than stevioside. Relevant for calcium-fortified stevia-sweetened
+    beverages.
+
+    '
+
+- a: WHEY PROTEIN
+  b: HIGH PRESSURE
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Patel et al. 2005, Innov Food Sci Emerg Technol; HPP protein denaturation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Whey protein denatures above 400 MPa. Use lower pressures or casein-based
+    proteins.
+  category: beverage
+  message: 'High pressure processing (HPP) denatures whey protein above 400 MPa, causing
+    aggregation and gelation. Relevant for protein-fortified HPP beverages. Lower
+    pressures (300 MPa) are generally tolerable.
+
+    '
+
+- a: SODIUM ALGINATE
+  b: ACIDIC BEVERAGES
+  type: soft
+  mechanism: precipitation
+  confidence: 0.8
+  source: Draget et al. 2005, Food Hydrocolloids; alginate acid gelation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use pectin or xanthan gum for acid beverages instead of alginate.
+  category: beverage
+  message: 'Sodium alginate converts to insoluble alginic acid gel below pH 3.5. Unusable
+    as thickener in highly acidic beverages. Use acid-stable hydrocolloids (xanthan,
+    pectin).
+
+    '
+
+- a: IRON
+  b: DAIRY PROTEINS
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Gaucheron 2000, Lait; iron-casein interaction and off-flavor
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use microencapsulated iron or ferric pyrophosphate for dairy fortification.
+  category: beverage
+  message: 'Iron binds to casein and whey proteins, causing metallic off-taste and
+    oxidized flavors in dairy beverages. Microencapsulated iron prevents direct protein
+    contact.
+
+    '
+
+- a: MAGNESIUM
+  b: CARBONATION
+  type: soft
+  mechanism: precipitation
+  confidence: 0.65
+  source: Water chemistry; magnesium carbonate solubility
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Use magnesium citrate or magnesium chloride (more soluble). Monitor
+    pH.
+  category: beverage
+  message: 'Magnesium can form magnesium carbonate precipitate when CO2 escapes and
+    pH rises in carbonated beverages. Use highly soluble magnesium salts for fortification.
+
+    '
+
+- a: VITAMIN B12
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Herbert & Jacob 1974, JAMA; B12 degradation by ascorbic acid in solution
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use methylcobalamin or hydroxocobalamin. Minimize heat and light exposure.
+  category: beverage
+  message: 'Ascorbic acid can degrade cyanocobalamin in liquid beverages, especially
+    with heat and light exposure. Use methylcobalamin form and dark packaging.
+
+    '
+
+- a: ERYTHRITOL
+  b: HIGH ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.6
+  source: de Cock 1999, Int Symp Polyols; sugar alcohol stability
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Erythritol is more acid-stable than most sugar alcohols. Generally compatible.
+  category: beverage
+  message: 'Erythritol shows mild crystallization tendency in highly acidic, cold
+    beverages. Generally the most stable sugar alcohol but can cause clarity issues.
+
+    '
+
+- a: LACTOSE
+  b: AMPHETAMINE
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.9
+  source: Handbook of Pharmaceutical Excipients, 9th ed.; primary amine Maillard class
+    effect
+  category: pharma
+  message: 'Amphetamine''s primary amine undergoes Maillard reaction with lactose.
+    Standard amine-reducing sugar incompatibility. Use non-reducing excipients (MCC,
+    mannitol, dibasic calcium phosphate).
+
+    '
+
+- a: LACTOSE
+  b: FLUVOXAMINE
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Secondary amine SSRI-lactose Maillard class effect; same mechanism as fluoxetine
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use non-reducing filler or spray-dried lactose.
+  category: pharma
+  message: 'Fluvoxamine (secondary amine) can undergo Maillard reaction with lactose
+    at elevated temperature and humidity. Same class effect as fluoxetine and sertraline.
+
+    '
+
+- a: MAGNESIUM STEARATE
+  b: ACETYLSALICYLIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Ahlneck & Lundgren 1985, Acta Pharm Suec; water-mediated hydrolysis catalysis
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use stearic acid or glyceryl behenate as lubricant. Minimize moisture.
+  category: pharma
+  message: 'Moisture absorbed by magnesium stearate creates a microenvironment that
+    accelerates hydrolysis of acetylsalicylic acid (aspirin). The slightly alkaline
+    nature of MgSt further promotes hydrolysis.
+
+    '
+
+- a: POVIDONE
+  b: HALOPERIDOL
+  type: soft
+  mechanism: oxidation
+  confidence: 0.75
+  source: PVP peroxide class effect; Waterman et al. 2002, Pharm Dev Technol
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use low-peroxide PVP grades or HPMC as binder.
+  category: pharma
+  message: 'Peroxide impurities in PVP can oxidize haloperidol. Class effect for oxidation-sensitive
+    drugs with PVP binder. Use controlled peroxide grades.
+
+    '
+
+- a: CIPROFLOXACIN
+  b: MAGNESIUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 1.0
+  source: Lomaestro & Bailie 1995; magnesium chelation of fluoroquinolones
+  category: pharma
+  message: 'Magnesium hydroxide (antacid) chelates ciprofloxacin via the 3-carboxyl
+    and 4-oxo groups. Reduces bioavailability by 50-70%. Separate by 2+ hours.
+
+    '
+
+- a: DOXYCYCLINE
+  b: ALUMINUM HYDROXIDE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Tetracycline-polyvalent cation class effect; Barr et al. 1971
+  category: pharma
+  message: 'Aluminum chelates doxycycline. All tetracyclines are affected by polyvalent
+    cation chelation. Separate antacid administration by 2-3 hours.
+
+    '
+
+- a: MINOCYCLINE
+  b: CALCIUM CARBONATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.9
+  source: Tetracycline class chelation; Leyden 1985, Am J Med
+  category: pharma
+  message: 'Minocycline, though less affected than tetracycline, still chelates calcium.
+    Separate by 2 hours. Dairy products also reduce absorption.
+
+    '
+
+- a: MINOCYCLINE
+  b: FERROUS SULFATE
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.9
+  source: Tetracycline-iron class effect; Leyden 1985
+  category: pharma
+  message: 'Iron chelates minocycline. Tetracycline class interaction with ferrous
+    iron. Separate by 2+ hours.
+
+    '
+
+- a: DIGOXIN
+  b: CHOLESTYRAMINE
+  type: hard
+  severity: error
+  mechanism: absorption_competition
+  confidence: 0.95
+  source: Brown et al. 1985, Ann Pharmacother; bile acid resin binding
+  category: pharma
+  message: 'Cholestyramine binds digoxin in the GI tract, reducing absorption. Also
+    interrupts enterohepatic recycling. Separate by at least 2 hours. Critical given
+    digoxin''s narrow therapeutic index.
+
+    '
+
+- a: CHLOROPHYLL
+  b: ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.9
+  source: Fennema's Food Chemistry, 5th ed.; pheophytinization in acidic conditions
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Blanch vegetables rapidly, use sodium bicarbonate to raise pH, or use
+    copper-chlorophyllin (acid-stable).
+  category: food
+  message: 'Chlorophyll converts to olive-brown pheophytin in acidic conditions (pH
+    <6) by loss of magnesium from the porphyrin ring. Classic color defect in canned
+    green vegetables.
+
+    '
+
+- a: LACTOFERRIN
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.85
+  source: Lonnerdal & Iyer 1995, Annu Rev Nutr; lactoferrin iron-binding
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: This is the natural function of lactoferrin. Apo-lactoferrin binds free
+    iron; holo-lactoferrin releases it.
+  category: food
+  message: 'Lactoferrin naturally chelates iron (Kd ~10^-20 M). This is its biological
+    function (antimicrobial iron sequestration). In iron-fortified products, lactoferrin
+    will bind added iron, potentially altering delivery.
+
+    '
+
+- a: ASCORBIC ACID
+  b: COPPER SULFATE
+  type: soft
+  mechanism: oxidation
+  confidence: 0.95
+  source: Aust et al. 1985, J Biol Chem; copper-catalyzed ascorbate oxidation
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Chelate copper with EDTA. Use copper gluconate (less reactive) if copper
+    fortification needed.
+  category: food
+  message: 'Copper sulfate catalyzes rapid ascorbic acid oxidation. Even 0.1 ppm free
+    copper significantly accelerates vitamin C loss. Critical for copper-fortified
+    juices and beverages.
+
+    '
+
+- a: POTASSIUM SORBATE
+  b: IRON
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Arya 1980, CRC Crit Rev Food Sci Nutr; iron-catalyzed sorbate oxidation
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Chelate iron or use alternative preservative system.
+  category: food
+  message: 'Iron ions catalyze oxidative degradation of sorbate, reducing preservative
+    efficacy. Also produces off-flavors (geraniol-like) from sorbate oxidation products.
+
+    '
+
+- a: TRANSGLUTAMINASE
+  b: REDUCING AGENTS
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Whitaker 1994; transglutaminase requires accessible glutamine and lysine
+    residues
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Keep pH near optimal (pH 6-7). Avoid strong reducing conditions.
+  category: food
+  message: 'Reducing agents (cysteine, bisulfite, ascorbic acid) can inhibit transglutaminase
+    by modifying accessible residues on substrate proteins or the enzyme itself. Relevant
+    in restructured meat and bakery applications.
+
+    '
+
+- a: POLYPHOSPHATES
+  b: CALCIUM
+  type: soft
+  mechanism: chelation
+  confidence: 0.85
+  source: Fennema's Food Chemistry; phosphate-calcium chelation in processed meat
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: This chelation is often intentional (water binding in meat). Control
+    phosphate levels.
+  category: food
+  message: 'Polyphosphates chelate calcium and magnesium ions. Intentional in processed
+    meat (improves water-holding capacity) but can reduce mineral bioavailability
+    in calcium-fortified products.
+
+    '
+
+- a: TARTRAZINE
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.7
+  source: Kus & Eroglu 2015, J Food Process Preserv; azo dye-ascorbic acid interaction
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Use natural colorants or azo-free alternatives in vitamin C-fortified
+    products.
+  category: food
+  message: 'Ascorbic acid can reduce azo dyes (tartrazine, sunset yellow) causing
+    color fading. The reduction cleaves the azo bond. Relevant for color stability
+    in vitamin C-fortified beverages.
+
+    '
+
+- a: CALCIUM
+  b: BISPHOSPHONATES
+  type: hard
+  severity: error
+  mechanism: chelation
+  confidence: 0.95
+  source: Recker 1985, NEJM; FDA labeling requirement for bisphosphonate-mineral separation
+  category: supplement
+  message: 'Calcium chelates bisphosphonate drugs (alendronate, risedronate), reducing
+    absorption nearly to zero. Take bisphosphonate with plain water on empty stomach,
+    wait 30+ minutes before any calcium.
+
+    '
+
+- a: MANGANESE
+  b: CALCIUM
+  type: soft
+  mechanism: absorption_competition
+  confidence: 0.7
+  source: Davidsson et al. 1991, Am J Clin Nutr; calcium-manganese competition
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Use chelated manganese. At standard supplement doses, effect is modest.
+  category: supplement
+  message: 'Calcium at high doses (>500mg) can reduce manganese absorption. Both minerals
+    share intestinal transport mechanisms. Chelated manganese is less affected.
+
+    '
+
+- a: PROBIOTICS
+  b: CAPRYLIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Kabara 1984, Antimicrobial Lipids; medium-chain fatty acid antimicrobial
+    activity
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Separate into different capsules. Enteric-coat probiotics.
+  category: supplement
+  message: 'Caprylic acid (medium-chain fatty acid) has antimicrobial activity that
+    can reduce probiotic viability. Often sold alongside probiotics for candida support
+    but should be in separate capsules.
+
+    '
+
+- a: ZINC GLUCONATE
+  b: PHYTIC ACID
+  type: soft
+  mechanism: chelation
+  confidence: 0.85
+  source: Lonnerdal 2000, J Nutr; phytate-zinc chelation specific salt forms
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use zinc bisglycinate (chelated, resistant to phytate). Add phytase
+    if grain-based.
+  category: supplement
+  message: 'Zinc gluconate is chelated by phytic acid, reducing bioavailability. Relevant
+    when zinc supplements are taken with high-phytate meals (whole grains, legumes).
+    Zinc bisglycinate resists phytate binding.
+
+    '
+
+- a: QUERCETIN
+  b: IRON
+  type: soft
+  mechanism: chelation
+  confidence: 0.75
+  source: Leopoldini et al. 2006, J Phys Chem A; flavonoid-iron chelation
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Separate by 2 hours or use chelated iron.
+  category: supplement
+  message: 'Quercetin chelates iron via its catechol and 3-hydroxyl groups. Can reduce
+    iron bioavailability when taken together. Separate timing recommended.
+
+    '
+
+- a: COENZYME Q10
+  b: WARFARIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.75
+  source: Heck et al. 2000, Am J Health Syst Pharm; structural similarity to vitamin
+    K
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Monitor INR closely if combining. CoQ10 may reduce warfarin efficacy.
+  category: supplement
+  message: 'CoQ10 is structurally similar to vitamin K and may reduce warfarin efficacy
+    via competitive antagonism. Case reports of reduced INR with CoQ10 supplementation.
+    Clinical monitoring required.
+
+    '
+
+- a: VITAMIN C
+  b: COPPER
+  type: soft
+  mechanism: oxidation
+  confidence: 0.85
+  source: Aust et al. 1985; copper-catalyzed ascorbate autoxidation
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use chelated copper (copper bisglycinate). At standard supplement doses,
+    effect is manageable.
+  category: supplement
+  message: 'Copper catalyzes ascorbic acid oxidation via Fenton-type mechanism. In
+    liquid supplements, this rapidly degrades vitamin C. Dry forms are less affected.
+    Use chelated copper to minimize catalytic activity.
+
+    '
+
+- a: TRETINOIN
+  b: LACTIC ACID
+  type: soft
+  mechanism: irritation
+  confidence: 0.8
+  source: Dermatological consensus; prescription retinoid + AHA
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Professional supervision only.
+  category: skincare
+  message: 'Tretinoin plus lactic acid causes significant irritation and barrier compromise.
+    Lactic acid is milder than glycolic but still problematic with prescription retinoids.
+    Not for OTC consumer products.
+
+    '
+
+- a: KOJIC ACID
+  b: IRON OXIDES
+  type: soft
+  mechanism: chelation
+  confidence: 0.7
+  source: Kojic acid metal chelation properties; Brtko et al. 2004
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: info
+  mitigation: Not a significant concern at typical tinted product levels.
+  category: skincare
+  message: 'Kojic acid chelates metal ions including iron from pigments. Can cause
+    color shift in tinted products containing kojic acid. Minimal at typical concentrations.
+
+    '
+
+- a: TRANEXAMIC ACID
+  b: HYDROQUINONE
+  type: soft
+  mechanism: degradation
+  confidence: 0.5
+  source: Theoretical overlapping mechanism; limited incompatibility data
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Often combined in dermatological practice. Likely compatible.
+  category: skincare
+  message: 'Tranexamic acid and hydroquinone target different melanogenesis pathways.
+    Generally compatible and sometimes intentionally combined for enhanced skin-brightening.
+    No established incompatibility.
+
+    '
+
+- a: ALPHA LIPOIC ACID
+  b: NIACINAMIDE
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.6
+  source: ALA optimal pH is 4-5; niacinamide prefers 5-7
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Formulate at pH 5 as compromise. Both retain activity.
+  category: skincare
+  message: 'Alpha lipoic acid works best at slightly acidic pH (4-5) while niacinamide
+    prefers near-neutral (5-7). At pH 5, both retain reasonable activity. Not a strong
+    incompatibility.
+
+    '
+
+- a: BAKUCHIOL
+  b: ASCORBIC ACID
+  type: soft
+  mechanism: pH_conflict
+  confidence: 0.5
+  source: Bakuchiol stability studies; Chaudhuri & Bojanowski 2014, Int J Cosmet Sci
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Bakuchiol is more pH-tolerant than retinol. Likely compatible with vitamin
+    C derivatives.
+  category: skincare
+  message: 'Bakuchiol (retinol alternative) is more stable across a wide pH range
+    than retinol. Can likely be combined with L-Ascorbic Acid at pH 3-3.5 without
+    the instability issues seen with retinol.
+
+    '
+
+- a: ZINC PYRITHIONE
+  b: EDTA
+  type: soft
+  mechanism: chelation
+  confidence: 0.8
+  source: Zinc pyrithione chelation stability; Guthery et al. 2005, Skin Pharmacol
+    Physiol
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use lower EDTA concentrations. Test ZPT efficacy in final formulation.
+  category: skincare
+  message: 'EDTA can chelate zinc from zinc pyrithione, reducing its antifungal/antibacterial
+    efficacy. Keep EDTA levels minimal (<0.1%) in ZPT-containing anti-dandruff products.
+
+    '
+
+- a: MONK FRUIT EXTRACT
+  b: DAIRY PROTEINS
+  type: soft
+  mechanism: degradation
+  confidence: 0.6
+  source: Mogrosides stability in dairy matrix; limited published data
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Generally compatible. Test at target pH and processing conditions.
+  category: beverage
+  message: 'Mogroside V (monk fruit sweetener) is generally stable in dairy beverages
+    but may undergo partial degradation during UHT processing. Sweetness intensity
+    may decrease slightly over shelf life.
+
+    '
+
+- a: SODIUM BENZOATE
+  b: CITRIC ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.85
+  source: Piper 1999, J Food Prot; pH-dependent benzoate efficacy
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: Synergistic combination. Citric acid lowers pH, enhancing benzoate's
+    antimicrobial activity.
+  category: beverage
+  message: 'Synergistic, NOT incompatible. Citric acid lowers beverage pH, increasing
+    the fraction of undissociated benzoic acid (the antimicrobial form). Standard
+    beverage preservation strategy.
+
+    '
+
+- a: INULIN
+  b: ACID
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Barclay et al. 2010, J Agric Food Chem; acid hydrolysis of inulin
+  severity_by_mode:
+    safety: info
+    formulation: warning
+    discovery: info
+  mitigation: Use short-chain FOS (more acid-stable). Keep pH above 3.5 and minimize
+    heat.
+  category: beverage
+  message: 'Inulin undergoes acid hydrolysis below pH 3.5, breaking down to fructose
+    and losing its prebiotic fiber functionality. Half-life at pH 3/25C is approximately
+    6 months.
+
+    '
+
+- a: PECTIN
+  b: DAIRY PROTEINS
+  type: soft
+  mechanism: precipitation
+  confidence: 0.85
+  source: Syrbe et al. 1998, Int Dairy J; pectin-protein electrostatic interaction
+  severity_by_mode:
+    safety: info
+    formulation: info
+    discovery: ignore
+  mitigation: High-methoxyl pectin at pH 3.5-4.5 stabilizes dairy proteins in acidic
+    drinks (intentional).
+  category: beverage
+  message: 'Pectin-dairy protein interaction is pH-dependent. At pH 3.5-4.5, high-methoxyl
+    pectin STABILIZES casein micelles — this is the standard approach for acidified
+    milk drinks (e.g., drinking yogurt).
+
+    '
+

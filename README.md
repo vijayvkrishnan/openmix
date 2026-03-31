@@ -18,6 +18,12 @@
 
 </div>
 
+<div align="center">
+
+![OpenMix Demo: Autonomous Multivitamin Formulation](assets/demo.gif)
+
+</div>
+
 ---
 
 ## The Problem
@@ -476,7 +482,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |                              ^                                      |
 |   Layer 1: VALIDATE          |  Rule-Based Intelligence             |
 |   +--------------------------+----------------------------------+   |
-|   |  85 rules (32 hard + 53 soft) . 3 validation modes          |   |
+|   |  258 rules (87 hard + 171 soft) . 3 validation modes          |   |
 |   |  Conditional (pH, concentration) . Coverage honesty         |   |
 |   +-------------------------------------------------------------+   |
 |                              ^                                      |
@@ -514,7 +520,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 | **Molecular resolution (INCI→SMILES)** | N/A | N/A | N/A | Closed | **Open (2,400+ seed + PubChem)** |
 | **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
 | Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
-| Ingredient interaction rules | No | No | No | Partial | **85 rules, 6 domains** |
+| Ingredient interaction rules | No | No | No | Partial | **258 rules, 6 domains** |
 | Validation modes (safety/discovery) | N/A | N/A | N/A | No | **3 modes** |
 | Coverage honesty | N/A | N/A | N/A | No | **Warns on thin domains** |
 | Community-contributable knowledge | N/A | N/A | N/A | No | **YAML, no code** |
@@ -624,7 +630,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
 | Milestone | Target | What Ships |
 |-----------|--------|------------|
-| **v0.1** | March 2026 | Formula schema, 85 rules, heuristic scoring, autonomous experiment loop, 3 validation modes, FormulaBench baselines, CLI |
+| **v0.1** | March 2026 | Formula schema, 258 rules, heuristic scoring, autonomous experiment loop, 3 validation modes, FormulaBench baselines, CLI |
 | **v0.2** | March 2026 | **Physics observation engine, ingredient resolver (INCI→SMILES), dual modes (engineering/discovery), molecular scorer** |
 | **v0.3** | Q2 2026 | Expanded knowledge base (200+ rules), CI hardening, more benchmark datasets |
 | **v0.5** | Q3 2026 | Trained stability models, pre-trained models on HuggingFace |
