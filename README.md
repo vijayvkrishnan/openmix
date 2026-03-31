@@ -482,7 +482,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |                              ^                                      |
 |   Layer 1: VALIDATE          |  Rule-Based Intelligence             |
 |   +--------------------------+----------------------------------+   |
-|   |  258 rules (87 hard + 171 soft) . 3 validation modes          |   |
+|   |  258 rules (85 hard + 173 soft) . 3 validation modes          |   |
 |   |  Conditional (pH, concentration) . Coverage honesty         |   |
 |   +-------------------------------------------------------------+   |
 |                              ^                                      |
