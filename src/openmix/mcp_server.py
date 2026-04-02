@@ -39,7 +39,7 @@ mcp = FastMCP(
                  "molecular physics, validate ingredient interactions, resolve "
                  "molecular identity, evaluate formulations from multiple perspectives "
                  "(physics, chemistry, data, process) with disagreement classification. "
-                 "2,400+ ingredients, 258 interaction rules, "
+                 "2,400+ ingredients, 273 interaction rules, "
                  "6 domains (skincare, pharma, supplements, food, beverages, home care).",
 )
 
@@ -94,7 +94,7 @@ def validate_formulation(
 ) -> str:
     """Validate a formulation against the interaction knowledge base.
 
-    Checks 258 rules (85 hard + 173 soft) across 6 domains. Each rule
+    Checks 273 rules (87 hard + 186 soft) across 6 domains. Each rule
     has a confidence score, literature source, and optional conditions.
 
     Three modes:
@@ -162,7 +162,7 @@ def resolve_ingredient(inci_name: str) -> str:
 def check_ingredient_compatibility(ingredient_a: str, ingredient_b: str) -> str:
     """Check whether two ingredients are compatible.
 
-    Searches the knowledge base (258 rules, 6 domains) for known
+    Searches the knowledge base (273 rules, 6 domains) for known
     interactions between the two ingredients. Reports hard violations
     (dangerous), soft violations (conditional), or no known issues.
 

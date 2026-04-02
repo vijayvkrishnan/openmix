@@ -260,6 +260,19 @@ def _extract_physics_claims(obs: FormulationObservation) -> list[Claim]:
                 confidence=o.confidence,
             ))
 
+    # Mechanism-based interaction predictions (functional group + excipient class)
+    for o in obs.observations:
+        if o.category == "interaction" and o.agreement == "discrepancy":
+            claims.append(Claim(
+                perspective="physics",
+                subject=o.subject,
+                position="concern",
+                detail=o.detail,
+                evidence=f"Mechanism: {o.source}. {o.expected}",
+                evidence_level=EvidenceLevel.COMPUTATIONAL,
+                confidence=o.confidence,
+            ))
+
     return claims
 
 

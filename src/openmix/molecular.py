@@ -133,6 +133,61 @@ def compute_hansen_parameters(smiles: str) -> dict | None:
     }
 
 
+# ---------------------------------------------------------------------------
+# Functional group detection for mechanism-based interaction prediction
+# ---------------------------------------------------------------------------
+
+# SMARTS patterns for reactive functional groups relevant to drug-excipient
+# compatibility. Each group maps to specific degradation mechanisms:
+#   primary_amine → Maillard reaction with reducing sugars
+#   secondary_amine → slower Maillard reaction
+#   ester → hydrolysis catalyzed by MgSt, moisture
+#   thiol → oxidation (by peroxides in PVP, air)
+#   phenol → oxidation, chelation with metals
+#   catechol → strong metal chelation (Fe, Al, Ca)
+#   carboxylic_acid → salt formation with alkaline excipients
+#   aldehyde → gelatin crosslinking, Schiff base formation
+_FUNCTIONAL_GROUP_SMARTS: dict[str, str] = {
+    "primary_amine": "[NX3H2][CX4]",        # -NH2 on sp3 carbon (not amide)
+    "secondary_amine": "[NX3H1]([CX4])[CX4]",  # -NH- between two sp3 carbons
+    "ester": "[CX3](=O)[OX2][CX4]",         # -C(=O)-O-C (not carboxylic acid)
+    "thiol": "[SX2H]",                       # -SH
+    "phenol": "[OX2H][cX3]",                # -OH on aromatic carbon
+    "catechol": "[OX2H][cX3][cX3][OX2H]",   # two adjacent aromatic -OH
+    "carboxylic_acid": "[CX3](=O)[OX2H]",   # -COOH
+    "aldehyde": "[CX3H1](=O)",              # -CHO
+}
+
+
+def detect_functional_groups(smiles: str) -> dict[str, bool]:
+    """
+    Detect reactive functional groups from a SMILES string.
+
+    Returns a dict of group_name → present (True/False).
+    Used for mechanism-based drug-excipient interaction prediction:
+    a drug with a primary amine + a reducing sugar excipient = Maillard risk,
+    regardless of whether that specific pair is in the knowledge base.
+
+    Returns empty dict if RDKit is not available or SMILES is invalid.
+    """
+    if not RDKIT_AVAILABLE:
+        return {}
+
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return {}
+
+    result = {}
+    for name, smarts in _FUNCTIONAL_GROUP_SMARTS.items():
+        pattern = Chem.MolFromSmarts(smarts)
+        if pattern is None:
+            result[name] = False
+            continue
+        result[name] = mol.HasSubstructMatch(pattern)
+
+    return result
+
+
 def is_valid_smiles(smiles: str) -> bool:
     """Check if a SMILES string is valid. Returns False if RDKit is not available."""
     if not RDKIT_AVAILABLE or not smiles or not isinstance(smiles, str):

@@ -12,7 +12,7 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![CI](https://github.com/vijayvkrishnan/openmix/actions/workflows/ci.yml/badge.svg)](https://github.com/vijayvkrishnan/openmix/actions)
 [![Tests](https://img.shields.io/badge/Tests-197%20passed-brightgreen.svg)](tests/)
-[![Rules](https://img.shields.io/badge/Knowledge-258%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
+[![Rules](https://img.shields.io/badge/Knowledge-273%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vijayvkrishnan/openmix/blob/main/notebooks/tutorial.ipynb)
 
 [Discourse](#discourse) · [Observe](#observe-a-formulation) · [Two Modes](#two-modes) · [Autonomous Experiments](#autonomous-experiments) · [Architecture](#architecture) · [Knowledge Base](#contributing-knowledge) · [Roadmap](#roadmap) · [Citation](#citation)
@@ -538,7 +538,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |                              ^                                      |
 |   Layer 1: OBSERVE           |  Physics + Rules                     |
 |   +--------------------------+----------------------------------+   |
-|   |  Physics observation engine . 258 rules (85 hard + 173 soft)|   |
+|   |  Physics observation engine . 273 rules (87 hard + 186 soft)|   |
 |   |  Dual modes (engineering / discovery) . 3 validation modes  |   |
 |   |  INCI->SMILES resolver (2,400+) . Coverage honesty          |   |
 |   +-------------------------------------------------------------+   |
@@ -579,7 +579,7 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 | **Manufacturing protocol eval** | N/A | N/A | N/A | Partial | **Computational** |
 | **Molecular resolution (INCI->SMILES)** | N/A | N/A | N/A | Closed | **Open (2,400+)** |
 | **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
-| Ingredient interaction rules | No | No | No | Partial | **258 rules, 6 domains** |
+| Ingredient interaction rules | No | No | No | Partial | **273 rules, 6 domains** |
 | Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
 | Coverage honesty | N/A | N/A | N/A | No | **Warns on thin domains** |
 | Community-contributable knowledge | N/A | N/A | N/A | No | **YAML, no code** |
@@ -730,7 +730,7 @@ openmix/
       lab.py                #   Lab feedback (cloud lab, manual entry)
       base.py               #   Scorer interface, composite
     benchmarks/             # FormulaBench datasets + features
-    knowledge/data/         # YAML rules (258 interactions, 42 HLB values)
+    knowledge/data/         # YAML rules (273 interactions, 42 HLB values)
     cli/                    # CLI: discourse, observe, validate, run, memory, demo
   experiments/              # YAML experiment definitions
   tests/                    # 197 tests

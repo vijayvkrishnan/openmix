@@ -84,3 +84,117 @@ Z_DANGER_HIGH = 2.0
 # anionic monomer available for cationic polymer complexation.
 # Source: Soontravanich et al. 2010, J. Surfactants Detergents 13:13-25.
 NONIONIC_SHIELDING_THRESHOLD = 0.30
+
+# ---------------------------------------------------------------------------
+# Excipient properties for mechanism-based interaction prediction.
+#
+# These classify excipients by their reactive properties, enabling
+# generalizable predictions: "any primary amine drug + any reducing sugar
+# excipient = Maillard risk" without needing a specific rule for every pair.
+#
+# Sources:
+#   Reducing sugars: Wirth et al., J Pharm Sci 1998 (Maillard in pharma)
+#   Peroxide-containing: Hartauer et al., Pharm Dev Technol 2000
+#   Alkaline excipients: Narang et al., J Pharm Biomed Anal 2012
+#   Metal-containing: Crowley & Martini, Drug Dev Ind Pharm 2001
+# ---------------------------------------------------------------------------
+
+# Excipients that can undergo Maillard reaction with amine-containing drugs
+REDUCING_SUGAR_EXCIPIENTS: set[str] = {
+    "LACTOSE", "LACTOSE MONOHYDRATE", "GLUCOSE", "DEXTROSE",
+    "FRUCTOSE", "MALTOSE", "CORN STARCH",  # partially hydrolyzed
+    "SUCROSE",  # inverts to reducing sugars under acidic/heat conditions
+}
+
+# Excipients containing peroxide impurities that oxidize sensitive drugs
+PEROXIDE_CONTAINING_EXCIPIENTS: set[str] = {
+    "POVIDONE", "PVP", "POLYVINYLPYRROLIDONE",
+    "CROSPOVIDONE", "COPOVIDONE",
+    "POLYETHYLENE GLYCOL", "PEG 400", "PEG 4000", "PEG 6000",
+    "POLYSORBATE 80", "POLYSORBATE 20",
+    "HYDROXYPROPYL METHYLCELLULOSE",  # trace peroxides possible
+}
+
+# Excipients that create alkaline microenvironment
+ALKALINE_EXCIPIENTS: set[str] = {
+    "MAGNESIUM OXIDE", "CALCIUM CARBONATE", "SODIUM BICARBONATE",
+    "MAGNESIUM HYDROXIDE", "ALUMINUM HYDROXIDE",
+    "DIBASIC CALCIUM PHOSPHATE", "SODIUM CARBONATE",
+    "MAGNESIUM STEARATE",  # mildly alkaline (pH ~8-9 surface)
+}
+
+# Excipients that supply metal ions (chelation risk with specific drugs)
+METAL_CONTAINING_EXCIPIENTS: dict[str, str] = {
+    "MAGNESIUM STEARATE": "Mg2+",
+    "MAGNESIUM OXIDE": "Mg2+",
+    "MAGNESIUM HYDROXIDE": "Mg2+",
+    "CALCIUM CARBONATE": "Ca2+",
+    "DIBASIC CALCIUM PHOSPHATE": "Ca2+",
+    "CALCIUM SULFATE": "Ca2+",
+    "FERROUS SULFATE": "Fe2+",
+    "FERROUS FUMARATE": "Fe2+",
+    "FERROUS GLUCONATE": "Fe2+",
+    "ALUMINUM HYDROXIDE": "Al3+",
+    "KAOLIN": "Al3+",
+    "ZINC OXIDE": "Zn2+",
+}
+
+# Mapping from functional group → degradation mechanisms it's susceptible to.
+# Used to generate mechanism-based observations when a drug's functional
+# groups are detected from SMILES.
+FUNCTIONAL_GROUP_RISKS: dict[str, list[dict]] = {
+    "primary_amine": [
+        {
+            "mechanism": "Maillard reaction",
+            "excipient_class": "reducing_sugar",
+            "detail": "Primary amines form Schiff base adducts with reducing sugars, "
+                      "leading to browning and drug degradation",
+            "confidence": 0.9,
+        },
+    ],
+    "secondary_amine": [
+        {
+            "mechanism": "Maillard reaction (slow)",
+            "excipient_class": "reducing_sugar",
+            "detail": "Secondary amines undergo Maillard reaction more slowly "
+                      "than primary amines but can still cause degradation",
+            "confidence": 0.7,
+        },
+    ],
+    "ester": [
+        {
+            "mechanism": "ester hydrolysis",
+            "excipient_class": "alkaline",
+            "detail": "Ester bonds hydrolyze in alkaline microenvironments. "
+                      "MgSt catalyzes this via surface alkalinity",
+            "confidence": 0.85,
+        },
+    ],
+    "thiol": [
+        {
+            "mechanism": "thiol oxidation",
+            "excipient_class": "peroxide",
+            "detail": "Free thiol groups oxidize to disulfides in the presence "
+                      "of peroxide impurities from PVP/PEG/polysorbate",
+            "confidence": 0.9,
+        },
+    ],
+    "phenol": [
+        {
+            "mechanism": "phenol oxidation",
+            "excipient_class": "peroxide",
+            "detail": "Phenolic hydroxyl groups are oxidized by peroxide "
+                      "impurities, producing quinone degradation products",
+            "confidence": 0.8,
+        },
+    ],
+    "catechol": [
+        {
+            "mechanism": "metal chelation",
+            "excipient_class": "metal",
+            "detail": "Catechol groups chelate divalent and trivalent metal ions, "
+                      "forming poorly absorbed complexes",
+            "confidence": 0.9,
+        },
+    ],
+}

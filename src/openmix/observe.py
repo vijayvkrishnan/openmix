@@ -24,6 +24,11 @@ from openmix.knowledge.constants import (
     Z_DANGER_LOW,
     Z_DANGER_HIGH,
     NONIONIC_SHIELDING_THRESHOLD,
+    REDUCING_SUGAR_EXCIPIENTS,
+    PEROXIDE_CONTAINING_EXCIPIENTS,
+    ALKALINE_EXCIPIENTS,
+    METAL_CONTAINING_EXCIPIENTS,
+    FUNCTIONAL_GROUP_RISKS,
 )
 from openmix.knowledge.pka import load_pka_data, assess_ph_suitability, IngredientPKa
 from openmix.matching import match_ingredient
@@ -242,6 +247,10 @@ def observe(
 
     # Phase 7: Surfactant charge balance (molar charge ratio)
     _observe_surfactant_charge(formula, result)
+
+    # Phase 8: Mechanism-based drug-excipient interaction prediction
+    if formula.category == "pharma":
+        _observe_pharma_mechanisms(formula, result)
 
     return result
 
@@ -627,3 +636,96 @@ def _observe_surfactant_charge(formula: Formula, result: FormulationObservation)
                 source="Soontravanich 2010, J. Surfactants Detergents",
                 confidence=CONF_COMPUTATIONAL_MODERATE,
             ))
+
+
+def _observe_pharma_mechanisms(formula: Formula, result: FormulationObservation):
+    """Mechanism-based drug-excipient interaction prediction.
+
+    Detects reactive functional groups from SMILES and checks whether
+    any excipients in the formula have properties that trigger known
+    degradation mechanisms. Works for ANY drug with detectable functional
+    groups, not just drugs in the knowledge base rules.
+
+    Example: a novel amine drug + lactose → Maillard risk, even if this
+    specific pair has never been seen before.
+    """
+    try:
+        from openmix.molecular import detect_functional_groups, RDKIT_AVAILABLE
+    except ImportError:
+        return
+    if not RDKIT_AVAILABLE:
+        return
+
+    # Classify excipients present in the formula
+    inci_upper = formula.inci_names_upper
+    has_reducing_sugar = bool(inci_upper & REDUCING_SUGAR_EXCIPIENTS)
+    has_peroxide = bool(inci_upper & PEROXIDE_CONTAINING_EXCIPIENTS)
+    has_alkaline = bool(inci_upper & ALKALINE_EXCIPIENTS)
+    has_metal = bool(inci_upper & set(METAL_CONTAINING_EXCIPIENTS.keys()))
+
+    excipient_classes = {
+        "reducing_sugar": has_reducing_sugar,
+        "peroxide": has_peroxide,
+        "alkaline": has_alkaline,
+        "metal": has_metal,
+    }
+
+    # For each ingredient with resolved SMILES, detect functional groups.
+    # If the seed cache resolved without SMILES, try PubChem directly
+    # since functional group detection requires molecular structure.
+    for ing in formula.ingredients:
+        resolved = result.resolved_ingredients.get(ing.inci_name)
+        if not resolved:
+            continue
+
+        smiles = resolved.smiles
+        if not smiles:
+            from openmix.resolver.pubchem import lookup_pubchem
+            pubchem_data = lookup_pubchem(ing.inci_name)
+            if pubchem_data:
+                smiles = pubchem_data.get("smiles")
+        if not smiles:
+            continue
+
+        groups = detect_functional_groups(smiles)
+        if not groups:
+            continue
+
+        detected = [g for g, present in groups.items() if present]
+        if not detected:
+            continue
+
+        # Check each detected group against excipient classes present
+        for group_name in detected:
+            risks = FUNCTIONAL_GROUP_RISKS.get(group_name, [])
+            for risk in risks:
+                exc_class = risk["excipient_class"]
+                if not excipient_classes.get(exc_class, False):
+                    continue
+
+                # Find the specific excipient(s) that trigger this risk
+                if exc_class == "reducing_sugar":
+                    triggering = inci_upper & REDUCING_SUGAR_EXCIPIENTS
+                elif exc_class == "peroxide":
+                    triggering = inci_upper & PEROXIDE_CONTAINING_EXCIPIENTS
+                elif exc_class == "alkaline":
+                    triggering = inci_upper & ALKALINE_EXCIPIENTS
+                elif exc_class == "metal":
+                    triggering = inci_upper & set(METAL_CONTAINING_EXCIPIENTS.keys())
+                else:
+                    triggering = set()
+
+                trigger_str = ", ".join(sorted(triggering))
+
+                result.observations.append(Observation(
+                    category="interaction",
+                    subject=f"{ing.inci_name} + {trigger_str}",
+                    observed=f"{ing.inci_name} contains {group_name.replace('_', ' ')} "
+                             f"group (detected from SMILES)",
+                    expected=f"{risk['mechanism']} risk with {exc_class.replace('_', ' ')} "
+                             f"excipients ({trigger_str})",
+                    agreement="discrepancy",
+                    detail=risk["detail"],
+                    source=f"mechanism-based prediction: {group_name} + {exc_class}",
+                    confidence=risk["confidence"],
+                ))

@@ -75,8 +75,11 @@ def lookup_pubchem(inci_name: str) -> dict | None:
         return None
 
     p = props_list[0]
+    # PubChem returns SMILES under varying key names depending on the compound
+    smiles = (p.get("CanonicalSMILES") or p.get("IsomericSMILES")
+              or p.get("SMILES") or p.get("ConnectivitySMILES"))
     return {
-        "smiles": p.get("CanonicalSMILES"),
+        "smiles": smiles,
         "mw": p.get("MolecularWeight"),
         "log_p": p.get("XLogP"),
         "hbd": p.get("HBondDonorCount"),
