@@ -37,7 +37,9 @@ mcp = FastMCP(
     "openmix",
     instructions="Computational formulation science: observe mixtures through "
                  "molecular physics, validate ingredient interactions, resolve "
-                 "molecular identity. 2,400+ ingredients, 85 interaction rules, "
+                 "molecular identity, evaluate formulations from multiple perspectives "
+                 "(physics, chemistry, data, process) with disagreement classification. "
+                 "2,400+ ingredients, 258 interaction rules, "
                  "6 domains (skincare, pharma, supplements, food, beverages, home care).",
 )
 
@@ -55,7 +57,7 @@ def observe_formulation(
     Reports what it sees, what it expected, and where they disagree.
     Checks: molecular properties (LogP, MW), charge compatibility,
     phase behavior, preservative systems, pH-ionization (Henderson-Hasselbalch),
-    and 85 ingredient interaction rules across 6 domains.
+    and 258 ingredient interaction rules across 6 domains.
 
     Two modes:
       engineering: discrepancies are problems to fix (default)
@@ -92,7 +94,7 @@ def validate_formulation(
 ) -> str:
     """Validate a formulation against the interaction knowledge base.
 
-    Checks 85 rules (32 hard + 53 soft) across 6 domains. Each rule
+    Checks 258 rules (85 hard + 173 soft) across 6 domains. Each rule
     has a confidence score, literature source, and optional conditions.
 
     Three modes:
@@ -160,7 +162,7 @@ def resolve_ingredient(inci_name: str) -> str:
 def check_ingredient_compatibility(ingredient_a: str, ingredient_b: str) -> str:
     """Check whether two ingredients are compatible.
 
-    Searches the knowledge base (85 rules, 6 domains) for known
+    Searches the knowledge base (258 rules, 6 domains) for known
     interactions between the two ingredients. Reports hard violations
     (dangerous), soft violations (conditional), or no known issues.
 
@@ -218,6 +220,95 @@ def ph_check(ingredient_name: str, target_ph: float) -> str:
         return f"{ingredient_name}: No ionization data."
 
     return result["detail"]
+
+
+@mcp.tool()
+def discourse_evaluation(
+    ingredients: list[dict],
+    target_ph: float | None = None,
+    category: str | None = None,
+    name: str | None = None,
+) -> str:
+    """Multi-perspective formulation evaluation with disagreement classification.
+
+    Evaluates a formulation from multiple perspectives (physics, chemistry,
+    data from prior experiments) and classifies where they agree, where one
+    corrects another, and where they genuinely disagree.
+
+    Disagreement types:
+      agreement: all perspectives concur
+      correction: one perspective has stronger evidence and overrides another
+      true_disagreement: perspectives have comparable evidence but disagree
+          (these are worth investigating -- potential discoveries)
+      knowledge_gap: no perspective has enough information
+
+    Args:
+        ingredients: List of {"inci_name": str, "percentage": float} dicts.
+        target_ph: Target pH of the formulation.
+        category: Product category.
+        name: Optional formula name.
+    """
+    from openmix import Formula
+    from openmix.discourse import evaluate_discourse
+    from openmix.memory import ExperimentMemory
+
+    formula = Formula(
+        name=name,
+        ingredients=ingredients,
+        target_ph=target_ph,
+        category=category,
+    )
+    memory = ExperimentMemory()
+    disc = evaluate_discourse(formula, memory=memory)
+    return str(disc)
+
+
+@mcp.tool()
+def experiment_memory() -> str:
+    """Inspect the experiment memory -- prior experiments and accumulated discoveries.
+
+    Shows the experiment index (all past runs), discovery counts by type,
+    and high-confidence findings. The experiment memory persists across
+    runs and is used by the discourse engine's data perspective.
+    """
+    from openmix.memory import ExperimentMemory
+
+    memory = ExperimentMemory()
+    return memory.summary()
+
+
+@mcp.tool()
+def list_discoveries(domain: str | None = None) -> str:
+    """List all accumulated discoveries from prior experiments.
+
+    Discoveries are cross-run findings with confidence scores. They
+    include ingredient preferences, avoidances, patterns, and concerns
+    extracted from completed experiments.
+
+    Args:
+        domain: Filter by domain (skincare, supplement, beverage, etc.).
+            If not provided, shows all domains.
+    """
+    from openmix.memory import ExperimentMemory
+
+    memory = ExperimentMemory()
+    discoveries = memory.load_discoveries()
+
+    if not discoveries:
+        return "No discoveries yet. Run experiments with `openmix run` to accumulate findings."
+
+    if domain:
+        discoveries = [d for d in discoveries if d.domain == domain]
+        if not discoveries:
+            return f"No discoveries for domain '{domain}'."
+
+    lines = [f"Discoveries ({len(discoveries)} total):"]
+    for d in sorted(discoveries, key=lambda x: -x.confidence):
+        lines.append(
+            f"  [{d.confidence:.2f}] [{d.kind}] {d.finding} "
+            f"(domain: {d.domain}, {d.evidence_count} experiments)"
+        )
+    return "\n".join(lines)
 
 
 def main():

@@ -16,17 +16,39 @@ from openmix.knowledge.constants import PRESERVATIVE_NAMES
 from openmix.matching import match_ingredient
 
 
+# Sub-score weight allocation (total = 100).
+# These weights are DESIGN CHOICES, not empirically calibrated values.
+# They reflect the relative importance of each factor in a formulation
+# stability assessment, based on formulation science priorities:
+#   - Compatibility is weighted highest because a dangerous interaction
+#     (e.g., toxic gas formation) overrides all other considerations.
+#   - pH suitability is second because incorrect pH degrades active
+#     ingredients and disrupts preservative efficacy.
+#   - Emulsion balance is third because phase separation is the most
+#     common stability failure mode in emulsion systems.
+#   - Integrity and completeness are lower because they are structural
+#     checks (percentages, duplicates) that are easy to fix.
+#
+# Future work: calibrate these weights against real stability outcomes
+# (e.g., accelerated stability testing results).
+SCORE_COMPATIBILITY = 35
+SCORE_PH = 25
+SCORE_EMULSION = 20
+SCORE_INTEGRITY = 10
+SCORE_COMPLETENESS = 10
+
+
 @dataclass
 class StabilityScore:
     """Quantitative stability prediction with decomposed sub-scores."""
 
-    total: float = 0.0            # 0-100 composite score
+    total: float = 0.0
 
-    compatibility: float = 0.0    # 0-35 pts: no dangerous interactions
-    ph_suitability: float = 0.0   # 0-25 pts: ingredients work at target pH
-    emulsion_balance: float = 0.0 # 0-20 pts: HLB system matched
-    formula_integrity: float = 0.0 # 0-10 pts: percentages, no dupes
-    system_completeness: float = 0.0 # 0-10 pts: preservative, sensible count
+    compatibility: float = 0.0      # 0-35: no dangerous interactions
+    ph_suitability: float = 0.0     # 0-25: ingredients work at target pH
+    emulsion_balance: float = 0.0   # 0-20: HLB system matched
+    formula_integrity: float = 0.0  # 0-10: percentages sum to 100%, no dupes
+    system_completeness: float = 0.0  # 0-10: preservative present, sensible count
 
     penalties: list[str] = field(default_factory=list)
     bonuses: list[str] = field(default_factory=list)
@@ -52,39 +74,60 @@ class StabilityScore:
 
 
 # ---------------------------------------------------------------------------
-# Known pH ranges for common ingredient classes
+# Optimal pH ranges for ingredient stability and efficacy.
+#
+# These ranges represent the pH window where each ingredient is stable,
+# effective, and compatible with typical formulation systems. Outside
+# these ranges, the ingredient may degrade, lose efficacy, or cause
+# formulation instability.
+#
+# Sources:
+#   Acids (AHAs/BHAs): Kornhauser et al., Dermatol Surg 2010; Tang &
+#     Yang, JAAD 2000. Efficacy requires free acid form (below pKa).
+#   Ascorbic acid: Telang, Indian Dermatol Online J 2013; Farris, Dermatol
+#     Surg 2005. Stable below pH 3.5; oxidizes rapidly above pH 4.
+#   Niacinamide: Gehring, Dermatol Ther 2004. Hydrolyzes to nicotinic acid
+#     below pH 4; stable at pH 5-7.
+#   Retinol/retinal: Maia Campos et al., J Cosmet Dermatol 2019. Stable at
+#     slightly acidic to neutral pH; degrades in strongly acidic conditions.
+#   Preservatives: Steinberg, Cosm & Toil 2006. Ranges reflect efficacy
+#     windows (e.g., benzoic acid/sorbic acid require pH < 5 for ionization).
+#   Carbomer: Lubrizol technical bulletin TDS-237. Thickens only when
+#     neutralized (pH > 5); degrades above pH 9.
+#   Hyaluronic acid: Essendoubi et al., Biopolymers 2011. Acid-catalyzed
+#     hydrolysis below pH 4.
 # ---------------------------------------------------------------------------
 
 PH_RANGES: dict[str, tuple[float, float]] = {
-    # Actives
-    "ASCORBIC ACID": (2.0, 3.5),
+    # Actives -- ranges where the ingredient is effective and stable
+    "ASCORBIC ACID": (2.0, 3.5),             # must be free acid; oxidizes above pH 4
     "L-ASCORBIC ACID": (2.0, 3.5),
-    "SODIUM ASCORBYL PHOSPHATE": (5.0, 7.5),
-    "NIACINAMIDE": (5.0, 7.0),
-    "RETINOL": (5.5, 6.5),
+    "SODIUM ASCORBYL PHOSPHATE": (5.0, 7.5), # phosphate ester, stable at neutral pH
+    "NIACINAMIDE": (5.0, 7.0),               # hydrolyzes to nicotinic acid below pH 4
+    "RETINOL": (5.5, 6.5),                   # acid-labile; degrades below pH 5
     "RETINAL": (5.0, 6.5),
-    "GLYCOLIC ACID": (3.0, 4.0),
-    "LACTIC ACID": (3.5, 4.5),
-    "SALICYLIC ACID": (2.5, 4.0),
-    "MANDELIC ACID": (3.0, 4.0),
-    "AZELAIC ACID": (4.0, 5.0),
-    "KOJIC ACID": (4.0, 5.5),
-    "ARBUTIN": (5.0, 7.0),
+    "GLYCOLIC ACID": (3.0, 4.0),             # pKa 3.83; needs free acid form
+    "LACTIC ACID": (3.5, 4.5),               # pKa 3.86
+    "SALICYLIC ACID": (2.5, 4.0),            # pKa 2.97
+    "MANDELIC ACID": (3.0, 4.0),             # pKa 3.41
+    "AZELAIC ACID": (4.0, 5.0),              # pKa1 4.55
+    "KOJIC ACID": (4.0, 5.5),               # pKa ~7.9; stable in acidic conditions
+    "ARBUTIN": (5.0, 7.0),                   # hydrolyzes in strongly acidic conditions
     "TRANEXAMIC ACID": (5.0, 7.0),
-    "COPPER TRIPEPTIDE-1": (4.5, 6.5),
+    "COPPER TRIPEPTIDE-1": (4.5, 6.5),       # Cu2+ precipitates above pH 7
     "BAKUCHIOL": (5.0, 7.0),
-    # Preservatives
-    "PHENOXYETHANOL": (3.0, 8.0),
-    "SODIUM BENZOATE": (2.0, 5.0),
-    "POTASSIUM SORBATE": (2.0, 6.0),
-    "BENZYL ALCOHOL": (3.0, 8.0),
+    # Preservatives -- ranges where antimicrobial efficacy is maintained
+    "PHENOXYETHANOL": (3.0, 8.0),            # effective across wide pH range
+    "SODIUM BENZOATE": (2.0, 5.0),           # benzoic acid pKa 4.2; needs free acid
+    "POTASSIUM SORBATE": (2.0, 6.0),         # sorbic acid pKa 4.76
+    "BENZYL ALCOHOL": (3.0, 8.0),            # pH-independent mechanism
     # Thickeners / polymers
-    "CARBOMER": (5.0, 9.0),
-    "XANTHAN GUM": (3.0, 12.0),
-    "HYDROXYETHYLCELLULOSE": (2.0, 12.0),
+    "CARBOMER": (5.0, 9.0),                  # requires neutralization; degrades above pH 9
+    "XANTHAN GUM": (3.0, 12.0),              # stable across wide pH range
+    "HYDROXYETHYLCELLULOSE": (2.0, 12.0),    # pH-insensitive
     # Humectants
-    "SODIUM HYALURONATE": (4.0, 8.0),
-    "HYALURONIC ACID": (4.0, 7.0),
+    "SODIUM HYALURONATE": (4.0, 8.0),        # acid hydrolysis below pH 4
+    "HYALURONIC ACID": (4.0, 7.0),           # lower MW more susceptible to degradation
 }
 
 PRESERVATIVES: set[str] = PRESERVATIVE_NAMES | {

@@ -18,11 +18,42 @@ from typing import Literal, Optional
 from openmix.schema import Formula
 from openmix.resolver import resolve, ResolvedIngredient
 from openmix.knowledge.loader import load_knowledge, Knowledge
-from openmix.knowledge.constants import PRESERVATIVE_NAMES
+from openmix.knowledge.constants import (
+    PRESERVATIVE_NAMES,
+    SURFACTANT_CHARGE_DENSITY,
+    Z_DANGER_LOW,
+    Z_DANGER_HIGH,
+    NONIONIC_SHIELDING_THRESHOLD,
+)
 from openmix.knowledge.pka import load_pka_data, assess_ph_suitability, IngredientPKa
 from openmix.matching import match_ingredient
 
 ObserveMode = Literal["engineering", "discovery"]
+
+# Confidence value scheme for observations.
+# Each observation carries a confidence score (0-1) indicating how
+# certain the observation engine is in its assessment. These values
+# affect discourse classification: the gap between confidence levels
+# determines whether a disagreement is a "correction" or "true disagreement."
+#
+# The scheme follows the evidence source:
+#   1.0  -- Deterministic / arithmetic (percentages, duplicates)
+#   0.9  -- Validated equation applied to literature data (Henderson-Hasselbalch
+#           with published pKa, charge density from molecular weight)
+#   0.8  -- Computational property from molecular structure (LogP confirmed
+#           hydrophilic, well-established physics like charge ratio model)
+#   0.7  -- Computational property with moderate uncertainty (LogP hydrophobic
+#           concern, HLB estimate, knowledge base rule with cited source)
+#   0.6  -- Heuristic or indirect inference (phase behavior estimate,
+#           nonionic shielding model, coverage-based assessment)
+#   0.5  -- Uncertain / low-confidence estimate (MW-based bioavailability,
+#           weak LogP signal, initial discovery confidence)
+CONF_DETERMINISTIC = 1.0
+CONF_VALIDATED_EQUATION = 0.9
+CONF_COMPUTATIONAL_STRONG = 0.8
+CONF_COMPUTATIONAL_MODERATE = 0.7
+CONF_HEURISTIC = 0.6
+CONF_UNCERTAIN = 0.5
 
 
 @dataclass
@@ -205,9 +236,12 @@ def observe(
     # Phase 5: Charge observations
     _observe_charge(formula, result)
 
-    # Phase 6: pH-ionization observations (Henderson-Hasselbalch)
+    # Phase 6: pH-ionization observations (Henderson-Hasselbalsh)
     if formula.target_ph is not None:
         _observe_ph(formula, result)
+
+    # Phase 7: Surfactant charge balance (molar charge ratio)
+    _observe_surfactant_charge(formula, result)
 
     return result
 
@@ -252,7 +286,7 @@ def _observe_molecular(formula: Formula, result: FormulationObservation):
                 detail=f"LogP {r.log_p:.1f} suggests poor water solubility. "
                        f"At {ing.percentage:.1f}%, ensure adequate emulsifier or solubilizer.",
                 source="physics",
-                confidence=0.7 if r.log_p > 6.0 else 0.5,
+                confidence=CONF_COMPUTATIONAL_MODERATE if r.log_p > 6.0 else CONF_UNCERTAIN,
             ))
         elif r.log_p is not None and r.log_p < -2.0:
             result.observations.append(Observation(
@@ -263,21 +297,24 @@ def _observe_molecular(formula: Formula, result: FormulationObservation):
                 agreement="confirmed",
                 detail="Good water solubility expected.",
                 source="physics",
-                confidence=0.8,
+                confidence=CONF_COMPUTATIONAL_STRONG,
             ))
 
-        # Molecular weight observation
+        # Molecular weight observation.
+        # Lipinski MW < 500 applies to drug candidates for oral absorption
+        # and topical penetration -- not relevant for pharma excipients
+        # or non-drug formulation ingredients.
         mw = float(r.molecular_weight) if r.molecular_weight else None
-        if mw and mw > 500:
+        if mw and mw > 500 and formula.category != "pharma":
             result.observations.append(Observation(
                 category="molecular",
                 subject=ing.inci_name,
                 observed=f"MW {mw:.0f} Da — large molecule",
-                expected="Large molecules have limited skin penetration (Lipinski: MW < 500)",
+                expected="Large molecules have limited skin/membrane penetration (Lipinski: MW < 500)",
                 agreement="uncertain",
                 detail="May have limited bioavailability or penetration depending on application.",
                 source="physics",
-                confidence=0.5,
+                confidence=CONF_UNCERTAIN,
             ))
 
 
@@ -308,12 +345,15 @@ def _observe_structural(formula: Formula, result: FormulationObservation):
             confidence=1.0,
         ))
 
-    # Preservative check
+    # Preservative check (skip for solid dosage forms -- water is a processing aid, not final product)
+    is_solid_dosage = formula.category == "pharma" and formula.product_type in (
+        "tablet", "capsule", "powder", "granule", None,
+    )
     inci_upper = formula.inci_names_upper
     has_preservative = bool(inci_upper & PRESERVATIVE_NAMES)
     has_water = any(n in inci_upper for n in ("WATER", "AQUA", "PURIFIED WATER"))
 
-    if has_water and not has_preservative:
+    if has_water and not has_preservative and not is_solid_dosage:
         result.observations.append(Observation(
             category="structural",
             subject="formula",
@@ -323,7 +363,7 @@ def _observe_structural(formula: Formula, result: FormulationObservation):
             detail="Add a preservative system or confirm the formula has sufficient "
                    "antimicrobial protection through other means (low water activity, pH extremes).",
             source="structural",
-            confidence=0.8,
+            confidence=CONF_COMPUTATIONAL_STRONG,
         ))
 
     # Duplicate check
@@ -371,7 +411,7 @@ def _observe_phase(formula: Formula, kb: Knowledge,
             agreement="uncertain",
             detail=f"Ensure adequate emulsifier for {total_hydrophobic:.1f}% oil phase.",
             source="physics",
-            confidence=0.6,
+            confidence=CONF_HEURISTIC,
         ))
 
 
@@ -399,7 +439,7 @@ def _observe_charge(formula: Formula, result: FormulationObservation):
             detail="Check whether these species interact at the given concentrations. "
                    "Amphoteric surfactants or nonionic alternatives may be needed.",
             source="physics",
-            confidence=0.7,
+            confidence=CONF_COMPUTATIONAL_MODERATE,
         ))
     elif anionics or cationics:
         charge_type = "anionic" if anionics else "cationic"
@@ -411,7 +451,7 @@ def _observe_charge(formula: Formula, result: FormulationObservation):
             agreement="confirmed",
             detail="",
             source="physics",
-            confidence=0.8,
+            confidence=CONF_COMPUTATIONAL_STRONG,
         ))
 
 
@@ -462,7 +502,7 @@ def _observe_ph(formula: Formula, result: FormulationObservation):
                 detail="",
                 source=f"Henderson-Hasselbalch, pKa {pka_entry.pka[0]}. "
                        f"{pka_entry.source}",
-                confidence=0.9,
+                confidence=CONF_VALIDATED_EQUATION,
             ))
         else:
             result.observations.append(Observation(
@@ -477,5 +517,113 @@ def _observe_ph(formula: Formula, result: FormulationObservation):
                 detail="",
                 source=f"Henderson-Hasselbalch, pKa {pka_entry.pka[0]}. "
                        f"{pka_entry.source}",
-                confidence=0.85,
+                confidence=CONF_VALIDATED_EQUATION,
+            ))
+
+
+def _observe_surfactant_charge(formula: Formula, result: FormulationObservation):
+    """Observe surfactant charge balance using molar charge density.
+
+    Computes the charge ratio Z = cationic_charge / anionic_charge using
+    literature charge densities (meq/g). When Z approaches 1.0, the system
+    is at risk of coacervation or precipitation.
+
+    Sources: Wang & Dubin Langmuir 2023, Thompson Macromol. Chem. Phys. 2023.
+    """
+    total_cationic = 0.0   # meq per 100g formula
+    total_anionic = 0.0
+    total_nonionic_pct = 0.0
+    total_surfactant_pct = 0.0
+    cationic_species = []
+    anionic_species = []
+
+    for ing in formula.ingredients:
+        name_upper = ing.inci_name.upper().strip()
+        cd = SURFACTANT_CHARGE_DENSITY.get(name_upper)
+        if cd is None:
+            continue
+
+        total_surfactant_pct += ing.percentage
+
+        if cd > 0:
+            charge_meq = cd * ing.percentage  # meq per 100g
+            total_cationic += charge_meq
+            cationic_species.append((ing.inci_name, ing.percentage, cd))
+        elif cd < 0:
+            charge_meq = abs(cd) * ing.percentage
+            total_anionic += charge_meq
+            anionic_species.append((ing.inci_name, ing.percentage, abs(cd)))
+        else:
+            total_nonionic_pct += ing.percentage
+
+    # Only produce observations if both cationic and anionic are present
+    if not cationic_species or not anionic_species:
+        return
+
+    z_ratio = total_cationic / (total_anionic + 1e-8)
+    in_danger = Z_DANGER_LOW <= z_ratio <= Z_DANGER_HIGH
+
+    cat_detail = ", ".join(
+        f"{n} ({p:.1f}% x {cd:.1f} meq/g)" for n, p, cd in cationic_species
+    )
+    an_detail = ", ".join(
+        f"{n} ({p:.1f}% x {cd:.1f} meq/g)" for n, p, cd in anionic_species
+    )
+
+    if in_danger:
+        result.observations.append(Observation(
+            category="charge",
+            subject="formula",
+            observed=f"Charge ratio Z = {z_ratio:.2f} "
+                     f"(cationic: {total_cationic:.1f} meq, anionic: {total_anionic:.1f} meq)",
+            expected=f"Z in range {Z_DANGER_LOW}-{Z_DANGER_HIGH} indicates "
+                     "coacervation/precipitation risk (charge neutralization zone)",
+            agreement="discrepancy",
+            detail=f"Cationic: {cat_detail}. Anionic: {an_detail}. "
+                   f"Near charge neutralization (Z~1) promotes phase separation.",
+            source="Wang & Dubin Langmuir 2023, charge density model",
+            confidence=CONF_COMPUTATIONAL_STRONG,
+        ))
+    else:
+        result.observations.append(Observation(
+            category="charge",
+            subject="formula",
+            observed=f"Charge ratio Z = {z_ratio:.2f} "
+                     f"(cationic: {total_cationic:.1f} meq, anionic: {total_anionic:.1f} meq)",
+            expected=f"Z outside danger zone ({Z_DANGER_LOW}-{Z_DANGER_HIGH}), "
+                     "charge imbalance favors single-phase stability",
+            agreement="confirmed",
+            detail=f"Cationic: {cat_detail}. Anionic: {an_detail}.",
+            source="Wang & Dubin Langmuir 2023, charge density model",
+            confidence=CONF_COMPUTATIONAL_MODERATE,
+        ))
+
+    # Nonionic shielding assessment
+    if total_surfactant_pct > 0:
+        nonionic_fraction = total_nonionic_pct / total_surfactant_pct
+
+        if nonionic_fraction < NONIONIC_SHIELDING_THRESHOLD and in_danger:
+            result.observations.append(Observation(
+                category="charge",
+                subject="formula",
+                observed=f"Nonionic shielding: {nonionic_fraction:.0%} of surfactant blend",
+                expected=f">{NONIONIC_SHIELDING_THRESHOLD:.0%} nonionic surfactant "
+                         "reduces precipitation risk via mixed micelle formation",
+                agreement="discrepancy",
+                detail="Nonionic surfactants form mixed micelles with anionic surfactants, "
+                       "reducing free anionic monomer available for cationic complexation.",
+                source="Soontravanich 2010, J. Surfactants Detergents",
+                confidence=CONF_HEURISTIC,
+            ))
+        elif nonionic_fraction >= NONIONIC_SHIELDING_THRESHOLD:
+            result.observations.append(Observation(
+                category="charge",
+                subject="formula",
+                observed=f"Nonionic shielding: {nonionic_fraction:.0%} of surfactant blend",
+                expected=f">{NONIONIC_SHIELDING_THRESHOLD:.0%} nonionic fraction "
+                         "provides significant steric stabilization",
+                agreement="confirmed",
+                detail="Adequate nonionic surfactant to shield anionic-cationic interactions.",
+                source="Soontravanich 2010, J. Surfactants Detergents",
+                confidence=CONF_COMPUTATIONAL_MODERATE,
             ))

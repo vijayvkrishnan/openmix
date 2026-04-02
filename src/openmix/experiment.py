@@ -23,6 +23,8 @@ from openmix.score import score as heuristic_score, StabilityScore
 from openmix.observe import observe, FormulationObservation
 from openmix.constraints import check_constraints
 from openmix.llm import LLMProvider, AnthropicProvider, create_provider
+from openmix.memory import ExperimentMemory
+from openmix.discourse import evaluate_discourse
 
 
 def _parse_json(text: str) -> dict | None:
@@ -283,12 +285,30 @@ REQUIRED INGREDIENTS:
 CONSTRAINTS:
 {constraints}
 
+{prior_knowledge}
 Each iteration, respond with ONLY a JSON object:
 {{
   "ingredients": [
     {{"inci_name": "INCI Name", "percentage": 5.0, "phase": "A", "function": "humectant"}}
   ],
   "target_ph": 5.5,
+  "protocol": {{
+    "phases": [
+      {{"name": "A", "label": "Water Phase", "target_temp_c": 75, "ingredients": ["Water", "Glycerin"]}},
+      {{"name": "B", "label": "Oil Phase", "target_temp_c": 75, "ingredients": ["Squalane"]}},
+      {{"name": "C", "label": "Cool-Down", "target_temp_c": 40, "ingredients": ["Retinol", "Phenoxyethanol"]}}
+    ],
+    "steps": [
+      {{"action": "heat", "phase": "A", "parameters": {{"temp_c": 75, "duration_min": 10}}}},
+      {{"action": "heat", "phase": "B", "parameters": {{"temp_c": 75, "duration_min": 10}}}},
+      {{"action": "combine", "phase": "B", "parameters": {{"into": "A"}}, "notes": "Add oil to water slowly"}},
+      {{"action": "homogenize", "phase": "all", "parameters": {{"rpm": 5000, "duration_min": 3}}}},
+      {{"action": "cool", "phase": "all", "parameters": {{"target_c": 40}}}},
+      {{"action": "add", "phase": "C", "parameters": {{}}}},
+      {{"action": "adjust_ph", "phase": "all", "parameters": {{"target": 5.5}}}}
+    ],
+    "equipment": ["overhead stirrer", "homogenizer", "pH meter"]
+  }},
   "reasoning": "Why I chose this formulation and what I changed from last time"
 }}
 
@@ -296,12 +316,15 @@ Rules:
 - Use proper INCI nomenclature for all ingredient names
 - Percentages MUST sum to exactly 100%
 - Include ALL required ingredients within their specified ranges
-- Include phase (A=water, B=oil, C=cool-down) and function for each
-- Your goal: resolve ALL violations and physics concerns
-- Read the observations carefully — they report what the physics shows
+- Include phase (A=water, B=oil, C=cool-down) and function for each ingredient
+- Include a protocol with phases, steps, and equipment
+- Assign heat-sensitive ingredients (retinol, ascorbic acid, preservatives) to cool-down phase
+- Include a homogenize step if oil phase > 5%
+- Include adjust_ph step if target_ph is specified
+- Your goal: resolve ALL violations, physics concerns, AND process concerns
+- Read the assessment carefully — it includes multiple perspectives
 - Hard violations MUST be resolved (dangerous combinations)
-- Soft violations should be addressed based on confidence level
-- Molecular observations are informational — use your judgment
+- TRUE DISAGREEMENTS are where perspectives conflict — investigate these
 - Be creative — explore different ingredient combinations and strategies"""
 
 
@@ -309,17 +332,17 @@ FEEDBACK_PROMPT = """Iteration {iteration} results:
 
 CONCERN COUNT: {concerns} (best so far: {best_concerns})
 
-PHYSICS OBSERVATIONS:
-{observations}
+{assessment_section}
 
 EXPERIMENT HISTORY (last 5):
 {history}
 
 {analysis}
 
-Read the observations. Resolve violations first (hard, then soft by confidence).
-Address molecular and structural concerns. Then explore for better formulations.
-Respond with ONLY the JSON object."""
+Read the assessment carefully. Resolve violations first (hard, then soft).
+Pay attention to TRUE DISAGREEMENTS — these are where perspectives conflict
+and may indicate opportunities or risks worth investigating.
+Address corrections, then concerns. Respond with ONLY the JSON object."""
 
 
 def _hash_formula(formula: Formula) -> str:
@@ -386,6 +409,7 @@ class Experiment:
         api_key: str | None = None,
         model: str = "claude-sonnet-4-20250514",
         verbose: bool = True,
+        use_memory: bool = True,
     ):
         self.name = name
         self.brief = brief
@@ -397,6 +421,8 @@ class Experiment:
         self.target_score = target_score
         self.mode = mode
         self.verbose = verbose
+        self.use_memory = use_memory
+        self.memory = ExperimentMemory() if use_memory else None
 
         # Map experiment mode to observation mode
         self._observe_mode = "discovery" if mode == "discovery" else "engineering"
@@ -415,6 +441,7 @@ class Experiment:
         api_key: str | None = None,
         evaluate: Callable[[Formula], StabilityScore] | None = None,
         verbose: bool = True,
+        use_memory: bool = True,
     ) -> Experiment:
         config = ExperimentConfig.from_file(path)
 
@@ -435,6 +462,7 @@ class Experiment:
             llm=llm,
             api_key=api_key,
             verbose=verbose,
+            use_memory=use_memory,
         )
 
     @classmethod
@@ -446,6 +474,7 @@ class Experiment:
         evaluate: Callable[[Formula], StabilityScore] | None = None,
         verbose: bool = True,
         save_plan: str | Path | None = None,
+        use_memory: bool = True,
     ) -> Experiment:
         """
         Create an experiment from a natural language brief.
@@ -510,6 +539,7 @@ class Experiment:
             mode=plan.get("mode", "formulation"),
             llm=provider,
             verbose=verbose,
+            use_memory=use_memory,
         )
 
     def _log(self, msg: str, end: str = "\n"):
@@ -531,11 +561,22 @@ class Experiment:
             f"  {k}: {v}" for k, v in self.constraints.items()
         ) or "(none)"
 
+        # Retrieve prior knowledge from memory
+        prior_knowledge = ""
+        if self.memory:
+            category = self.constraints.get("category", "general")
+            ingredient_names = [r["name"] for r in self.required_ingredients]
+            prior_knowledge = self.memory.retrieve_prior_knowledge(
+                category=category,
+                ingredients=ingredient_names or None,
+            )
+
         return SYSTEM_PROMPT.format(
             brief=self.brief,
             required=required_str,
             pool_section=pool_section,
             constraints=constraint_str,
+            prior_knowledge=prior_knowledge,
         )
 
     def _call_llm(self, system: str, messages: list[dict]) -> str:
@@ -555,25 +596,59 @@ class Experiment:
                 else:
                     raise
 
-    def _parse_formula(self, text: str) -> tuple[Formula | None, str | None]:
+    def _parse_formula(self, text: str) -> tuple:
+        from openmix.protocol import Protocol, Phase, ProcessStep
+
         data = _parse_json(text)
         if not data:
-            return None, None
+            return None, None, None
 
         reasoning = data.get("reasoning")
         category = self.constraints.get("category", "skincare")
         product_type = self.constraints.get("product_type")
 
+        # Parse protocol if present
+        protocol = None
+        proto_data = data.get("protocol")
+        if proto_data and isinstance(proto_data, dict):
+            try:
+                phases = [
+                    Phase(
+                        name=p.get("name", ""),
+                        label=p.get("label", ""),
+                        target_temp_c=p.get("target_temp_c"),
+                        ingredients=p.get("ingredients", []),
+                    )
+                    for p in proto_data.get("phases", [])
+                ]
+                steps = [
+                    ProcessStep(
+                        action=s.get("action", ""),
+                        phase=s.get("phase", "all"),
+                        parameters=s.get("parameters", {}),
+                        notes=s.get("notes", ""),
+                    )
+                    for s in proto_data.get("steps", [])
+                ]
+                protocol = Protocol(
+                    phases=phases,
+                    steps=steps,
+                    equipment=proto_data.get("equipment", []),
+                )
+            except Exception:
+                pass  # protocol parsing failed, continue without it
+
         try:
-            return Formula(
+            formula = Formula(
                 name=f"{self.name} iter",
                 ingredients=data.get("ingredients", []),
                 target_ph=data.get("target_ph"),
                 category=category,
                 product_type=product_type,
-            ), reasoning
+            )
+            return formula, reasoning, protocol
         except Exception:
-            return None, reasoning
+            return None, reasoning, None
 
     def _format_history(self, trials: list[Trial], n: int = 5) -> str:
         recent = trials[-n:]
@@ -635,7 +710,7 @@ class Experiment:
             raw = self._call_llm(system_prompt, messages)
             gen_ms = int((time.time() - gen_start) * 1000)
 
-            formula, reasoning = self._parse_formula(raw)
+            formula, reasoning, protocol = self._parse_formula(raw)
             if not formula:
                 self._log(f"parse error ({gen_ms/1000:.1f}s)")
                 messages.append({"role": "assistant", "content": raw})
@@ -659,8 +734,16 @@ class Experiment:
                     f"Fix these and respond with ONLY the corrected JSON."})
                 continue
 
-            # --- Observe (physics) ---
+            # --- Evaluate (physics + discourse if memory available) ---
             obs = observe(formula, mode=self._observe_mode)
+            disc = None
+            if self.memory:
+                disc = evaluate_discourse(
+                    formula,
+                    protocol=protocol,
+                    memory=self.memory,
+                    observe_mode=self._observe_mode,
+                )
 
             # Also run legacy scorer if a custom evaluate function is provided
             stability = self.evaluate(formula) if self.evaluate != heuristic_score else None
@@ -702,7 +785,7 @@ class Experiment:
 
             # --- Converged? ---
             if concerns == 0:
-                self._log(f"\n  Converged at iteration {iter_num} — zero concerns.")
+                self._log(f"\n  Converged at iteration {iter_num} -- zero concerns.")
                 log.converged = True
                 break
 
@@ -717,11 +800,17 @@ class Experiment:
                                 "try different ingredients, different ratios, "
                                 "or a fundamentally different approach.")
 
+            # Build assessment: discourse if available, physics-only otherwise
+            if disc and disc.topics:
+                assessment_section = f"MULTI-PERSPECTIVE ASSESSMENT:\n{disc}"
+            else:
+                assessment_section = f"PHYSICS OBSERVATIONS:\n{obs}"
+
             feedback = FEEDBACK_PROMPT.format(
                 iteration=iter_num,
                 concerns=f"{concerns:.1f}",
                 best_concerns=f"{best_concerns:.1f}",
-                observations=str(obs),
+                assessment_section=assessment_section,
                 history=self._format_history(log.trials),
                 analysis=analysis,
             )
@@ -739,5 +828,25 @@ class Experiment:
                 from openmix.analysis import analyze
                 exp_analysis = analyze(log)
                 print(exp_analysis)
+
+        # Record to memory (consolidate discoveries)
+        if self.memory and log.trials:
+            try:
+                new_discoveries = self.memory.record_experiment(log)
+                if self.verbose and new_discoveries:
+                    n_pref = sum(1 for d in new_discoveries if d.kind == "preference")
+                    n_avoid = sum(1 for d in new_discoveries if d.kind == "avoidance")
+                    n_other = len(new_discoveries) - n_pref - n_avoid
+                    self._log("")
+                    self._log("  Memory updated:")
+                    self._log(f"    {n_pref} ingredient preferences, "
+                              f"{n_avoid} avoidances, {n_other} patterns recorded")
+                    idx = self.memory.load_index()
+                    disc = self.memory.load_discoveries()
+                    self._log(f"    Total: {len(idx)} experiments, "
+                              f"{len(disc)} discoveries")
+            except Exception as e:
+                if self.verbose:
+                    self._log(f"  (Memory save failed: {e})")
 
         return log

@@ -53,7 +53,9 @@ def validate(
     coverage_issues = check_coverage(formula, kb)
     all_issues.extend(coverage_issues)
 
-    # Score
+    # Score (design choice, not calibrated against stability data).
+    # Each error costs 25 points (4 errors = zero). Each warning costs 10.
+    # Info-level issues do not affect the score.
     errors = sum(1 for i in all_issues if i.severity == "error")
     warnings = sum(1 for i in all_issues if i.severity == "warning")
     infos = sum(1 for i in all_issues if i.severity == "info")

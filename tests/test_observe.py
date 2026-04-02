@@ -5,11 +5,10 @@ from unittest.mock import patch
 from openmix import Formula
 from openmix.observe import (
     observe,
-    Observation,
-    Violation,
     FormulationObservation,
 )
 from openmix.resolver.resolve import ResolvedIngredient
+from openmix.knowledge.pka import ionization_fraction, load_pka_data
 
 # Use sys.modules for unambiguous module reference (avoids name collision
 # between openmix.observe the module and observe the function on Python 3.10)
@@ -524,10 +523,10 @@ def test_discovery_mode_discoveries_property():
     f = Formula(ingredients=[
         ("Water", 87.0), ("Retinol", 3.0), ("Glycerin", 10.0),
     ])
-    obs = _observe_mode(f, "discovery")
+    _observe_mode(f, "discovery")
     # The uncertain observation has confidence 0.5, below 0.7 threshold
     # But it's "uncertain" not "discrepancy", so it shouldn't be in discoveries
-    # Let's use a formula that produces actual low-confidence discrepancies
+    # Use a formula that produces actual low-confidence discrepancies
     f2 = Formula(ingredients=[
         ("Water", 80.0), ("Retinol", 6.0), ("Glycerin", 14.0),
     ])
@@ -561,9 +560,6 @@ def test_engineering_str_output():
 # ---------------------------------------------------------------------------
 # pH-ionization observations (Henderson-Hasselbalch)
 # ---------------------------------------------------------------------------
-
-from openmix.knowledge.pka import ionization_fraction, load_pka_data
-
 
 def test_ionization_fraction_acid_at_pka():
     """At pH = pKa, an acid should be 50% ionized."""

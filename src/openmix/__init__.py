@@ -15,7 +15,7 @@ OpenMix — computational mixture and formulation science.
           mode="discovery"))
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 from openmix.schema import Formula, Ingredient, ValidationReport, Issue
 from openmix.validate import validate
@@ -23,6 +23,9 @@ from openmix.score import score, StabilityScore
 from openmix.observe import observe, FormulationObservation, Observation, ObserveMode
 from openmix.knowledge.loader import load_knowledge
 from openmix.experiment import Experiment, ExperimentLog
+from openmix.memory import ExperimentMemory
+from openmix.protocol import Protocol, Phase, ProcessStep
+from openmix.discourse import evaluate_discourse, Discourse
 
 __all__ = [
     "Formula",
@@ -38,6 +41,12 @@ __all__ = [
     "ObserveMode",
     "Experiment",
     "ExperimentLog",
+    "ExperimentMemory",
+    "Protocol",
+    "Phase",
+    "ProcessStep",
+    "evaluate_discourse",
+    "Discourse",
     "load_knowledge",
     "__version__",
 ]

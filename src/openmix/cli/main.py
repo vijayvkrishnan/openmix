@@ -99,6 +99,45 @@ def cmd_observe(args):
     sys.exit(0)
 
 
+def cmd_discourse(args):
+    """Run multi-perspective discourse evaluation."""
+    from openmix.discourse import evaluate_discourse
+    from openmix.memory import ExperimentMemory
+    from openmix.protocol import Protocol, Phase, ProcessStep
+
+    formula = _load_formula(Path(args.file))
+
+    # Load protocol if provided
+    protocol = None
+    if args.protocol:
+        protocol_path = Path(args.protocol)
+        if not protocol_path.exists():
+            print(f"Error: Protocol file not found: {protocol_path}", file=sys.stderr)
+            sys.exit(1)
+        with open(protocol_path, "r", encoding="utf-8") as f:
+            pdata = yaml.safe_load(f)
+        phases = [Phase(**p) for p in pdata.get("phases", [])]
+        steps = [ProcessStep(**s) for s in pdata.get("steps", [])]
+        protocol = Protocol(
+            phases=phases,
+            steps=steps,
+            equipment=pdata.get("equipment", []),
+            batch_size_g=pdata.get("batch_size_g", 100.0),
+        )
+
+    # Load experiment memory
+    memory = ExperimentMemory() if not args.no_memory else None
+
+    disc = evaluate_discourse(
+        formula,
+        protocol=protocol,
+        memory=memory,
+    )
+    print(disc)
+
+    sys.exit(0 if not disc.true_disagreements else 1)
+
+
 def cmd_experiment(args):
     """Run an autonomous formulation experiment."""
     from openmix.experiment import Experiment
@@ -108,7 +147,8 @@ def cmd_experiment(args):
         print(f"Error: File not found: {filepath}", file=sys.stderr)
         sys.exit(1)
 
-    exp = Experiment.from_file(filepath, verbose=True)
+    exp = Experiment.from_file(filepath, verbose=True,
+                               use_memory=not args.no_memory)
     log = exp.run()
 
     if args.save:
@@ -125,7 +165,8 @@ def cmd_run(args):
     brief = " ".join(args.brief)
     save_plan = args.save_plan
 
-    exp = Experiment.from_brief(brief, verbose=True, save_plan=save_plan)
+    exp = Experiment.from_brief(brief, verbose=True, save_plan=save_plan,
+                                use_memory=not args.no_memory)
     log = exp.run()
 
     if args.save:
@@ -136,39 +177,84 @@ def cmd_run(args):
 
 
 def cmd_demo(args):
-    """Run a built-in demo — no files or API keys needed."""
+    """Run a built-in demo -- no files or API keys needed."""
     from openmix import Formula, validate, observe as observe_fn
+    from openmix.discourse import evaluate_discourse
+    from openmix.protocol import Protocol, Phase, ProcessStep
 
     print(f"OpenMix v{__version__} -- Demo\n")
 
-    # Demo 1: Validate a problematic formula
+    # Demo 1: Multi-perspective discourse (the headline feature)
     print("=" * 60)
-    print("  1. Validate: Catches ingredient interactions")
+    print("  1. Discourse: Multi-perspective evaluation")
+    print("     Four perspectives evaluate the same formula + protocol.")
+    print("     Disagreements are classified, not hidden.")
     print("=" * 60)
 
-    formula = Formula(
-        name="Anti-Aging Serum",
+    serum = Formula(
+        name="Retinol + Vitamin C Serum",
         ingredients=[
-            ("Retinol", 1.0),
-            ("Glycolic Acid", 8.0),
-            ("Benzoyl Peroxide", 2.5),
-            ("Copper Tripeptide-1", 1.0),
+            ("Water", 58.0),
             ("Ascorbic Acid", 15.0),
-            ("Niacinamide", 5.0),
-            ("Water", 60.5),
+            ("Squalane", 10.0),
+            ("Glycerin", 8.0),
+            ("Niacinamide", 4.0),
+            ("Retinol", 1.0),
+            ("Cetyl Alcohol", 2.0),
             ("Phenoxyethanol", 1.0),
-            ("Glycerin", 6.0),
+            ("Tocopherol", 0.5),
+            ("Xanthan Gum", 0.3),
+            ("Disodium EDTA", 0.1),
+            ("Citric Acid", 0.1),
         ],
         target_ph=3.5,
         category="skincare",
     )
 
-    report = validate(formula, mode="safety")
+    # Deliberately flawed protocol: actives in heat phase
+    protocol = Protocol(
+        phases=[
+            Phase("A", "Water Phase", 75.0,
+                  ["Water", "Glycerin", "Ascorbic Acid", "Niacinamide",
+                   "Xanthan Gum", "Citric Acid", "Disodium EDTA"]),
+            Phase("B", "Oil Phase", 75.0,
+                  ["Squalane", "Retinol", "Cetyl Alcohol", "Tocopherol"]),
+            Phase("C", "Cool-Down", 40.0, ["Phenoxyethanol"]),
+        ],
+        steps=[
+            ProcessStep("heat", "A", {"temp_c": 75, "duration_min": 10}),
+            ProcessStep("heat", "B", {"temp_c": 75, "duration_min": 10}),
+            ProcessStep("combine", "B", {"into": "A", "mixing_rpm": 500}),
+            ProcessStep("cool", "all", {"target_c": 40}),
+            ProcessStep("add", "C", {}),
+        ],
+        equipment=["overhead stirrer"],
+        batch_size_g=100.0,
+    )
+
+    disc = evaluate_discourse(serum, protocol=protocol)
+    print(disc)
+
+    # Demo 2: Validate a dangerous formula
+    print("=" * 60)
+    print("  2. Validate: Catches dangerous interactions")
+    print("=" * 60)
+
+    dangerous = Formula(
+        name="Household Cleaner",
+        ingredients=[
+            ("Sodium Hypochlorite", 5.0),
+            ("Ammonia", 3.0),
+            ("Water", 92.0),
+        ],
+        category="home_care",
+    )
+    report = validate(dangerous, mode="safety")
     print(report)
 
-    # Demo 2: Observe a clean formula through physics
+    # Demo 3: Physics observation engine
     print("=" * 60)
-    print("  2. Observe: Physics observation engine")
+    print("  3. Observe: Physics observation engine")
     print("=" * 60)
 
     clean = Formula(
@@ -188,25 +274,46 @@ def cmd_demo(args):
         target_ph=5.5,
         category="skincare",
     )
-    print(f"\n  {clean.name}")
     obs = observe_fn(clean)
     print(obs)
 
-    # Demo 3: Discovery mode
-    print("\n" + "=" * 60)
-    print("  3. Discovery mode: Investigate discrepancies")
-    print("=" * 60)
-
-    obs_disc = observe_fn(formula, mode="discovery")
-    print(obs_disc)
-
     print("\n" + "=" * 60)
     print("  Next steps:")
-    print("  - openmix observe your_formula.yaml")
-    print("  - openmix observe your_formula.yaml --mode discovery")
-    print("  - openmix validate your_formula.yaml")
-    print("  - openmix run \"Design a stable vitamin C serum\"  (needs API key)")
+    print("    openmix discourse formula.yaml        Multi-perspective evaluation")
+    print("    openmix observe formula.yaml           Physics observations")
+    print("    openmix validate formula.yaml          Rule-based validation")
+    print('    openmix run "Design a stable serum"    Autonomous experiment (needs API key)')
+    print("    openmix memory                         Inspect experiment memory")
     print("=" * 60)
+
+
+def cmd_memory(args):
+    """Inspect experiment memory."""
+    from openmix.memory import ExperimentMemory
+
+    memory = ExperimentMemory()
+
+    if args.clear:
+        import shutil
+        if memory.base_dir.exists():
+            shutil.rmtree(memory.base_dir)
+            print("  Experiment memory cleared.")
+        else:
+            print("  No experiment memory found.")
+        return
+
+    if args.discoveries:
+        discoveries = memory.load_discoveries()
+        if not discoveries:
+            print("  No discoveries yet. Run some experiments first.")
+            return
+        for d in sorted(discoveries, key=lambda x: -x.confidence):
+            print(f"  [{d.confidence:.2f}] [{d.kind}] {d.finding}")
+            print(f"         domain: {d.domain}, "
+                  f"evidence: {d.evidence_count} experiments")
+        return
+
+    print(memory.summary())
 
 
 def cmd_info(args):
@@ -313,22 +420,43 @@ def main():
     op.add_argument("--json", action="store_true", help="Also output JSON")
     op.set_defaults(func=cmd_observe)
 
+    # discourse
+    dcp = subparsers.add_parser("discourse",
+                                help="Multi-perspective evaluation with disagreement classification")
+    dcp.add_argument("file", help="Path to formula YAML or JSON")
+    dcp.add_argument("--protocol", help="Path to protocol YAML")
+    dcp.add_argument("--no-memory", action="store_true",
+                     help="Disable experiment memory")
+    dcp.set_defaults(func=cmd_discourse)
+
     # run (natural language)
     rp = subparsers.add_parser("run", help="Run an experiment from natural language")
     rp.add_argument("brief", nargs="+", help="Research brief in natural language")
     rp.add_argument("--save", help="Save experiment log to file")
     rp.add_argument("--save-plan", help="Save generated experiment plan as YAML")
+    rp.add_argument("--no-memory", action="store_true",
+                    help="Disable experiment memory (no persistence or prior knowledge)")
     rp.set_defaults(func=cmd_run)
 
     # experiment (from YAML)
     ep = subparsers.add_parser("experiment", help="Run from an experiment YAML file")
     ep.add_argument("file", help="Path to experiment YAML")
     ep.add_argument("--save", help="Save experiment log to file")
+    ep.add_argument("--no-memory", action="store_true",
+                    help="Disable experiment memory (no persistence or prior knowledge)")
     ep.set_defaults(func=cmd_experiment)
 
     # demo
     dp = subparsers.add_parser("demo", help="Run a built-in demo (no API key needed)")
     dp.set_defaults(func=cmd_demo)
+
+    # memory
+    mp = subparsers.add_parser("memory", help="Inspect experiment memory")
+    mp.add_argument("--discoveries", action="store_true",
+                    help="Show all discoveries")
+    mp.add_argument("--clear", action="store_true",
+                    help="Clear all experiment memory")
+    mp.set_defaults(func=cmd_memory)
 
     # info
     ip = subparsers.add_parser("info", help="Show knowledge base stats")

@@ -97,7 +97,10 @@ def check_constraints(
     # Check constraints dict
     c = constraints or {}
 
-    # Total percentage
+    # Total percentage (2% tolerance for constraint checking during experiments.
+    # This is intentionally more lenient than observe.py's 1% tolerance because
+    # LLM-generated formulas may not sum to exactly 100%. The observation engine
+    # separately flags the precise deviation.)
     total = formula.total_percentage
     if "total_percentage" in c:
         target = c["total_percentage"]

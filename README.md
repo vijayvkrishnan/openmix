@@ -11,16 +11,11 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![CI](https://github.com/vijayvkrishnan/openmix/actions/workflows/ci.yml/badge.svg)](https://github.com/vijayvkrishnan/openmix/actions)
-[![Tests](https://img.shields.io/badge/Tests-133%20passed-brightgreen.svg)](tests/)
-[![Rules](https://img.shields.io/badge/Knowledge-85%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
+[![Tests](https://img.shields.io/badge/Tests-197%20passed-brightgreen.svg)](tests/)
+[![Rules](https://img.shields.io/badge/Knowledge-258%20rules%2C%206%20domains-orange.svg)](src/openmix/knowledge/data/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vijayvkrishnan/openmix/blob/main/notebooks/tutorial.ipynb)
 
-[Observe](#observe-a-formulation) · [Two Modes](#two-modes) · [Autonomous Experiments](#autonomous-experiments) · [Architecture](#architecture) · [Knowledge Base](#contributing-knowledge) · [Roadmap](#roadmap) · [Citation](#citation)
-
-</div>
-
-<div align="center">
-
-![OpenMix Demo: Autonomous Multivitamin Formulation](assets/demo.gif)
+[Discourse](#discourse) · [Observe](#observe-a-formulation) · [Two Modes](#two-modes) · [Autonomous Experiments](#autonomous-experiments) · [Architecture](#architecture) · [Knowledge Base](#contributing-knowledge) · [Roadmap](#roadmap) · [Citation](#citation)
 
 </div>
 
@@ -101,6 +96,62 @@ Concern count: 3.2 (lower = better, 0 = no concerns)
 
 The engine caught: two ingredient interactions with confidence scores and literature context, a hydrophobic solubility concern from molecular LogP, a missing preservative system, and a 22% oil phase needing emulsification. Each observation reports what was seen, what was expected, and whether they agree.
 
+<a id="discourse"></a>
+
+### Multi-perspective discourse
+
+Multiple computational perspectives evaluate the same formulation. The discourse engine identifies where they agree, where one corrects another, and where they **genuinely disagree** -- true disagreements where both sides have defensible evidence.
+
+```python
+from openmix import Formula
+from openmix.discourse import evaluate_discourse
+from openmix.protocol import Protocol, Phase
+
+formula = Formula(
+    name="Retinol Serum",
+    ingredients=[
+        ("Water", 68.0), ("Ascorbic Acid", 15.0), ("Squalane", 10.0),
+        ("Retinol", 1.0), ("Glycerin", 5.0), ("Phenoxyethanol", 1.0),
+    ],
+    target_ph=3.5, category="skincare",
+)
+
+# Protocol with a deliberate error: retinol in the heat phase
+protocol = Protocol(phases=[
+    Phase("A", "Water Phase", 75.0, ["Water", "Glycerin", "Ascorbic Acid"]),
+    Phase("B", "Oil Phase", 75.0, ["Squalane", "Retinol"]),
+    Phase("C", "Cool-Down", 40.0, ["Phenoxyethanol"]),
+])
+
+disc = evaluate_discourse(formula, protocol=protocol)
+print(disc)
+```
+
+```
+MULTI-PERSPECTIVE DISCOURSE: Retinol Serum
+
+  AGREEMENTS (2):
+    Physics + Chemistry: Retinol + Ascorbic Acid interaction at low pH
+    Process: Ascorbic Acid degrades above 40C, assigned to 75C phase
+
+  CORRECTIONS (1):
+    Process corrects protocol: Retinol degrades above 40C but assigned
+    to Oil Phase at 75C. Must be cool-down phase.
+
+  TRUE DISAGREEMENTS (1):
+    Physics vs Chemistry: oil phase emulsion stability
+      Physics: "12% oil phase, ensure adequate emulsifier" (computational)
+      Chemistry: "HLB ~6.3 required for stable o/w emulsion" (rule-based)
+      Process: "No homogenization step specified" (heuristic)
+```
+
+The evidence hierarchy determines classification:
+- **Correction**: one perspective has significantly stronger evidence (gap >= 2 levels)
+- **True disagreement**: perspectives have comparable evidence but disagree. These are worth investigating -- the system flags where our understanding is incomplete.
+- **Knowledge gap**: no perspective has enough information
+
+Evidence levels: empirical data > computational prediction > rule-based > heuristic > LLM reasoning.
+
 ### Validate interactions
 
 ```python
@@ -129,10 +180,14 @@ Score: 75/100  |  1 errors, 0 warnings, 0 info
 ### CLI
 
 ```bash
+openmix discourse formula.yaml                 # Multi-perspective evaluation
+openmix discourse formula.yaml --protocol p.yaml  # With manufacturing protocol
 openmix observe formula.yaml                   # Physics observations
 openmix observe formula.yaml --mode discovery  # Discovery mode
 openmix validate formula.yaml                  # Rule-based validation
 openmix run "Design a stable vitamin C serum"  # Autonomous experiment (needs API key)
+openmix memory                                 # Inspect experiment memory
+openmix memory --discoveries                   # List accumulated findings
 openmix demo                                   # Try it now (no API key)
 ```
 
@@ -458,8 +513,8 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |                                                                     |
 |   Layer 4: EXPERIMENT          Autonomous Formulation Agent         |
 |   +-------------------------------------------------------------+  |
-|   |  LLM proposes -> Observe -> Constrain -> Analyze -> Iterate |  |
-|   |  Active learning loop . Cloud lab integration . Safety       |  |
+|   |  LLM proposes formula + protocol -> Discourse -> Iterate    |  |
+|   |  Experiment memory . Learning across runs . Cloud lab API    |  |
 |   +-------------------------------------------------------------+  |
 |                              ^                                      |
 |   Layer 3: OPTIMIZE          |  Multi-Objective Design              |
@@ -474,21 +529,23 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |   |  FormulaBench benchmark . Mixture fingerprints              |   |
 |   +-------------------------------------------------------------+   |
 |                              ^                                      |
-|   Layer 1.5: OBSERVE    <====+====  CURRENT (v0.2)                  |
+|   Layer 1.5: DISCOURSE  <====+====  CURRENT (v0.3)                  |
 |   +--------------------------+----------------------------------+   |
-|   |  Physics observation engine . Molecular resolution          |   |
-|   |  Dual modes (engineering / discovery) . Concern tracking    |   |
+|   |  Multi-perspective evaluation (physics, chemistry, data,    |   |
+|   |  process) . Evidence hierarchy . Disagreement classification|   |
+|   |  Experiment memory . Manufacturing protocol evaluation      |   |
 |   +-------------------------------------------------------------+   |
 |                              ^                                      |
-|   Layer 1: VALIDATE          |  Rule-Based Intelligence             |
+|   Layer 1: OBSERVE           |  Physics + Rules                     |
 |   +--------------------------+----------------------------------+   |
-|   |  258 rules (85 hard + 173 soft) . 3 validation modes          |   |
-|   |  Conditional (pH, concentration) . Coverage honesty         |   |
+|   |  Physics observation engine . 258 rules (85 hard + 173 soft)|   |
+|   |  Dual modes (engineering / discovery) . 3 validation modes  |   |
+|   |  INCI->SMILES resolver (2,400+) . Coverage honesty          |   |
 |   +-------------------------------------------------------------+   |
 |                              ^                                      |
 |   Layer 0: FOUNDATION        |  Schema & Bridges                    |
 |   +--------------------------+----------------------------------+   |
-|   |  Formula representation . INCI->SMILES resolver . RDKit     |   |
+|   |  Formula + Protocol schema . RDKit integration              |   |
 |   |  Community knowledge base (YAML -- no code to contribute)   |   |
 |   +-------------------------------------------------------------+   |
 |                                                                     |
@@ -516,12 +573,14 @@ OpenMix is built in layers. Each is independently useful. Together, they form th
 |:-----------|:-----:|:--------:|:------------:|:-----------:|:-----------:|
 | Single-molecule properties | Yes | Yes | N/A | Yes | Via RDKit |
 | **Mixture/formulation analysis** | No | No | No | Closed | **Open** |
-| **Physics observation engine** | N/A | N/A | N/A | No | **Dual-mode** |
-| **Molecular resolution (INCI→SMILES)** | N/A | N/A | N/A | Closed | **Open (2,400+ seed + PubChem)** |
+| **Multi-perspective discourse** | N/A | N/A | N/A | No | **4 perspectives** |
+| **Disagreement classification** | N/A | N/A | N/A | No | **Evidence hierarchy** |
+| **Experiment memory (learning)** | N/A | N/A | No | No | **Cross-run** |
+| **Manufacturing protocol eval** | N/A | N/A | N/A | Partial | **Computational** |
+| **Molecular resolution (INCI->SMILES)** | N/A | N/A | N/A | Closed | **Open (2,400+)** |
 | **Autonomous experiment loop** | No | No | ML only | No | **Chemistry** |
-| Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
 | Ingredient interaction rules | No | No | No | Partial | **258 rules, 6 domains** |
-| Validation modes (safety/discovery) | N/A | N/A | N/A | No | **3 modes** |
+| Pluggable evaluation (model/lab) | N/A | N/A | No | No | **Yes** |
 | Coverage honesty | N/A | N/A | N/A | No | **Warns on thin domains** |
 | Community-contributable knowledge | N/A | N/A | N/A | No | **YAML, no code** |
 | Bring your own LLM | N/A | N/A | Partial | No | **Any provider** |
@@ -631,10 +690,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 | Milestone | Target | What Ships |
 |-----------|--------|------------|
 | **v0.1** | March 2026 | Formula schema, 258 rules, heuristic scoring, autonomous experiment loop, 3 validation modes, FormulaBench baselines, CLI |
-| **v0.2** | March 2026 | **Physics observation engine, ingredient resolver (INCI→SMILES), dual modes (engineering/discovery), molecular scorer** |
-| **v0.3** | Q2 2026 | Expanded knowledge base (200+ rules), CI hardening, more benchmark datasets |
-| **v0.5** | Q3 2026 | Trained stability models, pre-trained models on HuggingFace |
-| **v1.0** | Q4 2026 | Mixture property prediction (stability, phase, shelf life), MCP server for AI agent integration |
+| **v0.2** | March 2026 | Physics observation engine, ingredient resolver (INCI->SMILES), dual modes, molecular scorer, MCP server |
+| **v0.3** | Q2 2026 | **Multi-perspective discourse engine, experiment memory, manufacturing protocol schema, protocol generation in experiment runner, 8 MCP tools** |
+| **v0.5** | Q3 2026 | Trained stability models, surfactant physics, deeper domain coverage, pre-trained models on HuggingFace |
+| **v1.0** | Q4 2026 | Mixture property prediction (stability, phase, shelf life), cloud lab integration, published paper |
 | **v2.0** | 2027 | Multi-objective optimization, ingredient substitution, Bayesian search |
 | **v3.0** | 2028+ | Autonomous formulation agent with cloud lab integration and active learning |
 
@@ -645,32 +704,36 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 ```
 openmix/
   src/openmix/
+    discourse.py            # Multi-perspective evaluation + disagreement classification
     observe.py              # Physics observation engine (engineering / discovery)
-    resolver/               # INCI → SMILES → molecular properties
-      resolve.py            #   Three-tier resolution (seed → cache → PubChem)
+    validate.py             # Rule-based validation (3 modes)
+    protocol.py             # Manufacturing protocol schema (phases, steps, equipment)
+    memory.py               # Three-layer experiment memory (index, logs, discoveries)
+    experiment.py           # Autonomous experiment runner (formula + protocol + discourse)
+    schema.py               # Formula, Ingredient, ValidationReport
+    score.py                # Heuristic stability scoring (5 sub-scores)
+    discover.py             # Hypothesis-driven rule discovery from data
+    analysis.py             # Post-experiment insight extraction
+    constraints.py          # Programmatic constraint enforcement
+    llm.py                  # Multi-provider LLM abstraction
+    matching.py             # Ingredient name matching
+    molecular.py            # RDKit integration (optional)
+    mcp_server.py           # MCP server (8 tools for AI agent integration)
+    resolver/               # INCI -> SMILES -> molecular properties
+      resolve.py            #   Three-tier resolution (seed -> cache -> PubChem)
       cache.py              #   Local cache management
       pubchem.py            #   PubChem API integration
       seed_ingredients.json #   Bundled ingredient data (2,400+ ingredients)
-    experiment.py           # Autonomous experiment runner (YAML or natural language)
-    llm.py                  # Multi-provider LLM abstraction
-    constraints.py          # Programmatic constraint enforcement
-    analysis.py             # Post-experiment insight extraction
-    validate.py             # Rule-based validation (3 modes)
-    score.py                # Heuristic stability scoring (5 sub-scores)
-    discover.py             # Hypothesis-driven rule discovery
-    matching.py             # Ingredient name matching
-    schema.py               # Formula, Ingredient, ValidationReport
-    molecular.py            # RDKit integration (optional)
     scorers/                # Pluggable evaluation functions
       molecular.py          #   Physics-informed scorer (uses resolver)
       model.py              #   Trained ML model scorer
       lab.py                #   Lab feedback (cloud lab, manual entry)
       base.py               #   Scorer interface, composite
     benchmarks/             # FormulaBench datasets + features
-    knowledge/data/         # YAML rules (85 interactions, 42 HLB values)
-    cli/                    # CLI: observe, run, validate, score, demo, info
+    knowledge/data/         # YAML rules (258 interactions, 42 HLB values)
+    cli/                    # CLI: discourse, observe, validate, run, memory, demo
   experiments/              # YAML experiment definitions
-  tests/                    # 133 tests
+  tests/                    # 197 tests
   docs/                     # FormulaBench spec
 ```
 
@@ -688,10 +751,32 @@ If you use OpenMix in research, please cite:
   title = {OpenMix: An Open-Source Framework for Computational Formulation Science},
   year = {2026},
   url = {https://github.com/vijayvkrishnan/openmix},
-  version = {0.2.0},
+  version = {0.3.0},
   license = {Apache-2.0}
 }
 ```
+
+---
+
+## Acknowledgments
+
+OpenMix builds on the work of many researchers and open-source projects:
+
+**Datasets:**
+- Shampoo stability: [Velho et al. 2024](https://doi.org/10.1038/s41597-024-03573-w), Nature Scientific Data (CC-BY-4.0)
+- Drug-excipient compatibility: [Patel et al. 2023](https://doi.org/10.1016/j.ijpharm.2023.122839), Int. J. Pharmaceutics (DE-INTERACT)
+- Mixture solubility: [Vasconcelos et al. 2026](https://doi.org/10.1038/s41597-026-07047-z), Nature Scientific Data (CC-BY-4.0)
+- Pharma solubility: [CheMixHub, Rajaonson et al. 2025](https://arxiv.org/abs/2506.12231)
+
+**Key literature informing the physics engine:**
+- Surfactant charge density model: [Wang & Dubin, Langmuir 2023](https://pubs.acs.org/doi/10.1021/acs.langmuir.3c00359)
+- Shampoo science review: [Thompson, Macromol. Chem. Phys. 2023](https://onlinelibrary.wiley.com/doi/10.1002/macp.202200420)
+- Nonionic shielding: [Soontravanich et al. 2010](https://doi.org/10.1007/s11743-009-1149-z), J. Surfactants Detergents
+
+**Tools:**
+- [RDKit](https://www.rdkit.org/) for molecular property computation
+- [PubChem](https://pubchem.ncbi.nlm.nih.gov/) for molecular identity resolution
+- [Anthropic Claude](https://www.anthropic.com/) assisted in development
 
 ---
 
