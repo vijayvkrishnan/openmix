@@ -82,13 +82,13 @@ class StabilityScore:
 # formulation instability.
 #
 # Sources:
-#   Acids (AHAs/BHAs): Kornhauser et al., Dermatol Surg 2010; Tang &
+#   Acids (AHAs/BHAs): Kornhauser et al., Clin Cosmet Investig Dermatol 2010; Tang &
 #     Yang, JAAD 2000. Efficacy requires free acid form (below pKa).
 #   Ascorbic acid: Telang, Indian Dermatol Online J 2013; Farris, Dermatol
 #     Surg 2005. Stable below pH 3.5; oxidizes rapidly above pH 4.
 #   Niacinamide: Gehring, Dermatol Ther 2004. Hydrolyzes to nicotinic acid
 #     below pH 4; stable at pH 5-7.
-#   Retinol/retinal: Maia Campos et al., J Cosmet Dermatol 2019. Stable at
+#   Retinol/retinal: Temova Rakusa et al., J Cosmet Dermatol 2021. Stable at
 #     slightly acidic to neutral pH; degrades in strongly acidic conditions.
 #   Preservatives: Steinberg, Cosm & Toil 2006. Ranges reflect efficacy
 #     windows (e.g., benzoic acid/sorbic acid require pH < 5 for ionization).

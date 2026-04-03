@@ -537,7 +537,7 @@ def _observe_surfactant_charge(formula: Formula, result: FormulationObservation)
     literature charge densities (meq/g). When Z approaches 1.0, the system
     is at risk of coacervation or precipitation.
 
-    Sources: Wang & Dubin Langmuir 2023, Thompson Macromol. Chem. Phys. 2023.
+    Sources: Jamadagni et al. Langmuir 2023, Thompson Macromol. Chem. Phys. 2023.
     """
     total_cationic = 0.0   # meq per 100g formula
     total_anionic = 0.0
@@ -590,7 +590,7 @@ def _observe_surfactant_charge(formula: Formula, result: FormulationObservation)
             agreement="discrepancy",
             detail=f"Cationic: {cat_detail}. Anionic: {an_detail}. "
                    f"Near charge neutralization (Z~1) promotes phase separation.",
-            source="Wang & Dubin Langmuir 2023, charge density model",
+            source="Jamadagni et al. Langmuir 2023, charge density model",
             confidence=CONF_COMPUTATIONAL_STRONG,
         ))
     else:
@@ -603,7 +603,7 @@ def _observe_surfactant_charge(formula: Formula, result: FormulationObservation)
                      "charge imbalance favors single-phase stability",
             agreement="confirmed",
             detail=f"Cationic: {cat_detail}. Anionic: {an_detail}.",
-            source="Wang & Dubin Langmuir 2023, charge density model",
+            source="Jamadagni et al. Langmuir 2023, charge density model",
             confidence=CONF_COMPUTATIONAL_MODERATE,
         ))
 

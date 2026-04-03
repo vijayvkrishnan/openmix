@@ -470,7 +470,7 @@ def _extract_data_claims(
 # in the formulation chemistry literature.
 #
 # Sources:
-#   Retinol/retinyl palmitate: Maia Campos et al., J Cosmet Dermatol 2019;
+#   Retinol/retinyl palmitate: Temova Rakusa et al., J Cosmet Dermatol 2021;
 #     Boisnic et al., Int J Cosmet Sci 2005. Retinoids isomerize and oxidize
 #     above 40C; retinyl palmitate is slightly more thermostable.
 #   Ascorbic acid: Gallarate et al., Int J Pharm 1999; Telang, Indian

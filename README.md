@@ -604,7 +604,7 @@ A benchmark for formulation property prediction, complementary to [CheMixHub](ht
 
 - **Leave-ingredients-out evaluation**: domain features improve generalization to unseen ingredients
 - **4 planned tasks**: stability classification, compatibility scoring, shelf life regression, failure mode prediction
-- Data sources: [Velho et al. 2024 (Nature Sci Data)](https://doi.org/10.1038/s41597-024-03573-w), [CheMixHub (Rajaonson et al. 2025)](https://arxiv.org/abs/2506.12231)
+- Data sources: [Chitre et al. 2024 (Nature Sci Data)](https://doi.org/10.1038/s41597-024-03573-w), [CheMixHub (Rajaonson et al. 2025)](https://arxiv.org/abs/2506.12231)
 
 See [docs/formulabench-spec.md](docs/formulabench-spec.md) for the full specification.
 
@@ -769,13 +769,13 @@ If you use OpenMix in research, please cite:
 OpenMix builds on the work of many researchers and open-source projects:
 
 **Datasets:**
-- Shampoo stability: [Velho et al. 2024](https://doi.org/10.1038/s41597-024-03573-w), Nature Scientific Data (CC-BY-4.0)
+- Shampoo stability: [Chitre et al. 2024](https://doi.org/10.1038/s41597-024-03573-w), Nature Scientific Data (CC-BY-4.0)
 - Drug-excipient compatibility: [Patel et al. 2023](https://doi.org/10.1016/j.ijpharm.2023.122839), Int. J. Pharmaceutics (DE-INTERACT)
-- Mixture solubility: [Vasconcelos et al. 2026](https://doi.org/10.1038/s41597-026-07047-z), Nature Scientific Data (CC-BY-4.0)
+- Mixture solubility: [Malikov et al. 2026](https://doi.org/10.1038/s41597-026-07047-z), Nature Scientific Data (CC-BY-4.0)
 - Pharma solubility: [CheMixHub, Rajaonson et al. 2025](https://arxiv.org/abs/2506.12231)
 
 **Key literature informing the physics engine:**
-- Surfactant charge density model: [Wang & Dubin, Langmuir 2023](https://pubs.acs.org/doi/10.1021/acs.langmuir.3c00359)
+- Surfactant charge density model: [Jamadagni, Johnson & Larson, Langmuir 2023](https://pubs.acs.org/doi/10.1021/acs.langmuir.3c00359)
 - Shampoo science review: [Thompson, Macromol. Chem. Phys. 2023](https://onlinelibrary.wiley.com/doi/10.1002/macp.202200420)
 - Nonionic shielding: [Soontravanich et al. 2010](https://doi.org/10.1007/s11743-009-1149-z), J. Surfactants Detergents
 

@@ -18,7 +18,7 @@ PRESERVATIVE_NAMES: set[str] = {
 #   Cationic surfactants: calculated from molecular weight (single quat charge).
 #   Anionic surfactants: calculated from molecular weight and number of
 #     anionic groups. Cocoyl chain assumed C12 average.
-#   General: Wang & Dubin, Langmuir 2023; J. Oleo Sci. 2020.
+#   General: Jamadagni, Johnson & Larson, Langmuir 2023; J. Oleo Sci. 2020.
 #
 # Positive values = cationic charge. Negative values = anionic charge.
 # Zero = nonionic or zwitterionic (net neutral at typical formulation pH 5-7).
@@ -72,9 +72,9 @@ SURFACTANT_CHARGE_DENSITY: dict[str, float] = {
 # equivalence. Validated on 812 shampoo formulations: stability drops
 # from ~40% outside this zone to ~12% inside it (p < 0.000001).
 #
-# Sources: Wang & Dubin, Langmuir 2023 (molecular thermodynamic model);
+# Sources: Jamadagni, Johnson & Larson, Langmuir 2023 (molecular thermodynamic model);
 #   Thompson, Macromol. Chem. Phys. 2023 (shampoo science review);
-#   validated against Velho et al. 2024 dataset (Nature Sci Data).
+#   validated against Chitre et al. 2024 dataset (Nature Sci Data).
 Z_DANGER_LOW = 0.5
 Z_DANGER_HIGH = 2.0
 

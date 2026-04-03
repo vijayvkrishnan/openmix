@@ -4,7 +4,7 @@ Shampoo Stability Dataset — the first FormulaBench task.
 812 shampoo formulations with binary stability labels. 18 ingredients
 (12 surfactants + 4 conditioning polymers + 2 thickeners) in water base.
 
-Source: Velho et al. 2024, Scientific Data (Nature)
+Source: Chitre et al. 2024, Scientific Data (Nature)
         DOI: 10.1038/s41597-024-03573-w
         Data: Figshare DOI 10.6084/m9.figshare.c.7132624.v1
 License: CC-BY-4.0

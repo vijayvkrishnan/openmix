@@ -10,7 +10,7 @@ solvent mixture at a given temperature. This requires understanding
 molecular interactions between three components (solute + two solvents)
 — exactly the kind of mixture reasoning OpenMix is built for.
 
-Source: Vasconcelos et al. 2026, Nature Scientific Data
+Source: Malikov et al. 2026, Nature Scientific Data
         DOI: 10.1038/s41597-026-07047-z
         Data: Zenodo DOI 10.5281/zenodo.18660057
 License: CC-BY 4.0
