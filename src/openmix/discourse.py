@@ -243,7 +243,7 @@ class Discourse:
             f"{len(self.true_disagreements)} true disagreements, "
             f"{len(self.knowledge_gaps)} knowledge gaps[/]"
         )
-        console.print(Rule(style="bright_blue"))
+        console.print(Rule(style="bright_blue", characters="-"))
 
 
 # ---------------------------------------------------------------------------

@@ -22,7 +22,7 @@ venv/
 *.swo
 *~
 # Raw datasets (download via scripts, don't commit)
-data/
+/data/
 # Trained models (reproduce via scripts, don't commit)
 models/
 # Experiment results (local runs)
