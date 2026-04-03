@@ -19,6 +19,12 @@
 
 </div>
 
+<div align="center">
+
+![OpenMix Demo: Mechanism-Based Drug-Excipient Prediction](assets/demo.gif)
+
+</div>
+
 ---
 
 ## The Problem

@@ -133,7 +133,7 @@ def cmd_discourse(args):
         protocol=protocol,
         memory=memory,
     )
-    print(disc)
+    disc.print_rich()
 
     sys.exit(0 if not disc.true_disagreements else 1)
 
@@ -178,18 +178,30 @@ def cmd_run(args):
 
 def cmd_demo(args):
     """Run a built-in demo -- no files or API keys needed."""
+    from rich.console import Console
+    from rich.panel import Panel
+    from rich.rule import Rule
     from openmix import Formula, validate, observe as observe_fn
     from openmix.discourse import evaluate_discourse
     from openmix.protocol import Protocol, Phase, ProcessStep
 
-    print(f"OpenMix v{__version__} -- Demo\n")
+    console = Console()
+    console.print()
+    console.print(Panel(
+        "[bold]RDKit is for molecules. OpenMix is for mixtures.[/]\n\n"
+        "[dim]Multi-perspective formulation evaluation with\n"
+        "evidence-based disagreement classification.[/]",
+        title=f"[bold]OpenMix[/]  [dim]v{__version__}[/]",
+        border_style="bright_blue",
+        padding=(1, 2),
+    ))
+    console.print()
 
     # Demo 1: Multi-perspective discourse (the headline feature)
-    print("=" * 60)
-    print("  1. Discourse: Multi-perspective evaluation")
-    print("     Four perspectives evaluate the same formula + protocol.")
-    print("     Disagreements are classified, not hidden.")
-    print("=" * 60)
+    console.print(Rule("[bold cyan]Discourse: Multi-perspective evaluation[/]"))
+    console.print("  [dim]Four perspectives evaluate the same formula + protocol.[/]")
+    console.print("  [dim]Disagreements are classified, not hidden.[/]")
+    console.print()
 
     serum = Formula(
         name="Retinol + Vitamin C Serum",
@@ -233,12 +245,11 @@ def cmd_demo(args):
     )
 
     disc = evaluate_discourse(serum, protocol=protocol)
-    print(disc)
+    disc.print_rich()
 
     # Demo 2: Validate a dangerous formula
-    print("=" * 60)
-    print("  2. Validate: Catches dangerous interactions")
-    print("=" * 60)
+    console.print(Rule("[bold yellow]Validate: Catches dangerous interactions[/]"))
+    console.print()
 
     dangerous = Formula(
         name="Household Cleaner",
@@ -253,9 +264,8 @@ def cmd_demo(args):
     print(report)
 
     # Demo 3: Physics observation engine
-    print("=" * 60)
-    print("  3. Observe: Physics observation engine")
-    print("=" * 60)
+    console.print(Rule("[bold green]Observe: Physics observation engine[/]"))
+    console.print()
 
     clean = Formula(
         name="Simple Moisturizer",
@@ -277,14 +287,17 @@ def cmd_demo(args):
     obs = observe_fn(clean)
     print(obs)
 
-    print("\n" + "=" * 60)
-    print("  Next steps:")
-    print("    openmix discourse formula.yaml        Multi-perspective evaluation")
-    print("    openmix observe formula.yaml           Physics observations")
-    print("    openmix validate formula.yaml          Rule-based validation")
-    print('    openmix run "Design a stable serum"    Autonomous experiment (needs API key)')
-    print("    openmix memory                         Inspect experiment memory")
-    print("=" * 60)
+    console.print()
+    console.print(Panel(
+        "[bold]openmix discourse[/] formula.yaml        Multi-perspective evaluation\n"
+        "[bold]openmix observe[/] formula.yaml           Physics observations\n"
+        "[bold]openmix validate[/] formula.yaml          Rule-based validation\n"
+        '[bold]openmix run[/] "Design a stable serum"    Autonomous experiment (needs API key)\n'
+        "[bold]openmix memory[/]                         Inspect experiment memory",
+        title="[bold]Next steps[/]",
+        border_style="bright_blue",
+        padding=(1, 2),
+    ))
 
 
 def cmd_memory(args):

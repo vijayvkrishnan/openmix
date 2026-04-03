@@ -164,6 +164,87 @@ class Discourse:
         lines.append("=" * 70)
         return "\n".join(lines)
 
+    def print_rich(self):
+        """Print discourse results with rich formatting (colors, panels)."""
+        from rich.console import Console
+        from rich.panel import Panel
+        from rich.rule import Rule
+
+        console = Console()
+
+        console.print()
+        console.print(Rule(
+            f"[bold]MULTI-PERSPECTIVE DISCOURSE: {self.formula_name}[/]",
+            style="bright_blue",
+        ))
+
+        if self.agreements:
+            console.print(f"\n  [bold]AGREEMENTS ({len(self.agreements)}):[/]")
+            for topic in self.agreements:
+                for claim in topic.claims:
+                    is_mechanism = "mechanism-based" in claim.evidence.lower()
+                    if is_mechanism:
+                        console.print(Panel(
+                            f"[bold bright_yellow]MECHANISM-BASED PREDICTION[/]\n\n"
+                            f"[white]{claim.detail}[/]\n\n"
+                            f"[dim]Subject: {topic.subject}[/]\n"
+                            f"[dim]Evidence: {claim.evidence[:100]}[/]\n"
+                            f"[dim]Confidence: {claim.confidence}[/]",
+                            border_style="bright_yellow",
+                            padding=(0, 2),
+                        ))
+                    elif claim.position == "violation":
+                        console.print(
+                            f"  [red][X][/] [bold]{topic.subject}[/]\n"
+                            f"      [red]{claim.detail[:100]}[/]"
+                        )
+                    elif claim.position == "concern":
+                        console.print(
+                            f"  [yellow][=][/] [bold]{topic.subject}[/]\n"
+                            f"      [dim]{claim.detail[:100]}[/]"
+                        )
+                    elif claim.position == "safe":
+                        console.print(
+                            f"  [green][=][/] [bold]{topic.subject}[/]: safe\n"
+                            f"      [dim]{claim.detail[:80]}[/]"
+                        )
+
+        if self.corrections:
+            console.print(f"\n  [bold]CORRECTIONS ({len(self.corrections)}):[/]")
+            for topic in self.corrections:
+                w = topic.winning_claim
+                if w:
+                    console.print(
+                        f"  [bright_cyan][>][/] [bold]{topic.subject}[/]\n"
+                        f"      Corrected by {w.perspective}: "
+                        f"[dim]{w.detail[:80]}[/]"
+                    )
+
+        if self.true_disagreements:
+            console.print(f"\n  [bold]TRUE DISAGREEMENTS ({len(self.true_disagreements)}):[/]")
+            for topic in self.true_disagreements:
+                console.print(
+                    f"  [bright_blue][?][/] [bold]{topic.subject}[/]: "
+                    f"[bright_blue]true disagreement[/]\n"
+                    f"      [dim]{topic.summary[:100]}[/]"
+                )
+
+        if self.knowledge_gaps:
+            console.print(f"\n  [bold]KNOWLEDGE GAPS ({len(self.knowledge_gaps)}):[/]")
+            for topic in self.knowledge_gaps:
+                console.print(
+                    f"  [dim][.][/] [bold]{topic.subject}[/]\n"
+                    f"      [dim]{topic.summary[:100]}[/]"
+                )
+
+        console.print(
+            f"\n  [dim]Summary: {len(self.agreements)} agreements, "
+            f"{len(self.corrections)} corrections, "
+            f"{len(self.true_disagreements)} true disagreements, "
+            f"{len(self.knowledge_gaps)} knowledge gaps[/]"
+        )
+        console.print(Rule(style="bright_blue"))
+
 
 # ---------------------------------------------------------------------------
 # Classification logic
