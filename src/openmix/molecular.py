@@ -148,14 +148,17 @@ def compute_hansen_parameters(smiles: str) -> dict | None:
 #   carboxylic_acid → salt formation with alkaline excipients
 #   aldehyde → gelatin crosslinking, Schiff base formation
 _FUNCTIONAL_GROUP_SMARTS: dict[str, str] = {
-    "primary_amine": "[NX3H2][CX4]",        # -NH2 on sp3 carbon (not amide)
-    "secondary_amine": "[NX3H1]([CX4])[CX4]",  # -NH- between two sp3 carbons
-    "ester": "[CX3](=O)[OX2][CX4]",         # -C(=O)-O-C (not carboxylic acid)
-    "thiol": "[SX2H]",                       # -SH
-    "phenol": "[OX2H][cX3]",                # -OH on aromatic carbon
-    "catechol": "[OX2H][cX3][cX3][OX2H]",   # two adjacent aromatic -OH
-    "carboxylic_acid": "[CX3](=O)[OX2H]",   # -COOH
-    "aldehyde": "[CX3H1](=O)",              # -CHO
+    "primary_amine": "[NX3H2][CX4]",          # -NH2 on sp3 carbon (not amide)
+    "aromatic_amine": "[NX3H2][cX3]",         # -NH2 on aromatic carbon
+    "secondary_amine": "[NX3H1]([CX4])[CX4]", # -NH- between two sp3 carbons
+    "ester": "[CX3](=O)[OX2;!R][CX4]",            # -C(=O)-O-C (excludes ring O in oxazolidinones)
+    "carbamate": "[OX2][CX3](=O)[NX3]",          # -O-C(=O)-N (carbamate, ester variant)
+    "thiol": "[SX2H]",                        # -SH
+    "phenol": "[OX2H][cX3]",                  # -OH on aromatic carbon
+    "catechol": "[OX2H][cX3][cX3][OX2H]",     # two adjacent aromatic -OH
+    "carboxylic_acid": "[CX3](=O)[OX2H]",     # -COOH
+    "aldehyde": "[CX3H1](=O)",                # -CHO
+    "sulfonamide": "[NX3][SX4](=O)(=O)",       # -N-SO2- (hydrolysis-susceptible)
 }
 
 

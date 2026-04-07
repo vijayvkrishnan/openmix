@@ -197,4 +197,35 @@ FUNCTIONAL_GROUP_RISKS: dict[str, list[dict]] = {
             "confidence": 0.9,
         },
     ],
+    "aromatic_amine": [
+        {
+            "mechanism": "Maillard reaction (aromatic)",
+            "excipient_class": "reducing_sugar",
+            "detail": "Aromatic amines undergo Maillard reaction with reducing sugars. "
+                      "Slower than aliphatic primary amines but confirmed for drugs "
+                      "like metoclopramide and lamotrigine",
+            "confidence": 0.75,
+        },
+    ],
+    "carbamate": [
+        {
+            "mechanism": "carbamate hydrolysis",
+            "excipient_class": "alkaline",
+            "detail": "Carbamate bonds hydrolyze in alkaline conditions, releasing "
+                      "the parent alcohol and carbamic acid (which decomposes to "
+                      "amine + CO2). Similar mechanism to ester hydrolysis but "
+                      "with distinct products",
+            "confidence": 0.8,
+        },
+    ],
+    "sulfonamide": [
+        {
+            "mechanism": "sulfonamide hydrolysis",
+            "excipient_class": "alkaline",
+            "detail": "Sulfonamide bonds can hydrolyze in alkaline microenvironments, "
+                      "releasing the sulfonyl and amine fragments. Risk increases with "
+                      "moisture and elevated temperature",
+            "confidence": 0.7,
+        },
+    ],
 }
