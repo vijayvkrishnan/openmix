@@ -228,4 +228,24 @@ FUNCTIONAL_GROUP_RISKS: dict[str, list[dict]] = {
             "confidence": 0.7,
         },
     ],
+    "michael_acceptor": [
+        {
+            "mechanism": "Michael addition",
+            "excipient_class": "reducing_sugar",
+            "detail": "Alpha-beta unsaturated carbonyls can undergo conjugate addition "
+                      "with nucleophilic groups in excipients (amines in gelatin, "
+                      "thiols in proteins). Can also self-polymerize under storage",
+            "confidence": 0.65,
+        },
+    ],
+    "epoxide": [
+        {
+            "mechanism": "epoxide ring-opening",
+            "excipient_class": "alkaline",
+            "detail": "Epoxide rings are highly reactive and undergo ring-opening "
+                      "with nucleophiles (water, amines, carboxylates) under both "
+                      "acidic and alkaline conditions. Moisture is sufficient",
+            "confidence": 0.85,
+        },
+    ],
 }

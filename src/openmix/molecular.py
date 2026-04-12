@@ -138,27 +138,38 @@ def compute_hansen_parameters(smiles: str) -> dict | None:
 # ---------------------------------------------------------------------------
 
 # SMARTS patterns for reactive functional groups relevant to drug-excipient
-# compatibility. Each group maps to specific degradation mechanisms:
-#   primary_amine → Maillard reaction with reducing sugars
-#   secondary_amine → slower Maillard reaction
-#   ester → hydrolysis catalyzed by MgSt, moisture
-#   thiol → oxidation (by peroxides in PVP, air)
-#   phenol → oxidation, chelation with metals
-#   catechol → strong metal chelation (Fe, Al, Ca)
-#   carboxylic_acid → salt formation with alkaline excipients
-#   aldehyde → gelatin crosslinking, Schiff base formation
+# compatibility. Two categories:
+#
+# Nucleophilic groups (react WITH excipients):
+#   primary_amine -> Maillard reaction with reducing sugars
+#   secondary_amine -> slower Maillard reaction
+#   ester -> hydrolysis catalyzed by MgSt, moisture
+#   thiol -> oxidation (by peroxides in PVP, air)
+#   phenol -> oxidation, chelation with metals
+#   catechol -> strong metal chelation (Fe, Al, Ca)
+#   carboxylic_acid -> salt formation with alkaline excipients
+#   aldehyde -> gelatin crosslinking, Schiff base formation
+#
+# Electrophilic groups (self-reactive or react with nucleophilic excipients):
+#   michael_acceptor -> conjugate addition with thiols/amines in excipients,
+#     self-polymerization, or reaction with gelatin/protein-based excipients
+#   epoxide -> ring-opening with nucleophilic excipients, moisture-sensitive
 _FUNCTIONAL_GROUP_SMARTS: dict[str, str] = {
-    "primary_amine": "[NX3H2][CX4]",          # -NH2 on sp3 carbon (not amide)
-    "aromatic_amine": "[NX3H2][cX3]",         # -NH2 on aromatic carbon
-    "secondary_amine": "[NX3H1]([CX4])[CX4]", # -NH- between two sp3 carbons
-    "ester": "[CX3](=O)[OX2;!R][CX4]",            # -C(=O)-O-C (excludes ring O in oxazolidinones)
-    "carbamate": "[OX2][CX3](=O)[NX3]",          # -O-C(=O)-N (carbamate, ester variant)
-    "thiol": "[SX2H]",                        # -SH
-    "phenol": "[OX2H][cX3]",                  # -OH on aromatic carbon
-    "catechol": "[OX2H][cX3][cX3][OX2H]",     # two adjacent aromatic -OH
-    "carboxylic_acid": "[CX3](=O)[OX2H]",     # -COOH
-    "aldehyde": "[CX3H1](=O)",                # -CHO
-    "sulfonamide": "[NX3][SX4](=O)(=O)",       # -N-SO2- (hydrolysis-susceptible)
+    # Nucleophilic reactive groups
+    "primary_amine": "[NX3H2][CX4]",              # -NH2 on sp3 carbon (not amide)
+    "aromatic_amine": "[NX3H2][cX3]",             # -NH2 on aromatic carbon
+    "secondary_amine": "[NX3H1]([CX4])[CX4]",     # -NH- between two sp3 carbons
+    "ester": "[CX3](=O)[OX2;!R][CX4]",            # -C(=O)-O-C (excludes ring O)
+    "carbamate": "[OX2][CX3](=O)[NX3]",           # -O-C(=O)-N (carbamate, ester variant)
+    "thiol": "[SX2H]",                            # -SH
+    "phenol": "[OX2H][cX3]",                      # -OH on aromatic carbon
+    "catechol": "[OX2H][cX3][cX3][OX2H]",         # two adjacent aromatic -OH
+    "carboxylic_acid": "[CX3](=O)[OX2H]",         # -COOH
+    "aldehyde": "[CX3H1](=O)",                    # -CHO
+    "sulfonamide": "[NX3][SX4](=O)(=O)",           # -N-SO2- (hydrolysis-susceptible)
+    # Electrophilic reactive groups
+    "michael_acceptor": "[CX3]=[CX3][CX3]=[OX1]", # alpha-beta unsaturated carbonyl
+    "epoxide": "[OX2r3]",                          # three-membered ring oxygen (oxirane)
 }
 
 
