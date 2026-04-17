@@ -951,6 +951,12 @@
     stearate and moisture. Use mannitol or microcrystalline cellulose instead.
 
     '
+  evidence:
+    strength: 0.90
+    last_audited: 2026-04-16
+    sources:
+    - "Narang et al. 2012, J Pharm Biomed Anal (primary, pair-specific)"
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites amlodipine besylate lactose MR as main degradation cause)"
 - a: LACTOSE
   b: BACLOFEN
   type: hard
@@ -963,6 +969,12 @@
     by LC-MS/MS. Avoid reducing sugar excipients.
 
     '
+  evidence:
+    strength: 0.92
+    last_audited: 2026-04-16
+    sources:
+    - "Abdoh et al. 2004, AAPS PharmSciTech (primary, LC-MS confirmation)"
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites two primary studies across dosage forms: freeze-dried and tablets/granules)"
 - a: LACTOSE
   b: FLUOXETINE
   type: soft
@@ -1011,6 +1023,74 @@
     Well-documented in stability studies. Use non-reducing excipients.
 
     '
+- a: LACTOSE
+  b: ACYCLOVIR
+  type: hard
+  severity: error
+  mechanism: degradation
+  confidence: 0.85
+  source: Xiang et al. 2021, Foods (PMC8472807), citing primary aromatic amine-lactose MR
+  category: pharma
+  message: 'Acyclovir''s aromatic amine (2-amino group on purine ring) undergoes Maillard reaction with
+    lactose. Aromatic amines react more slowly than primary aliphatic amines but are documented to react.
+    Use non-reducing excipients.
+
+    '
+  evidence:
+    strength: 0.80
+    last_audited: 2026-04-16
+    sources:
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites pair)"
+- a: LACTOSE
+  b: NEBIVOLOL
+  type: soft
+  mechanism: degradation
+  confidence: 0.8
+  source: Xiang et al. 2021, Foods (PMC8472807), citing animal study showing pharmacological activity loss
+  conditions:
+    min_concentration_b: 2.0
+  severity_by_mode:
+    safety: warning
+    formulation: warning
+    discovery: info
+  mitigation: Use non-reducing excipients (mannitol, MCC) or assess formulation stability with humidity
+    and temperature stress.
+  category: pharma
+  message: 'Nebivolol (secondary amine beta-blocker) undergoes Maillard reaction with lactose. Animal
+    studies showed loss of pharmacological activity in lactose-containing formulations.
+
+    '
+  evidence:
+    strength: 0.75
+    last_audited: 2026-04-16
+    sources:
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites pair with in vivo evidence)"
+- a: LACTOSE
+  b: DOXEPIN
+  type: soft
+  mechanism: degradation
+  confidence: 0.65
+  source: Xiang et al. 2021, Foods (PMC8472807); mechanism uncertain — doxepin has tertiary amine, may
+    involve N-dealkylation intermediate or HMF-mediated pathway
+  conditions:
+    min_concentration_b: 2.0
+  severity_by_mode:
+    safety: warning
+    formulation: info
+    discovery: info
+  mitigation: Use non-reducing excipients. Investigate mechanism if degradation is observed during stability
+    testing.
+  category: pharma
+  message: 'Doxepin (tertiary amine) has been reported to interact with lactose, though tertiary amines
+    do not undergo classical Maillard. Mechanism likely involves N-dealkylation or HMF-mediated pathway.
+    Evidence is thinner than for primary/secondary amine drugs.
+
+    '
+  evidence:
+    strength: 0.60
+    last_audited: 2026-04-16
+    sources:
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites pair; mechanism uncertain)"
 - a: MAGNESIUM STEARATE
   b: ASPIRIN
   type: hard
@@ -1080,6 +1160,14 @@
     binders.
 
     '
+  evidence:
+    strength: 0.80
+    last_audited: 2026-04-16
+    sources:
+    - "Hartauer et al. 2000, Pharm Dev Technol (primary, pair-specific)"
+    - "Modhave et al. 2019, Pharmaceutics / PMC6781290 (mechanism validation via PVP-H2O2 complex on vortioxetine HBr; same mechanism, different drug)"
+    - "Gabric et al. 2022, Pharmaceutics / PMC8876153 (review; confirms PVP as peroxide-containing polymer excipient)"
+    notes: "PPM range in original message (400-3000) may reflect older PVP grades. Wasylaschuk analysis (cited in Gabric 2022) reports modern PVP peroxide levels at mean 250 ppm, range 120-380 ppm. Message retained as-is pending chemist review."
 - a: CROSPOVIDONE
   b: RALOXIFENE
   type: hard
@@ -1092,6 +1180,12 @@
     Use alternative disintegrants (croscarmellose sodium, sodium starch glycolate).
 
     '
+  evidence:
+    strength: 0.75
+    last_audited: 2026-04-16
+    sources:
+    - "Hartauer et al. 2000, Pharm Dev Technol (primary, same study as PVP rule)"
+    - "Gabric et al. 2022, Pharmaceutics / PMC8876153 (review; crospovidone shares PVP backbone chemistry, same peroxide mechanism)"
 - a: POVIDONE
   b: AMLODIPINE
   type: soft
@@ -1108,6 +1202,13 @@
     Low-peroxide grades are available.
 
     '
+  evidence:
+    strength: 0.65
+    last_audited: 2026-04-16
+    sources:
+    - "Gabric et al. 2022, Pharmaceutics / PMC8876153 (review; mechanism grounded, PVP peroxide content 120-380 ppm per Wasylaschuk)"
+    - "Modhave et al. 2019, Pharmaceutics / PMC6781290 (mechanism validation on vortioxetine; PVP-H2O2 oxidative stress confirmed)"
+    notes: "Class-effect rule. Specific amlodipine+PVP pair evidence is thin; supported by mechanism generality rather than pair-specific studies."
 - a: ENTERIC COATING
   b: ALKALINE EXCIPIENT
   type: soft
@@ -1304,6 +1405,12 @@
     conjugate (Schiff base and Amadori product). Use microcrystalline cellulose or mannitol.
 
     '
+  evidence:
+    strength: 0.92
+    last_audited: 2026-04-16
+    sources:
+    - "Qiu et al. 2005, J Pharm Sci 94(12):2689-2706 (primary, pair-specific; Schiff base + Amadori product characterized)"
+    - "Xiang et al. 2021, Foods / PMC8472807 (review, cites pair in freeze-dried formulations)"
 - a: LACTOSE
   b: LISINOPRIL
   type: hard
