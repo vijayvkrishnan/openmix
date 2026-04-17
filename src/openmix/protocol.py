@@ -5,8 +5,8 @@ A formula is a shopping list. A protocol is the instructions. The same
 ingredients mixed in different orders, at different temperatures, with
 different equipment produce fundamentally different products.
 
-Aligned with Genie's ManufacturingPhase structure but more machine-parseable
-for computational evaluation by the process perspective.
+A machine-parseable representation of manufacturing phases (water, oil,
+cool-down, active, etc.) for computational evaluation by the process perspective.
 """
 
 from __future__ import annotations
