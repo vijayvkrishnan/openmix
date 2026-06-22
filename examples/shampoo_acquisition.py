@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-What should the wetlab measure first? — retrospective active learning on real labels.
+Which experiments to run first: sample-efficient active learning on real labels.
 
 The shampoo dataset stands in for a lab: we hide the labels, let an acquisition
 strategy choose which formulations to "measure" (reveal labels for), retrain, and
@@ -8,7 +8,7 @@ track how fast it (a) improves out-of-distribution prediction and (b) surfaces t
 failures the model did not see coming. Labels are real, so this tests the
 acquisition LOGIC, not a simulator.
 
-Framing (the wetlab scenario): the model starts from a small slice of "known"
+Framing (the experiment-selection scenario): the model starts from a small slice of "known"
 formulations and must learn a NOVEL region (formulations using ingredients held out
 of the seed) by choosing which novel formulations to measure. We compare strategies
 against random sampling and report the acceleration factor.
